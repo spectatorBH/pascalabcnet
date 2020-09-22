@@ -328,11 +328,11 @@ begin
   ClearDirByPattern(TestSuiteDir + PathSeparator + 'usesunits', '*.pcu');
 end;
 
-//procedure DeletePABCSystemPCU;
-//begin
-//  var dir := Path.Combine(Path.GetDirectoryName(GetEXEFileName()), 'Lib');
-//  var pcu := Path.Combine(dir, 'PABCSystem.pcu');
-//end;
+procedure DeletePABCSystemPCU;
+begin
+  var dir := Path.Combine(Path.GetDirectoryName(GetEXEFileName()), 'Lib');
+  var pcu := Path.Combine(dir, 'PABCSystem.pcu');
+end;
 
 procedure CopyLibFiles;
 begin
@@ -425,7 +425,7 @@ begin
     begin
       writeln;
       writeln('-----------------------------------------------------------------------');
-      writeln('  [Group 3/5] Custom unit tests with PABCRtl.dll (64-bit preferred):  ');
+      writeln('  [Group 3/5] Custom unit tests with PABCRtl.dll (64-bit preferred):   ');
       writeln('-----------------------------------------------------------------------');
       DeletePCUFiles; //???
       ClearExeDir;    //???
