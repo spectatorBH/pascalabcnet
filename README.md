@@ -1,3 +1,5 @@
+![Build & Test (CI)](https://github.com/spectatorBH/pascalabcnet/workflows/Build%20&%20Test%20(CI)/badge.svg)
+
 ## Building PascalABC.NET in Windows
 ***Run _RegisterHelix.bat on first use to install the HelixToolkit.dll and HelixToolkit.Wpf.dll in GAC***
 

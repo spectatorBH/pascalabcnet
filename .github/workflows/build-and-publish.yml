@@ -1,0 +1,50 @@
+name: Build & Publish (manual)
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    name: Prepare and build on Windows Server 2016 VM
+    runs-on: windows-2016
+    timeout-minutes: 15
+    #continue-on-error: true
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies into Virtual Environment...
+      run: ./_RegisterHelix.bat
+
+    - name: Build project in Release-mode (+ compile pas-units, run tests, create install packages)...
+      env: 
+        BUMP_REVISION: false
+        RUN_TESTS: false
+        QUIET_MODE: true
+      run: ./_GenerateAllSetups_CI.bat
+
+    - name: Publish artifacts (1/5)...
+      uses: actions/upload-artifact@v2.1.0
+      with:
+        name: PascalABCNET_IDE_Win7_Full
+        path: Release/PascalABCNETSetup.exe
+        
+    - name: Publish artifacts (2/5)...
+      uses: actions/upload-artifact@v2.1.0
+      with:
+        name: PascalABCNET_IDE_Win7_Mini
+        path: Release/PascalABCNETMiniSetup.exe
+
+    - name: Publish artifacts (3/5)...
+      uses: actions/upload-artifact@v2.1.0
+      with:
+        name: PascalABCNET_IDE_WinXP_Full
+        path: Release/PascalABCNETWithDotNet40Setup.exe
+        
+    - name: Publish artifacts (4/5)...
+      uses: actions/upload-artifact@2.1.0
+      with:
+        name: PascalABCNET_console
+        path: Release/PABCNETC.zip
+        
+    - name: Publish artifacts (5/5)...
+      uses: actions/upload-artifact@2.1.0
+      with:
+        name: All_setup_files
+        path: Release
