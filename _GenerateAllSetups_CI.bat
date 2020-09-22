@@ -24,6 +24,7 @@ utils\IncrementVresion\IncrementVresion.exe Configuration\Version.defs REVISION 
 utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs Configuration\GlobalAssemblyInfo.cs.tmpl Configuration\GlobalAssemblyInfo.cs               2>&1 || goto :ERROR
 utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs ReleaseGenerators\PascalABCNET_version.nsh.tmpl ReleaseGenerators\PascalABCNET_version.nsh 2>&1 || goto :ERROR
 utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs Configuration\pabcversion.txt.tmpl Release\pabcversion.txt                                 2>&1 || goto :ERROR
+@echo [INFO] Done.
 :SKIP1
 
 @echo. & echo [%~nx0]
@@ -34,6 +35,7 @@ utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs Configuration
 @rem @cd /d "%project_root%"
 @rmdir /S /Q bin_copy          1>nul 2>nul 
 xcopy /I /E /Q /Y bin bin_copy 2>&1 || goto :ERROR
+@echo [INFO] Done.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 3/16 ===+
@@ -44,6 +46,7 @@ xcopy /I /E /Q /Y bin bin_copy 2>&1 || goto :ERROR
 @cd utils\DefaultLanguageResMaker 2>&1 || goto :ERROR
 :: ToDo: implement basic error handling in the 'LanguageResMaker.exe' tool
 LanguageResMaker.exe              2>&1 || goto :ERROR
+@echo [INFO] Done.
 
 @echo. & echo [%~nx0] 
 @echo +======================================================================== Step 4/16 ===+
@@ -54,6 +57,7 @@ LanguageResMaker.exe              2>&1 || goto :ERROR
 @cd ..\..
 call Studio.bat /m /t:Rebuild "/p:Configuration=Release" "/p:Platform=Any CPU" PascalABCNET.sln 2>&1 || goto :ERROR
 @rem call Studio.bat /m /t:Rebuild "/p:Configuration=Debug" "/p:Platform=Any CPU" PascalABCNET.sln 2>&1 || goto :ERROR
+@echo [INFO] Done.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 5/16 ===+
@@ -85,6 +89,7 @@ copy /Y PABCRtl.dll ..\..\Release\                   2>&1 || goto :ERROR
 @cd ..
 gacutil.exe /nologo /u PABCRtl                1>nul 2>nul || goto :ERROR
 gacutil.exe /f /i ..\bin\Lib\PABCRtl.dll             2>&1 || goto :ERROR
+@echo [INFO] Done.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 7/16 ===+
@@ -117,12 +122,13 @@ call ..\Utils\fix-CRLF-for-TestRunner.bat  || goto :ERROR
 @rem pabcnetc TestRunner.pas /noconsole 2>&1 || goto :ERROR
 pabcnetcclear /Debug:0 TestRunner.pas 2>&1 || goto :ERROR
 @echo [INFO] Launching TestRunner.exe...& echo.
-TestRunner.exe 3                      2>&1 || goto :ERROR
-TestRunner.exe 1                      2>&1 || goto :ERROR
-TestRunner.exe 2                      2>&1 || goto :ERROR
-TestRunner.exe 4                      2>&1 || goto :ERROR
-TestRunner.exe 5                      2>&1 || goto :ERROR
-@rem TestRunner.exe                   2>&1 || goto :ERROR
+@rem TestRunner.exe 3                      2>&1 || goto :ERROR
+@rem TestRunner.exe 1                      2>&1 || goto :ERROR
+@rem TestRunner.exe 2                      2>&1 || goto :ERROR
+@rem TestRunner.exe 4                      2>&1 || goto :ERROR
+@rem TestRunner.exe 5                      2>&1 || goto :ERROR
+@rem TestRunner.exe 6                      2>&1
+TestRunner.exe                   2>&1 || goto :ERROR
 :SKIP8
 
 @echo. & echo [%~nx0]
@@ -136,6 +142,7 @@ TestRunner.exe 5                      2>&1 || goto :ERROR
 @rmdir /S /Q LibSource                       1>nul 2>nul 
 xcopy /I /Q /Y ..\bin\Lib\*.pas LibSource    2>&1 || goto :ERROR
 mklink /D Samples\Pas ..\..\InstallerSamples 2>&1 || goto :ERROR
+@echo [INFO] Done.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 10/16 ==+
@@ -144,6 +151,7 @@ mklink /D Samples\Pas ..\..\InstallerSamples 2>&1 || goto :ERROR
 @echo.
 @rem @cd /d "%project_root%\ReleaseGenerators" 2>&1 || goto :ERROR
 call PascalABCNET_ALL.bat 2>&1 || goto :ERROR
+@echo [INFO] Done.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 11/16 ==+
@@ -154,6 +162,7 @@ call PascalABCNET_ALL.bat 2>&1 || goto :ERROR
 @cd ..
 @rmdir /S /Q bin2 1>nul 2>nul
 rename bin\ bin2  2>&1 || goto :ERROR
+@echo [INFO] Done.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 12/16 ==+
@@ -174,6 +183,7 @@ copy /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto :ERROR
 @rem @cd /d "%project_root%"
 call Studio.bat /m /t:Rebuild "/p:Configuration=Release" "/p:Platform=Any CPU" PascalABCNET_40.sln 2>&1 || goto :ERROR
 @rem call Studio.bat /m /t:Rebuild "/p:Configuration=Debug" "/p:Platform=Any CPU" PascalABCNET_40.sln 2>&1 || goto :ERROR
+@echo [INFO] Done.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 14/16 ==+
@@ -196,6 +206,7 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=Release" "/p:Platform=Any CPU" P
 @echo.
 @rem @cd /d "%project_root%\ReleaseGenerators" 2>&1 || goto :ERROR
 call PascalABCNETWithDotNet40.bat 2>&1 || goto :ERROR
+@echo [INFO] Done.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 16/16 ==+
@@ -209,7 +220,7 @@ call PascalABCNETWithDotNet40.bat 2>&1 || goto :ERROR
 rmdir /S /Q bin && rename bin2\ bin       2>&1 || goto :ERROR
 rmdir /S /Q ReleaseGenerators\LibSource   2>&1 || goto :ERROR
 rmdir /S /Q ReleaseGenerators\Samples\Pas 2>&1 || goto :ERROR
-@echo Done.
+@echo [INFO] Done.
 
 @popd
 @echo. & echo [%~nx0]
