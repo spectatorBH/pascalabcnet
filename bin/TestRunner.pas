@@ -4,7 +4,7 @@
 {$reference Errors.dll}
 {$reference CompilerTools.dll}
 {$reference Localization.dll}
-{$reference System.Windows.Forms.dll}
+//{$reference System.Windows.Forms.dll}
 
 uses
   PascalABCCompiler,
@@ -462,9 +462,9 @@ begin
       CopyPCUFiles;
       CompileAllUsesUnits;
       CompileErrorTests(false);
-      WriteStep('PASSED (by failure as expected)');
+      WriteStep('PASSED :: by failure, as expected');
       WriteStep('c) DEMO (bundled) samples', '-> ');
-      WriteStep('N/A    (not implemented yet)');
+      WriteStep('N/A    :: not implemented yet');
       ClearExeDir;    //???
       writeln('________________________');
       writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
