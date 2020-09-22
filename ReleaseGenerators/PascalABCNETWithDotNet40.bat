@@ -1,8 +1,8 @@
-@echo. & echo [%~nx0] ################################### STARTED ##################################### & echo.
 @if /i {%QUIET_MODE%} EQU {true} echo OFF
+@echo. & echo [%~nx0] ################################### STARTED ##################################### & echo.
 @SETLOCAL
 
-@echo [%~nx0] Creating STANDARD installer for WinXP with .NET 4.0 (incl. Programming Taskbook)... & echo.
+@echo. & echo [INFO] Creating STANDARD installer for WinXP with .NET 4.0 (incl. Programming Taskbook)... & echo.
 pushd "%~dp0"
 
 if /i {%QUIET_MODE%} EQU {true} (

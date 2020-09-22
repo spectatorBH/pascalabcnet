@@ -38,7 +38,7 @@ if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\MSBuild\15.
 	exit /b 2017
 )
 
-echo. & echo [%~nx0] [OK] Project build successfully completed.
+echo [INFO] Project build successfully completed.
 echo. & echo [%~nx0] ################################### FINISHED #################################### & echo.
 goto :EOF
 
