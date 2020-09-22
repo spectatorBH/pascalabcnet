@@ -66,7 +66,7 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=Release" "/p:Platform=Any CPU" P
     ..\..\bin\pabcnetc PABCRtl.pas /rebuildnodebug /noconsole 1>nul 2>nul || goto :ERROR
 ) else (
     ..\..\bin\pabcnetc PABCRtl.pas /rebuildnodebug /noconsole        2>&1 || goto :ERROR)
-@echo. & echo [OK] PABCRtl.dll successfully built.
+@echo. & echo [INFO] PABCRtl.dll successfully built.
 
 @echo. 
 @echo [%~nx0]
@@ -79,8 +79,9 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=Release" "/p:Platform=Any CPU" P
 ..\sn.exe -R  PABCRtl.dll KeyPair.snk                2>&1 || goto :ERROR
 ..\sn.exe -Vu PABCRtl.dll                            2>&1 || goto :ERROR
 copy /Y PABCRtl.dll ..\..\bin\Lib\                   2>&1 || goto :ERROR
+@echo [INFO] PABCRtl.dll copied to \bin\Lib
 :: DEBUG: Saving a copy of PABCRtl.dll for retrieval as artifact later
-copy /Y PABCRtl.dll ..\..\Release\                   2>&1 || goto :ERROR
+@rem copy /Y PABCRtl.dll ..\..\Release\                   2>&1 || goto :ERROR
 @cd ..
 gacutil.exe /nologo /u PABCRtl                1>nul 2>nul || goto :ERROR
 gacutil.exe /f /i ..\bin\Lib\PABCRtl.dll             2>&1 || goto :ERROR
@@ -96,7 +97,7 @@ gacutil.exe /f /i ..\bin\Lib\PABCRtl.dll             2>&1 || goto :ERROR
 ) else (
     ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole        2>&1 || goto :ERROR)
 @rem ..\bin\pabcnetcclear /Debug:0 RebuildStandartModules.pas ..\bin\Temp        2>&1 || goto :ERROR
-@echo. & echo [OK] Standard units successfully built.
+@echo. & echo [INFO] Standard units successfully built.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 8/16 ===+
@@ -108,20 +109,19 @@ gacutil.exe /f /i ..\bin\Lib\PABCRtl.dll             2>&1 || goto :ERROR
 @if {%1}             NEQ {}     (echo *** Skipping -- Tests will not be run & goto :SKIP8)
 @rem @cd /d "%project_root%\bin"      2>&1 || goto :ERROR
 @cd ..\bin                            2>&1 || goto :ERROR
-:: ToDo: add compilation tests to TestRunner for bundled user samples;
-:: ToDo: research possibility of running tests in parallel (improve TestRunner or job refactoring within GitHub Actions?);
-@echo Compiling TestRunner.pas...
-pabcnetcclear /Debug:0 TestRunner.pas 2>&1 || goto :ERROR
-@echo. & echo Launching TestRunner.exe...
-
-call ..\Utils\fix-CRLF-for-TestRunner.bat || goto :ERROR
-
-TestRunner.exe 5                      2>&1 || goto :ERROR
-TestRunner.exe 4                      2>&1 || goto :ERROR
+:: DEBUG: fixing CR/LF line-endings for *.pas files in \TestSuite\formatter_tests
+call ..\Utils\fix-CRLF-for-TestRunner.bat  || goto :ERROR
+:: ToDo: add compilation tests to TestRunner for bundled demo samples;
+:: ToDo: research possibility of running some tests in parallel (improve TestRunner or job refactoring within GitHub Actions?);
+@rem @echo Compiling TestRunner.pas...
+@rem pabcnetcclear /Debug:0 TestRunner.pas 2>&1 || goto :ERROR
+@echo [INFO] Launching TestRunner.exe...& echo.
 @rem TestRunner.exe 3                      2>&1 || goto :ERROR
-TestRunner.exe 2                      2>&1 || goto :ERROR
-TestRunner.exe 1                      2>&1 || goto :ERROR
-@rem TestRunner.exe                   2>&1 || goto :ERROR
+@rem TestRunner.exe 1                      2>&1 || goto :ERROR
+@rem TestRunner.exe 2                      2>&1 || goto :ERROR
+@rem TestRunner.exe 4                      2>&1 || goto :ERROR
+@rem TestRunner.exe 5                      2>&1 || goto :ERROR
+TestRunner.exe                   2>&1 || goto :ERROR
 :SKIP8
 
 @echo. & echo [%~nx0]
