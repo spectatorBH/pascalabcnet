@@ -4,7 +4,7 @@
 {$reference Errors.dll}
 {$reference CompilerTools.dll}
 {$reference Localization.dll}
-//{$reference System.Windows.Forms.dll}
+{$reference System.Windows.Forms.dll}
 
 uses
   PascalABCCompiler,
