@@ -1,8 +1,7 @@
 @echo off
-echo. & echo [%~nx0] ################################### STARTED ##################################### & echo.
+echo. & echo [%~nx0] ###### SCRIPT STARTED ####### & echo.
 SETLOCAL EnableExtensions
 
-:: DEBUG: Test more options: -p:WarningLevel=1;OutDir=bin_XP -noWarn[:code[;code2] -v[erbose]:diag[nostics]/d[etailed]/n[ormal]/m[inimal]/q[uiet], -NoLogo
 if /i {%QUIET_MODE%} EQU {true} (
     SET params=%* -v:quiet   -p:WarningLevel=1 -noWarn:CS0108;CS0114;CS0162;CS0168;CS0184;CS0219;CS0414;CS0649;CS0675;CS0809;CS1717
 ) else (
@@ -39,7 +38,7 @@ if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\MSBuild\15.
 )
 
 echo [INFO] Project build successfully completed.
-echo. & echo [%~nx0] ################################### FINISHED #################################### & echo.
+echo. & echo [%~nx0] ###### SCRIPT FINISHED ###### & echo.
 goto :EOF
 
 :BUILD_FAILED

@@ -1,7 +1,11 @@
+::============================================================================================
+::#  Written by spectatorBH for PascalABC.NET project. Published as public domain, Sep-2020  #
+::============================================================================================
+::
 @echo off
-echo [%~nx0] --------------------------------------------------------------------------------
+echo [%~nx0] --------------- SCRIPT STARTED -------------------
 echo.
-echo Converting line-endings in all '*.pas' files under 'TestSuite\formatter_tests' to CR/LF standard:
+echo [INFO] Converting line-endings in all '*.pas' files under 'TestSuite\formatter_tests' to CR/LF standard:
 findstr /e /i "VBS-line" "%~0" > "%temp%\~rewrite-lines.vbs" || goto ERROR
 
 forfiles /m *.pas /s /p "%~dp0..\TestSuite\formatter_tests" /c "cmd /c echo Rewriting -- @path && cscript //NoLogo """%temp%\~rewrite-lines.vbs""" <@path >@path.CRLF && move /Y @path.CRLF @path 1>nul"
@@ -9,7 +13,8 @@ if %ERRORLEVEL% NEQ 0 (goto ERROR)
 
 del /q %temp%\~rewrite-lines.vbs > nul
 echo.
-echo [%~nx0] FINISHED -----------------------------------------------------------------------
+echo [%~nx0] --------------- SCRIPT FINISHED ------------------
+     
 echo.
 goto :EOF
 
