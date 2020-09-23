@@ -2,7 +2,7 @@
 echo. & echo [%~nx0] ------ SCRIPT STARTED ------- & echo.
 SETLOCAL EnableExtensions
 
-if /i {%QUIET_MODE%} EQU {true} (
+if /i {%PABCNET_QUIET_MODE%} EQU {true} (
     SET params=%* -v:quiet   -p:WarningLevel=1 -noWarn:CS0108;CS0114;CS0162;CS0168;CS0184;CS0219;CS0414;CS0649;CS0675;CS0809;CS1717
 ) else (
     SET params=%* -v:minimal -p:WarningLevel=2)

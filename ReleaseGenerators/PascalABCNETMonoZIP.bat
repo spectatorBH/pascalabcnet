@@ -16,9 +16,9 @@ mklink ..\doc\PascalABCNET.chm ..\bin\PascalABCNET.chm 2>&1 || goto ERROR
 @echo [INFO] Putting pre-selected set of files into zip-package... & echo.
 @del /Q ..\Release\PascalABCNETMono.zip 1>nul 2>&1
 if /i {%QUIET_MODE%} EQU {true} (
-    ..\utils\7zip\7za.exe a -mx8 -sse -bse1 -bd ..\Release\PascalABCNETMono.zip -ir0@..\ReleaseGenerators\files2zip_mono.txt -i!LibSource\*.pas 2>&1 || goto ERROR
+    ..\utils\7zip\7za.exe a -mx8 -sse -bse1 -bd -sccUTF-8 ..\Release\PascalABCNETMono.zip -ir0@..\ReleaseGenerators\files2zip_mono.txt -i!LibSource\*.pas 2>&1 || goto ERROR
 ) else (
-    ..\utils\7zip\7za.exe a -mx8 -sse -bse1 -bb ..\Release\PascalABCNETMono.zip -ir0@..\ReleaseGenerators\files2zip_mono.txt -i!LibSource\*.pas 2>&1 || goto ERROR)
+    ..\utils\7zip\7za.exe a -mx8 -sse -bse1 -bb -sccUTF-8 ..\Release\PascalABCNETMono.zip -ir0@..\ReleaseGenerators\files2zip_mono.txt -i!LibSource\*.pas 2>&1 || goto ERROR)
 @echo. & echo Done.
 
 @echo. & echo [%~nx0] --------- Step 3/3 ----------
