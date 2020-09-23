@@ -31,7 +31,7 @@ utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs Configuration
 @echo !  Making a working copy of \bin directory for later usage:                            !
 @echo +======================================================================================+
 @rem @cd /d "%project_root%"
-@rmdir /S /Q bin_copy    1>nul 2>&1
+@rmdir /S /Q bin_copy              2>&1
 @if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
     xcopy /I /E /Q /Y bin bin_copy 2>&1 || goto ERROR
 ) else (
@@ -63,6 +63,7 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
 @echo !  Building PABCRtl.dll -- Pascal special standalone runtime library for IDE:          !
 @echo +======================================================================================+
 @rem @cd /d "%project_root%\ReleaseGenerators\PABCRtl" 2>&1 || goto ERROR
+@echo.
 @cd ReleaseGenerators\PABCRtl  2>&1 || goto ERROR
 @if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
             ..\..\bin\pabcnetc PABCRtl.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto ERROR
@@ -89,7 +90,7 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
     ..\sn.exe -R  PABCRtl.dll KeyPair.snk         2>&1 || goto ERROR
     ..\sn.exe -Vu PABCRtl.dll                     2>&1 || goto ERROR
     xcopy /L /Y PABCRtl.dll ..\..\bin\Lib\        2>&1 || goto ERROR)
-@cd .. >nul
+@cd ..
 gacutil.exe /nologo /u PABCRtl              1>nul 2>&1 || goto ERROR
 gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll  2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#6).
