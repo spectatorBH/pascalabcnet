@@ -91,6 +91,9 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
     ..\sn.exe -Vu PABCRtl.dll                     2>&1 || goto ERROR
     xcopy /L /Y PABCRtl.dll ..\..\bin\Lib\        2>&1 || goto ERROR)
 @cd ..
+dir ..\bin
+echo.
+dir ..\bin\Lib
 gacutil.exe /nologo /u PABCRtl              1>nul 2>&1 || goto ERROR
 gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll  2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#6).
