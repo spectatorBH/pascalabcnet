@@ -12,7 +12,7 @@ pushd "%~dp0"
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 1/16 ===+
-@echo !  Incrementing Build number (= revision now) in sources:                              !
+@echo !  Incrementing current Build No. (aka Revision) in various places:                    !
 @echo +======================================================================================+
 @rem @cd /d "%project_root%"
 @if /i {%PABCNET_INC_BUILD%} NEQ {true} (echo. & echo [INFO] *** Skipping -- No build/revision update & goto :SKIP1)
