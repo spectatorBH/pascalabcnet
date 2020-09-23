@@ -4,7 +4,9 @@
 @SETLOCAL EnableExtensions
 @if /i {%PABCNET_BUILD_QUIET%} EQU {true} echo OFF
 @if /i {%PABCNET_BUILD_MODE%} EQU {Release} (set "_BUILD_MODE=Release") else (set "_BUILD_MODE=Debug")
-@if /i {%~1} EQU {Release} (set "_BUILD_MODE=Release") else (set "_BUILD_MODE=Debug")
+@if /i {%~1} EQU {Release} (set "_BUILD_MODE=Release")
+@if /i {%~1} EQU {Debug}   (set "_BUILD_MODE=Debug")
+@echo. & echo [INFO] Using %_BUILD_MODE%-mode configuration...
 :: Making sure batch file would run properly regardless of where it was launched from (due to usage of relative paths)
 @rem @SET launched_from=%CD%
 @rem @SET project_root=%~dp0
