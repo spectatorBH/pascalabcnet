@@ -14,55 +14,50 @@ pushd "%~dp0"
 @echo +======================================================================== Step 1/16 ===+
 @echo !  Incrementing Build number (= revision now) in sources:                              !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%"
-@if /i {%PABCNET_INC_BUILD%} NEQ {true} (echo [INFO] *** Skipping -- No build/revision update & goto :SKIP1)
+@if /i {%PABCNET_INC_BUILD%} NEQ {true} (echo. & echo [INFO] *** Skipping -- No build/revision update & goto :SKIP1)
 :: ToDo: fix filename spelling error for 'IncrementVresion.exe' -> 'IncrementVersion.exe';
 :: ToDo: implement reporting of processed files & basic error handling in the tools below:
 utils\IncrementVresion\IncrementVresion.exe Configuration\Version.defs REVISION 1                                                                             2>&1 || goto :ERROR
 utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs Configuration\GlobalAssemblyInfo.cs.tmpl Configuration\GlobalAssemblyInfo.cs               2>&1 || goto :ERROR
 utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs ReleaseGenerators\PascalABCNET_version.nsh.tmpl ReleaseGenerators\PascalABCNET_version.nsh 2>&1 || goto :ERROR
 utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs Configuration\pabcversion.txt.tmpl Release\pabcversion.txt                                 2>&1 || goto :ERROR
-@echo [INFO] Done.
+@echo. & echo [INFO] Done.
 :SKIP1
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 2/16 ===+
 @echo !  Making a working copy of \bin directory for later usage:                            !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%"
 @rmdir /S /Q bin_copy    1>nul 2>&1
 xcopy /I /E /Q /Y bin bin_copy 2>&1 || goto :ERROR
-@echo [INFO] Created \bin_copy
+@echo. & echo [INFO] Created \bin_copy
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 3/16 ===+
 @echo !  Generating default language resource file:                                          !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%\utils\DefaultLanguageResMaker" 2>&1 || goto :ERROR
 @cd utils\DefaultLanguageResMaker 2>&1 || goto :ERROR
 :: ToDo: implement basic error handling in the 'LanguageResMaker.exe' tool
 LanguageResMaker.exe              2>&1 || goto :ERROR
-@echo [INFO] Done.
+@echo. & echo [INFO] Done.
 
 @echo. & echo [%~nx0] 
 @echo +======================================================================== Step 4/16 ===+
 @echo !  Building project using .NET 4.7.1 as target (for Win7+ platforms):                  !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%"
-@cd ..\..
-@echo [INFO] Calling Studio.bat script...
-echo. & call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET.sln 2>&1 || goto :ERROR
-@echo [INFO] Done.
+@cd ..\.. >nul
+@echo [INFO] Calling Studio.bat script...& echo.
+call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET.sln 2>&1 || goto :ERROR
+@echo. & echo [INFO] Done.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 5/16 ===+
 @echo !  Building PABCRtl.dll -- Pascal special standalone runtime library for IDE:          !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%\ReleaseGenerators\PABCRtl" 2>&1 || goto :ERROR
 @cd ReleaseGenerators\PABCRtl  2>&1 || goto :ERROR
 @if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
@@ -71,30 +66,33 @@ echo. & call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platf
 ) else (if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
             ..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole         1>nul 2>&1 || goto :ERROR
     ) else (..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole               2>&1 || goto :ERROR))
-@dir PABCRtl | find "PABCRtl.dll" & echo.
-@echo [INFO] Done.
+@dir PABCRtl | find "PABCRtl.dll"
+@echo. & echo [INFO] Done.
 
 @echo. 
 @echo [%~nx0]
 @echo +======================================================================== Step 6/16 ===+
 @echo !  Signing and registering fresh PABCRtl.dll in GAC:                                   !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%\ReleaseGenerators\PABCRtl"  2>&1 || goto :ERROR
-..\sn.exe -q -Vr PABCRtl.dll                       2>&1 || goto :ERROR
-..\sn.exe -q -R  PABCRtl.dll KeyPair.snk           2>&1 || goto :ERROR
-..\sn.exe -q -Vu PABCRtl.dll                       2>&1 || goto :ERROR
-copy /Y PABCRtl.dll ..\..\bin\Lib\                 2>&1 || goto :ERROR
-@cd ..
+@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+    ..\sn.exe -q -Vr PABCRtl.dll                   2>&1 || goto :ERROR
+    ..\sn.exe -q -R  PABCRtl.dll KeyPair.snk       2>&1 || goto :ERROR
+    ..\sn.exe -q -Vu PABCRtl.dll                   2>&1 || goto :ERROR
+) else (
+    ..\sn.exe -Vr PABCRtl.dll                      2>&1 || goto :ERROR
+    ..\sn.exe -R  PABCRtl.dll KeyPair.snk          2>&1 || goto :ERROR
+    ..\sn.exe -Vu PABCRtl.dll                      2>&1 || goto :ERROR)
+copy /Y PABCRtl.dll ..\..\bin\Lib\           1>nul 2>&1 || goto :ERROR
+@cd ..                                        >nul
 gacutil.exe /nologo /u PABCRtl               1>nul 2>&1 || goto :ERROR
 gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll   2>&1 || goto :ERROR
-@echo [INFO] Done.
+@echo. & echo [INFO] Done.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 7/16 ===+
 @echo !  Building all Pascal standard units:                                                 !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%\ReleaseGenerators"                                           2>&1 || goto :ERROR
 @if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto :ERROR
@@ -108,66 +106,61 @@ gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll   2>&1 || goto :ERROR
 @echo +======================================================================== Step 8/16 ===+
 @echo !  Performing compilation, unit and functional tests:                                  !
 @echo +======================================================================================+
-@echo.
-@if /i {%PABCNET_RUN_TESTS%} NEQ {true} (echo [INFO] *** Skipping -- Tests will not be run & goto :SKIP8)
+@if /i {%PABCNET_RUN_TESTS%} NEQ {true} (echo. & echo [INFO] *** Skipping -- Tests will not be run & goto :SKIP8)
 @rem @cd /d "%project_root%\bin"        2>&1 || goto :ERROR
-@cd ..\bin                              2>&1 || goto :ERROR
+@cd ..\bin                        1>nul 2>&1 || goto :ERROR
 :: DEBUG: fixing CR/LF line-endings for *.pas files in \TestSuite\formatter_tests
-@echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for bug ...
+@echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for bug...& echo.
 call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto :ERROR
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
-@echo [INFO] Compiling fresh TestRunner.pas...
+@echo [INFO] Compiling fresh TestRunner.pas...& echo.
 pabcnetcclear /Debug:0 TestRunner.pas   2>&1 || goto :ERROR
 @echo [INFO] Launching TestRunner.exe...& echo.
 TestRunner.exe                          2>&1 || goto :ERROR
-@echo [INFO] Tests successfully accomplished.
+@echo. & echo [INFO] All tests successfully accomplished.
 :SKIP8
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 9/16 ===+
 @echo !  Preparing Pascal bundled code samples and library sources for packaging:            !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%\ReleaseGenerators"    2>&1 || goto :ERROR
-@cd ..\ReleaseGenerators                     2>&1 || goto :ERROR
+@cd ..\ReleaseGenerators               1>nul 2>&1 || goto :ERROR
 :: ToDo: Where's better to keep \LibSource: inside \ReleaseGenerators or \bin dir?
 @rmdir /S /Q LibSource                 1>nul 2>&1
 xcopy /I /Q /Y ..\bin\Lib\*.pas LibSource    2>&1 || goto :ERROR
 mklink /D Samples\Pas ..\..\InstallerSamples 2>&1 || goto :ERROR
-@echo [INFO] Done.
+@echo. & echo [INFO] Done.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 10/16 ==+
 @echo !  Generating Win7+ compatible installers and packages (not for XP!):                  !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%\ReleaseGenerators" 2>&1 || goto :ERROR
-@echo [INFO] Calling PascalABCNET_ALL.bat script...
-echo. & call PascalABCNET_ALL.bat              2>&1 || goto :ERROR
-@echo [INFO] Done.
+@echo [INFO] Calling PascalABCNET_ALL.bat script...& echo.
+@call PascalABCNET_ALL.bat  2>&1 || goto :ERROR
+@echo. & echo [INFO] Done.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 11/16 ==+
 @echo !  Saving updated \bin directory with fresh .NET 4.7.1 Pascal binaries as \bin2:       !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%"
-@cd ..
+@cd .. >nul
 @rmdir /S /Q bin2 1>nul 2>&1
 rename bin\ bin2  2>&1 || goto :ERROR
-@echo [INFO] Renamed \bin ==^> \bin2
+@echo. & echo [INFO] Renamed \bin ==^> \bin2
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 12/16 ==+
 @echo !  Making new isolated \bin directory from saved \bin_copy and fresh PABCRtl.dll       !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%"
-rename bin_copy\ bin                  2>&1 || goto :ERROR
+rename bin_copy\ bin            1>nul 2>&1 || goto :ERROR
 @rem copy /Y bin2\Lib\*.pcu bin\Lib\  2>&1 || goto :ERROR
 copy /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto :ERROR
-@echo [INFO] Renamed initial \bin_copy ==^> \bin, copied PABCRtl.dll from \bin2\Lib\: now ready to build again.
+@echo [INFO] Ready for new build: \bin_copy ==^> \bin, bin2\Lib\PABCRtl.dll ==^> \bin\Lib
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 13/16 ==+
@@ -175,16 +168,15 @@ copy /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto :ERROR
 @echo +======================================================================================+
 @echo.
 @rem @cd /d "%project_root%"
-@echo [INFO] Calling Studio.bat script...
-echo. & call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET_40.sln 2>&1 || goto :ERROR
-@echo [INFO] Done.
+@echo [INFO] Calling Studio.bat script...& echo.
+call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET_40.sln 2>&1 || goto :ERROR
+@echo. & echo [INFO] Done.
 
 :: ToDo: Is it really necessary to rebuild Pascal standard units again for use with .NET 4.0?
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 14/16 ==+
 @echo !  Re-Building Pascal standard units (for WinXP):                                      !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%\ReleaseGenerators"                                           2>&1 || goto :ERROR
 @cd ReleaseGenerators                                                                    2>&1 || goto :ERROR
 @if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
@@ -199,25 +191,23 @@ echo. & call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platf
 @echo +======================================================================== Step 15/16 ==+
 @echo !  Generating WinXP compatible installer:                                              !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%\ReleaseGenerators" 2>&1 || goto :ERROR
-@echo [INFO] Calling PascalABCNETWithDotNet40.bat script...
-echo. & call PascalABCNETWithDotNet40.bat 2>&1 || goto :ERROR
-@echo [INFO] Done.
+@echo [INFO] Calling PascalABCNETWithDotNet40.bat script...& echo.
+@call PascalABCNETWithDotNet40.bat  2>&1 || goto :ERROR
+@echo. & echo [INFO] Done.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 16/16 ==+
 @echo !  Final cleanup -- removing temporary symlinks and restoring \bin dir:                !
 @echo +======================================================================================+
-@echo.
 :: 1) restoring previous \bin directory with .NET 4.7.1 pascal binaries from bin2\
 :: 2) removing all temporary sample dirs created before for packaging
 @rem @cd /d "%project_root%"
-@cd ..
+@cd .. >nul
 rmdir /S /Q bin && rename bin2\ bin       2>&1 || goto :ERROR
 rmdir /S /Q ReleaseGenerators\LibSource   2>&1 || goto :ERROR
 rmdir /S /Q ReleaseGenerators\Samples\Pas 2>&1 || goto :ERROR
-@echo [INFO] Done.
+@echo. & echo [INFO] Done.
 
 @popd
 @echo. & echo [%~nx0]
