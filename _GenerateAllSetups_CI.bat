@@ -1,12 +1,13 @@
-@if /i {%PABCNET_QUIET_MODE%} EQU {true} echo OFF
 @echo. & echo [%~nx0]
-@echo ####################################### STARTED ########################################
+@echo ################################ SCRIPT STARTED ########################################
 
 @SETLOCAL EnableExtensions
+@if /i {%PABCNET_BUILD_QUIET%} EQU {true} echo OFF
+@if /i {%PABCNET_BUILD_MODE%} EQU {Release} (set "_BUILD_MODE=Release") else (set "_BUILD_MODE=Debug")
+@if /i {%~1} EQU {Release} (set "_BUILD_MODE=Release") else (set "_BUILD_MODE=Debug")
 :: Making sure batch file would run properly regardless of where it was launched from (due to usage of relative paths)
 @rem @SET launched_from=%CD%
 @rem @SET project_root=%~dp0
-:: DEBUG: Alternative lines: @pushd "%~dp0" OR @pushd "%project_root%"
 pushd "%~dp0"
 
 @echo. & echo [%~nx0]
@@ -54,8 +55,7 @@ LanguageResMaker.exe              2>&1 || goto :ERROR
 @rem @cd /d "%project_root%"
 @cd ..\..
 @echo [INFO] Calling Studio.bat script...
-echo. & call Studio.bat /m /t:Rebuild "/p:Configuration=Release" "/p:Platform=Any CPU" PascalABCNET.sln 2>&1 || goto :ERROR
-@rem call Studio.bat /m /t:Rebuild "/p:Configuration=Debug" "/p:Platform=Any CPU" PascalABCNET.sln 2>&1 || goto :ERROR
+echo. & call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET.sln 2>&1 || goto :ERROR
 @echo [INFO] Done.
 
 @echo. & echo [%~nx0]
@@ -63,12 +63,14 @@ echo. & call Studio.bat /m /t:Rebuild "/p:Configuration=Release" "/p:Platform=An
 @echo !  Building PABCRtl.dll -- Pascal special standalone runtime library for IDE:          !
 @echo +======================================================================================+
 @echo.
-@rem @cd /d "%project_root%\ReleaseGenerators\PABCRtl"               2>&1 || goto :ERROR
-@cd ReleaseGenerators\PABCRtl                                        2>&1 || goto :ERROR
-@if /i {%PABCNET_QUIET_MODE%} EQU {true} (
-    ..\..\bin\pabcnetc PABCRtl.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto :ERROR
-) else (
-    ..\..\bin\pabcnetc PABCRtl.pas /rebuildnodebug /noconsole        2>&1 || goto :ERROR)
+@rem @cd /d "%project_root%\ReleaseGenerators\PABCRtl" 2>&1 || goto :ERROR
+@cd ReleaseGenerators\PABCRtl  2>&1 || goto :ERROR
+@if /i {%_BUILD_MODE%} EQU {Release} (@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+            ..\..\bin\pabcnetc PABCRtl.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto :ERROR
+    ) else (..\..\bin\pabcnetc PABCRtl.pas /rebuildnodebug /noconsole        2>&1 || goto :ERROR)
+) else (@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+            ..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole         1>nul 2>&1 || goto :ERROR
+    ) else (..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole               2>&1 || goto :ERROR)
 @dir PABCRtl | find "PABCRtl.dll" & echo.
 @echo [INFO] Done.
 
@@ -79,13 +81,13 @@ echo. & call Studio.bat /m /t:Rebuild "/p:Configuration=Release" "/p:Platform=An
 @echo +======================================================================================+
 @echo.
 @rem @cd /d "%project_root%\ReleaseGenerators\PABCRtl"  2>&1 || goto :ERROR
-..\sn.exe -q -Vr PABCRtl.dll                      2>&1 || goto :ERROR
-..\sn.exe -q -R  PABCRtl.dll KeyPair.snk          2>&1 || goto :ERROR
-..\sn.exe -q -Vu PABCRtl.dll                      2>&1 || goto :ERROR
-copy /Y PABCRtl.dll ..\..\bin\Lib\                2>&1 || goto :ERROR
+..\sn.exe -q -Vr PABCRtl.dll                       2>&1 || goto :ERROR
+..\sn.exe -q -R  PABCRtl.dll KeyPair.snk           2>&1 || goto :ERROR
+..\sn.exe -q -Vu PABCRtl.dll                       2>&1 || goto :ERROR
+copy /Y PABCRtl.dll ..\..\bin\Lib\                 2>&1 || goto :ERROR
 @cd ..
-gacutil.exe /nologo /u PABCRtl              1>nul 2>&1 || goto :ERROR
-gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll  2>&1 || goto :ERROR
+gacutil.exe /nologo /u PABCRtl               1>nul 2>&1 || goto :ERROR
+gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll   2>&1 || goto :ERROR
 @echo [INFO] Done.
 
 @echo. & echo [%~nx0]
@@ -93,12 +95,13 @@ gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll  2>&1 || goto :ERROR
 @echo !  Building all Pascal standard units:                                                 !
 @echo +======================================================================================+
 @echo.
-@rem @cd /d "%project_root%\ReleaseGenerators"                                   2>&1 || goto :ERROR
-@if /i {%PABCNET_QUIET_MODE%} EQU {true} (
-    ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto :ERROR
-) else (
-    ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole        2>&1 || goto :ERROR)
-@rem ..\bin\pabcnetcclear /Debug:0 RebuildStandartModules.pas ..\bin\Temp        2>&1 || goto :ERROR
+@rem @cd /d "%project_root%\ReleaseGenerators"                                           2>&1 || goto :ERROR
+@if /i {%_BUILD_MODE%} EQU {Release} (@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+            ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto :ERROR
+    ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole        2>&1 || goto :ERROR)
+) else (@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+            ..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole         1>nul 2>&1 || goto :ERROR
+    ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole               2>&1 || goto :ERROR)
 @echo. & echo [INFO] Standard units successfully built.
 
 @echo. & echo [%~nx0]
@@ -107,22 +110,17 @@ gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll  2>&1 || goto :ERROR
 @echo +======================================================================================+
 @echo.
 @if /i {%PABCNET_RUN_TESTS%} NEQ {true} (echo [INFO] *** Skipping -- Tests will not be run & goto :SKIP8)
-@rem @cd /d "%project_root%\bin"      2>&1 || goto :ERROR
-@cd ..\bin                            2>&1 || goto :ERROR
+@rem @cd /d "%project_root%\bin"        2>&1 || goto :ERROR
+@cd ..\bin                              2>&1 || goto :ERROR
 :: DEBUG: fixing CR/LF line-endings for *.pas files in \TestSuite\formatter_tests
-call ..\Utils\fix-CRLF-for-TestRunner.bat  || goto :ERROR
+@echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for bug ...
+call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto :ERROR
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
 @echo [INFO] Compiling fresh TestRunner.pas...
-pabcnetcclear /Debug:0 TestRunner.pas 2>&1 || goto :ERROR
+pabcnetcclear /Debug:0 TestRunner.pas   2>&1 || goto :ERROR
 @echo [INFO] Launching TestRunner.exe...& echo.
-@rem TestRunner.exe 3                      2>&1 || goto :ERROR
-@rem TestRunner.exe 1                      2>&1 || goto :ERROR
-@rem TestRunner.exe 2                      2>&1 || goto :ERROR
-@rem TestRunner.exe 4                      2>&1 || goto :ERROR
-@rem TestRunner.exe 5                      2>&1 || goto :ERROR
-@rem TestRunner.exe 6                      2>&1
-TestRunner.exe                   2>&1 || goto :ERROR
+TestRunner.exe                          2>&1 || goto :ERROR
 @echo [INFO] Tests successfully accomplished.
 :SKIP8
 
@@ -146,7 +144,7 @@ mklink /D Samples\Pas ..\..\InstallerSamples 2>&1 || goto :ERROR
 @echo.
 @rem @cd /d "%project_root%\ReleaseGenerators" 2>&1 || goto :ERROR
 @echo [INFO] Calling PascalABCNET_ALL.bat script...
-echo. & call PascalABCNET_ALL.bat 2>&1 || goto :ERROR
+echo. & call PascalABCNET_ALL.bat              2>&1 || goto :ERROR
 @echo [INFO] Done.
 
 @echo. & echo [%~nx0]
@@ -178,23 +176,24 @@ copy /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto :ERROR
 @echo.
 @rem @cd /d "%project_root%"
 @echo [INFO] Calling Studio.bat script...
-echo. & call Studio.bat /m /t:Rebuild "/p:Configuration=Release" "/p:Platform=Any CPU" PascalABCNET_40.sln 2>&1 || goto :ERROR
-@rem call Studio.bat /m /t:Rebuild "/p:Configuration=Debug" "/p:Platform=Any CPU" PascalABCNET_40.sln 2>&1 || goto :ERROR
+echo. & call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET_40.sln 2>&1 || goto :ERROR
 @echo [INFO] Done.
 
+:: ToDo: Is it really necessary to rebuild Pascal standard units again for use with .NET 4.0?
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 14/16 ==+
 @echo !  Re-Building Pascal standard units (for WinXP):                                      !
 @echo +======================================================================================+
 @echo.
-@rem @cd /d "%project_root%\ReleaseGenerators"                                   2>&1 || goto :ERROR
-@cd ReleaseGenerators                                                            2>&1 || goto :ERROR
-@if /i {%QUIET_MODE%} EQU {true} (
-    ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto :ERROR
-) else (
-    ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole        2>&1 || goto :ERROR)
-@rem ..\bin\pabcnetcclear /Debug:0 RebuildStandartModules.pas ..\bin\Temp        2>&1 || goto :ERROR
-@echo. & echo [INFO] Standard units successfully built.
+@rem @cd /d "%project_root%\ReleaseGenerators"                                           2>&1 || goto :ERROR
+@cd ReleaseGenerators                                                                    2>&1 || goto :ERROR
+@if /i {%_BUILD_MODE%} EQU {Release} (@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+            ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto :ERROR
+    ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole        2>&1 || goto :ERROR)
+) else (@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+            ..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole         1>nul 2>&1 || goto :ERROR
+    ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole               2>&1 || goto :ERROR)
+@echo. & echo [INFO] Standard units successfully re-built.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 15/16 ==+
@@ -222,7 +221,7 @@ rmdir /S /Q ReleaseGenerators\Samples\Pas 2>&1 || goto :ERROR
 
 @popd
 @echo. & echo [%~nx0]
-@echo ####################################### FINISHED #######################################
+@echo ################################ SCRIPT FINISHED #######################################
 @echo.
 @goto :EOF
 
@@ -238,7 +237,6 @@ rmdir /S /Q ReleaseGenerators\Samples\Pas 2>&1 || goto :ERROR
     @rmdir /S /Q "%project_root%\ReleaseGenerators\LibSource"   1>nul 2>&1
     @rmdir /S /Q "%project_root%\ReleaseGenerators\Samples\Pas" 1>nul 2>&1
     @echo. & echo [%~nx0] ***ERROR*** Last command failed with exit code %exit_code%. & echo.
-    :: DEBUG: Alternative line: @popd
     @popd
     @pause
     @exit /B %exit_code%
