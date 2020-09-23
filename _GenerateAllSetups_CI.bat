@@ -32,7 +32,10 @@ utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs Configuration
 @echo +======================================================================================+
 @rem @cd /d "%project_root%"
 @rmdir /S /Q bin_copy    1>nul 2>&1
-xcopy /I /E /Q /Y bin bin_copy 2>&1 || goto ERROR
+@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+    xcopy /I /E /Q /Y bin bin_copy 2>&1 || goto ERROR
+) else (
+    xcopy /I /E /L /Y bin bin_copy 2>&1 || goto ERROR)
 @echo. & echo [INFO] Done (#2) -- Created \bin_copy.
 
 @echo. & echo [%~nx0]
@@ -51,7 +54,7 @@ LanguageResMaker.exe              2>&1 || goto ERROR
 @echo +======================================================================================+
 @rem @cd /d "%project_root%"
 @cd ..\.. >nul
-@echo [INFO] Calling Studio.bat script...& echo.
+@echo [INFO] Calling Studio.bat script... & echo.
 call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET.sln 2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#4).
 
@@ -77,17 +80,18 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
 @echo +======================================================================================+
 @rem @cd /d "%project_root%\ReleaseGenerators\PABCRtl"  2>&1 || goto ERROR
 @if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
-    ..\sn.exe -q -Vr PABCRtl.dll                   2>&1 || goto ERROR
-    ..\sn.exe -q -R  PABCRtl.dll KeyPair.snk       2>&1 || goto ERROR
-    ..\sn.exe -q -Vu PABCRtl.dll                   2>&1 || goto ERROR
+    ..\sn.exe -q -Vr PABCRtl.dll                  2>&1 || goto ERROR
+    ..\sn.exe -q -R  PABCRtl.dll KeyPair.snk      2>&1 || goto ERROR
+    ..\sn.exe -q -Vu PABCRtl.dll                  2>&1 || goto ERROR
+    xcopy /Q /Y PABCRtl.dll ..\..\bin\Lib\        2>&1 || goto ERROR
 ) else (
-    ..\sn.exe -Vr PABCRtl.dll                      2>&1 || goto ERROR
-    ..\sn.exe -R  PABCRtl.dll KeyPair.snk          2>&1 || goto ERROR
-    ..\sn.exe -Vu PABCRtl.dll                      2>&1 || goto ERROR)
-copy /Y PABCRtl.dll ..\..\bin\Lib\           1>nul 2>&1 || goto ERROR
-@cd ..                                        >nul
-gacutil.exe /nologo /u PABCRtl               1>nul 2>&1 || goto ERROR
-gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll   2>&1 || goto ERROR
+    ..\sn.exe -Vr PABCRtl.dll                     2>&1 || goto ERROR
+    ..\sn.exe -R  PABCRtl.dll KeyPair.snk         2>&1 || goto ERROR
+    ..\sn.exe -Vu PABCRtl.dll                     2>&1 || goto ERROR
+    xcopy /L /Y PABCRtl.dll ..\..\bin\Lib\        2>&1 || goto ERROR)
+@cd .. >nul
+gacutil.exe /nologo /u PABCRtl              1>nul 2>&1 || goto ERROR
+gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll  2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#6).
 
 @echo. & echo [%~nx0]
@@ -108,17 +112,17 @@ gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll   2>&1 || goto ERROR
 @echo !  Performing compilation, unit and functional tests:                                  !
 @echo +======================================================================================+
 @if /i {%PABCNET_RUN_TESTS%} NEQ {true} (echo. & echo [INFO] *** Skipping -- Tests will not be run & goto SKIP8)
-@rem @cd /d "%project_root%\bin"        2>&1 || goto ERROR
-@cd ..\bin                        1>nul 2>&1 || goto ERROR
+@rem @cd /d "%project_root%\bin"            2>&1 || goto ERROR
+@cd ..\bin                                  2>&1 || goto ERROR
 :: DEBUG: fixing CR/LF line-endings for *.pas files in \TestSuite\formatter_tests
-@echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for bug...& echo.
-call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto ERROR
+@echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for bug... & echo.
+call ..\Utils\fix-CRLF-for-TestRunner.bat        || goto ERROR
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
-@echo [INFO] Compiling fresh TestRunner.pas...& echo.
-pabcnetcclear /Debug:0 TestRunner.pas   2>&1 || goto ERROR
-@echo [INFO] Launching TestRunner.exe...& echo.
-TestRunner.exe                          2>&1 || goto ERROR
+@echo [INFO] Compiling fresh TestRunner.pas... & echo.
+pabcnetcclear /Debug:0 TestRunner.pas       2>&1 || goto ERROR
+@echo [INFO] Launching TestRunner.exe... & echo.
+TestRunner.exe                              2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#8) -- All tests successfully accomplished.
 :SKIP8
 
@@ -126,12 +130,16 @@ TestRunner.exe                          2>&1 || goto ERROR
 @echo +======================================================================== Step 9/16 ===+
 @echo !  Preparing Pascal bundled code samples and library sources for packaging:            !
 @echo +======================================================================================+
-@rem @cd /d "%project_root%\ReleaseGenerators"    2>&1 || goto ERROR
-@cd ..\ReleaseGenerators                     2>&1 || goto ERROR
+@rem @cd /d "%project_root%\ReleaseGenerators"        2>&1 || goto ERROR
+@cd ..\ReleaseGenerators                              2>&1 || goto ERROR
 :: ToDo: Where's better to keep \LibSource: inside \ReleaseGenerators or \bin dir?
-@rmdir /S /Q LibSource                       2>&1
-xcopy /I /Q /Y ..\bin\Lib\*.pas LibSource    2>&1 || goto ERROR
-mklink /D Samples\Pas ..\..\InstallerSamples 2>&1 || goto ERROR
+@rmdir /S /Q LibSource                                2>&1
+@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+    xcopy /I /Q /Y ..\bin\Lib\*.pas LibSource         2>&1 || goto ERROR
+    mklink /D Samples\Pas ..\..\InstallerSamples >nul 2>&1 || goto ERROR
+) else (
+    xcopy /I /L /Y ..\bin\Lib\*.pas LibSource         2>&1 || goto ERROR
+    mklink /D Samples\Pas ..\..\InstallerSamples      2>&1 || goto ERROR)
 @echo. & echo [INFO] Done (#9).
 
 @echo. & echo [%~nx0]
@@ -139,7 +147,7 @@ mklink /D Samples\Pas ..\..\InstallerSamples 2>&1 || goto ERROR
 @echo !  Generating Win7+ compatible installers and packages (not for XP!):                  !
 @echo +======================================================================================+
 @rem @cd /d "%project_root%\ReleaseGenerators" 2>&1 || goto ERROR
-@echo [INFO] Calling PascalABCNET_ALL.bat script...& echo.
+@echo [INFO] Calling PascalABCNET_ALL.bat script... & echo.
 call PascalABCNET_ALL.bat  2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#10).
 
@@ -158,19 +166,22 @@ rename bin\ bin2  2>&1 || goto ERROR
 @echo !  Making new isolated \bin directory from saved \bin_copy and fresh PABCRtl.dll       !
 @echo +======================================================================================+
 @rem @cd /d "%project_root%"
-rename bin_copy\ bin            1>nul 2>&1 || goto ERROR
+rename bin_copy\ bin                          2>&1 || goto ERROR
+@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
 :: ToDo: Is it really necessary to rebuild Pascal standard units again for use with .NET 4.0? (see step 14)
-copy /Y bin2\Lib\*.pcu bin\Lib\       2>&1 || goto ERROR
-copy /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto ERROR
+    xcopy /Q /Y bin2\Lib\*.pcu bin\Lib\       2>&1 || goto ERROR
+    xcopy /Q /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto ERROR
+) else (
+    xcopy /L /Y bin2\Lib\*.pcu bin\Lib\       2>&1 || goto ERROR
+    xcopy /L /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto ERROR)
 @echo. & echo [INFO] Done (#12) -- Renamed: \bin_copy ==^> \bin, Copied: prebuilt *.pcu modules + PABCRtl.dll ==^> \bin\Lib
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 13/16 ==+
 @echo !  Re-Building project using .NET 4.0 as target (for WinXP compatibility):             !
 @echo +======================================================================================+
-@echo.
 @rem @cd /d "%project_root%"
-@echo [INFO] Calling Studio.bat script...& echo.
+@echo [INFO] Calling Studio.bat script... & echo.
 call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET_40.sln 2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#13).
 
@@ -197,7 +208,7 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
 @echo !  Generating WinXP compatible installer:                                              !
 @echo +======================================================================================+
 @rem @cd /d "%project_root%\ReleaseGenerators" 2>&1 || goto ERROR
-@echo [INFO] Calling PascalABCNETWithDotNet40.bat script...& echo.
+@echo [INFO] Calling PascalABCNETWithDotNet40.bat script... & echo.
 call PascalABCNETWithDotNet40.bat  2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#15).
 
