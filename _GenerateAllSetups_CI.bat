@@ -68,7 +68,7 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
 ) else (if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
             ..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole         1>nul 2>&1 || goto :ERROR
     ) else (..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole               2>&1 || goto :ERROR))
-@dir PABCRtl | find "PABCRtl.dll"
+@dir | find "PABCRtl.dll"
 @echo. & echo [INFO] Done.
 
 @echo. 
@@ -160,9 +160,10 @@ rename bin\ bin2  2>&1 || goto :ERROR
 @echo +======================================================================================+
 @rem @cd /d "%project_root%"
 rename bin_copy\ bin            1>nul 2>&1 || goto :ERROR
-@rem copy /Y bin2\Lib\*.pcu bin\Lib\  2>&1 || goto :ERROR
+:: ToDo: Is it really necessary to rebuild Pascal standard units again for use with .NET 4.0? (see step 14)
+copy /Y bin2\Lib\*.pcu bin\Lib\       2>&1 || goto :ERROR
 copy /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto :ERROR
-@echo [INFO] Ready for new build: \bin_copy ==^> \bin, bin2\Lib\PABCRtl.dll ==^> \bin\Lib
+@echo [INFO] Renamed: \bin_copy ==^> \bin, Copied: prebuilt *.pcu modules + PABCRtl.dll ==^> \bin\Lib
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 13/16 ==+
@@ -174,11 +175,13 @@ copy /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto :ERROR
 call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET_40.sln 2>&1 || goto :ERROR
 @echo. & echo [INFO] Done.
 
-:: ToDo: Is it really necessary to rebuild Pascal standard units again for use with .NET 4.0?
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 14/16 ==+
 @echo !  Re-Building Pascal standard units (for WinXP):                                      !
 @echo +======================================================================================+
+@echo. & echo [INFO] *** Skipping -- Further using prebuilt units and dll from step #12 & goto :SKIP1)
+:: ToDo: Is it really necessary to rebuild Pascal standard units again for use with .NET 4.0?
+@goto :SKIP14
 @rem @cd /d "%project_root%\ReleaseGenerators"                                           2>&1 || goto :ERROR
 @cd ReleaseGenerators                                                                    2>&1 || goto :ERROR
 @if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
@@ -188,6 +191,7 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole         1>nul 2>&1 || goto :ERROR
     ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole               2>&1 || goto :ERROR))
 @echo. & echo [INFO] Standard units successfully re-built.
+:SKIP14
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 15/16 ==+
