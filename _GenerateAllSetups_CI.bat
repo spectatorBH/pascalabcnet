@@ -1,7 +1,7 @@
 @echo. & echo [%~nx0]
 @echo ############################## CI SCRIPT STARTED #######################################
 @SETLOCAL EnableExtensions
-@if /i {%PABCNET_QUIET_MODE%} EQU {true} echo OFF
+@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} echo OFF
 @if /i {%PABCNET_BUILD_MODE%} EQU {Release} (set "_BUILD_MODE=Release") else (set "_BUILD_MODE=Debug")
 @if /i {%~1} EQU {Release} (set "_BUILD_MODE=Release")
 @if /i {%~1} EQU {Debug}   (set "_BUILD_MODE=Debug")
@@ -30,18 +30,20 @@ utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs Configuration
 @echo +======================================================================== Step 2/16 ===+
 @echo !  Making a working copy of \bin directory for later usage:                            !
 @echo +======================================================================================+
+@echo.
 @rem @cd /d "%project_root%"
-@rmdir /S /Q bin_copy              2>&1
-@if /i {%PABCNET_QUIET_MODE%} EQU {true} (
+@rmdir /S /Q bin_copy         >nul 2>&1
+@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     xcopy /I /E /Q /Y bin bin_copy 2>&1 || goto ERROR
 ) else (
     xcopy /I /E /L /Y bin bin_copy 2>&1 || goto ERROR)
-@echo. & echo [INFO] Done (#2) -- Created \bin_copy.
+@echo. & echo [INFO] Done (#2) -- Created \bin_copy from \bin.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 3/16 ===+
 @echo !  Generating default language resource file:                                          !
 @echo +======================================================================================+
+@echo.
 @rem @cd /d "%project_root%\utils\DefaultLanguageResMaker" 2>&1 || goto ERROR
 @cd utils\DefaultLanguageResMaker 2>&1 || goto ERROR
 :: ToDo: implement basic error handling in the 'LanguageResMaker.exe' tool
@@ -52,9 +54,10 @@ LanguageResMaker.exe              2>&1 || goto ERROR
 @echo +======================================================================== Step 4/16 ===+
 @echo !  Building project using .NET 4.7.1 as target (for Win7+ platforms):                  !
 @echo +======================================================================================+
+@echo.
 @rem @cd /d "%project_root%"
-@cd ..\.. >nul
-@echo [INFO] Calling Studio.bat script... & echo.
+@cd ..\..
+@echo [INFO] Calling Studio.bat script...
 call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET.sln 2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#4).
 
@@ -63,24 +66,25 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
 @echo !  Building PABCRtl.dll -- Pascal special standalone runtime library for IDE:          !
 @echo +======================================================================================+
 @rem @cd /d "%project_root%\ReleaseGenerators\PABCRtl" 2>&1 || goto ERROR
-@echo.
 @cd ReleaseGenerators\PABCRtl  2>&1 || goto ERROR
-@if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_QUIET_MODE%} EQU {true} (
+@if /i {%_BUILD_MODE%} EQU {Release} (echo. & if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
             ..\..\bin\pabcnetc PABCRtl.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto ERROR
     ) else (..\..\bin\pabcnetc PABCRtl.pas /rebuildnodebug /noconsole        2>&1 || goto ERROR)
-) else (if /i {%PABCNET_QUIET_MODE%} EQU {true} (
+) else (echo. & if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
             ..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole         1>nul 2>&1 || goto ERROR
     ) else (..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole               2>&1 || goto ERROR))
 @echo. & dir | find "PABCRtl.dll"
-@echo. & echo [INFO] Done (#5).
+@echo. & echo [INFO] Done (#5) -- PABCRtl.dll successfully built.
 
 @echo. 
 @echo [%~nx0]
 @echo +======================================================================== Step 6/16 ===+
 @echo !  Signing and registering fresh PABCRtl.dll in GAC:                                   !
 @echo +======================================================================================+
+@echo.
 @rem @cd /d "%project_root%\ReleaseGenerators\PABCRtl"  2>&1 || goto ERROR
-@if /i {%PABCNET_QUIET_MODE%} EQU {true} (
+dir *.dll
+@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     ..\sn.exe -q -Vr PABCRtl.dll                  2>&1 || goto ERROR
     ..\sn.exe -q -R  PABCRtl.dll KeyPair.snk      2>&1 || goto ERROR
     ..\sn.exe -q -Vu PABCRtl.dll                  2>&1 || goto ERROR
@@ -90,23 +94,22 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
     ..\sn.exe -R  PABCRtl.dll KeyPair.snk         2>&1 || goto ERROR
     ..\sn.exe -Vu PABCRtl.dll                     2>&1 || goto ERROR
     xcopy /L /Y PABCRtl.dll ..\..\bin\Lib\        2>&1 || goto ERROR)
-@cd ..
-dir ..\bin
 echo.
-dir ..\bin\Lib
+@cd ..
+dir ..\bin\Lib\*.dll
 gacutil.exe /nologo /u PABCRtl              1>nul 2>&1 || goto ERROR
 gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll  2>&1 || goto ERROR
-@echo. & echo [INFO] Done (#6).
+@echo. & echo [INFO] Done (#6) -- PABCRtl.dll signed, put into \bin\Lib and registered in GAC.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 7/16 ===+
 @echo !  Building all Pascal standard units:                                                 !
 @echo +======================================================================================+
 @rem @cd /d "%project_root%\ReleaseGenerators"                                           2>&1 || goto ERROR
-@if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_QUIET_MODE%} EQU {true} (
+@if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto ERROR
     ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole        2>&1 || goto ERROR)
-) else (if /i {%PABCNET_QUIET_MODE%} EQU {true} (
+) else (if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole         1>nul 2>&1 || goto ERROR
     ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole               2>&1 || goto ERROR))
 @echo. & echo [INFO] Done (#7) -- Standard units successfully built.
@@ -138,7 +141,7 @@ TestRunner.exe                              2>&1 || goto ERROR
 @cd ..\ReleaseGenerators                              2>&1 || goto ERROR
 :: ToDo: Where's better to keep \LibSource: inside \ReleaseGenerators or \bin dir?
 @rmdir /S /Q LibSource                                2>&1
-@if /i {%PABCNET_QUIET_MODE%} EQU {true} (
+@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     xcopy /I /Q /Y ..\bin\Lib\*.pas LibSource         2>&1 || goto ERROR
     mklink /D Samples\Pas ..\..\InstallerSamples >nul 2>&1 || goto ERROR
 ) else (
@@ -171,7 +174,7 @@ rename bin\ bin2  2>&1 || goto ERROR
 @echo +======================================================================================+
 @rem @cd /d "%project_root%"
 rename bin_copy\ bin                          2>&1 || goto ERROR
-@if /i {%PABCNET_QUIET_MODE%} EQU {true} (
+@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
 :: ToDo: Is it really necessary to rebuild Pascal standard units again for use with .NET 4.0? (see step 14)
     xcopy /Q /Y bin2\Lib\*.pcu bin\Lib\       2>&1 || goto ERROR
     xcopy /Q /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto ERROR
@@ -198,10 +201,10 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
 @goto SKIP14
 @rem @cd /d "%project_root%\ReleaseGenerators"                                           2>&1 || goto ERROR
 @cd ReleaseGenerators                                                                    2>&1 || goto ERROR
-@if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_QUIET_MODE%} EQU {true} (
+@if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto ERROR
     ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole        2>&1 || goto ERROR)
-) else (if /i {%PABCNET_QUIET_MODE%} EQU {true} (
+) else (if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole         1>nul 2>&1 || goto ERROR
     ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole               2>&1 || goto ERROR))
 @echo. & echo [INFO] Done (#14) -- Standard units successfully re-built.

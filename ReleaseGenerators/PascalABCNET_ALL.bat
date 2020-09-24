@@ -1,4 +1,4 @@
-@if /i {%PABCNET_QUIET_MODE%} EQU {true} echo OFF
+@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} echo OFF
 @echo. & echo [%~nx0] ------ SCRIPT STARTED ------- & echo.
 @SETLOCAL
 pushd "%~dp0"
@@ -6,7 +6,7 @@ pushd "%~dp0"
 :: ToFix: fix filename spelling error for PascalABCNETStandar[d].nsi
 @echo. & echo [%~nx0] -------- Step 1/3 -----------
 @echo [INFO] Creating STANDARD multilingual (ENG/RUS/UKR) distro for Win7+ with .NET 4.7.1 (incl. Programming Taskbook)... & echo.
-if /i {%PABCNET_QUIET_MODE%} EQU {true} (
+if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     "..\utils\NSIS\Unicode\makensis.exe" /V0 PascalABCNETStandart.nsi 2>&1 || goto ERROR
 ) else (
     "..\utils\NSIS\Unicode\makensis.exe" /V4 PascalABCNETStandart.nsi 2>&1 || goto ERROR)
@@ -14,7 +14,7 @@ if /i {%PABCNET_QUIET_MODE%} EQU {true} (
 
 @echo. & echo [%~nx0] -------- Step 2/3 -----------
 @echo [INFO] Creating MINI (RUS-only) distro for Win7+ with .NET 4.7.1 (w/o Programming Taskbook)... & echo.
-if /i {%PABCNET_QUIET_MODE%} EQU {true} (
+if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     "..\utils\NSIS\Unicode\makensis.exe" /V0 PascalABCNETMini.nsi 2>&1 || goto ERROR
 ) else (
     "..\utils\NSIS\Unicode\makensis.exe" /V4 PascalABCNETMini.nsi 2>&1 || goto ERROR)
