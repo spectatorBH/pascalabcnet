@@ -122,9 +122,11 @@ cd /d "%project_root%\ReleaseGenerators"                                        
 @if /i {%PABCNET_RUN_TESTS%} NEQ {true} (echo. & echo [INFO] *** Skipping -- Tests will not be run & goto SKIP8)
 @rem cd ..\bin                              2>&1 || goto ERROR
 cd /d "%project_root%\bin"                  2>&1 || goto ERROR
-:: DEBUG: fixing CR/LF line-endings for *.pas files in \TestSuite\formatter_tests
-@echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for bug...
-call ..\Utils\fix-CRLF-for-TestRunner.bat        || goto ERROR
+:: DEBUG: fixing CR/LF line-endings for *.pas files in \TestSuite\formatter_tests (useful only in GitHub VM sessions)
+:: https://github.com/pascalabcnet/pascalabcnetide/issues/196
+if defined %GITHUB_ACTIONS% (
+    echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for IDE bug #196...
+    call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto ERROR)
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
 @echo [INFO] Compiling fresh TestRunner.pas...

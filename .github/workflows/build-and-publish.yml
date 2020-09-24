@@ -1,20 +1,25 @@
-name: Build & Publish (manual)
+name: Build & Publish (release)
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+  
+  release:
+    types:
+      - created
 
 jobs:
   build:
+
     name: Prepare and build on Windows Server 2016 VM
     runs-on: windows-2016
     timeout-minutes: 15
-    #continue-on-error: true
     steps:
     - uses: actions/checkout@v2
     
     - name: Install dependencies into Virtual Environment...
       run: ./_RegisterHelixNUnit.bat
 
-    - name: Build C# project in Release-mode, compile Pas-units, run NO tests, create install packages...
+    - name: Build project in Release-mode, compile Pas-units, create install packages...
       env: 
         PABCNET_BUILD_MODE: Release
         PABCNET_RUN_TESTS: false

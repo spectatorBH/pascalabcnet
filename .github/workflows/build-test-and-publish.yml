@@ -1,21 +1,34 @@
 name: Build & Test (CI)
 
-on: workflow_dispatch
-#on: [push, pull_request]
+on: #[push, pull_request]
+  workflow_dispatch:
+ 
+  #push:
+  #  branches:
+  #    - master
+ 
+  #pull_request:
+  #  branches:
+  #    - master
 
 jobs:
   build_and_test:
+      
     name: Prepare and build on Windows Server 2016 VM
     runs-on: windows-2016
     timeout-minutes: 30
     #continue-on-error: true
     steps:
+        
+    - run: git config --global core.autocrlf input
+      #shell: cmd
+      
     - uses: actions/checkout@v2
     
     - name: Install dependencies into Virtual Environment...
       run: ./_RegisterHelixNUnit.bat
 
-    - name: Build C# project in Debug-mode, compile Pas-units, run tests, create install packages...
+    - name: Build project in Debug-mode, compile Pas-units, run tests, create install packages...
       env: 
         PABCNET_BUILD_MODE: Debug
         PABCNET_RUN_TESTS: true
