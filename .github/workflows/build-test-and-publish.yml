@@ -26,29 +26,29 @@ jobs:
     - name: Publish artifacts (1/4)...
       uses: actions/upload-artifact@v2.1.0
       with:
-        name: PascalABCNET_IDE_Win7_Full
+        name: PascalABCNET_Win7_IDE_Full
         path: Release/PascalABCNETSetup.exe
         
     - name: Publish artifacts (2/4)...
       uses: actions/upload-artifact@v2.1.0
       with:
-        name: PascalABCNET_IDE_Win7_Mini
+        name: PascalABCNET_Win7_IDE_Mini
         path: Release/PascalABCNETMiniSetup.exe
 
     - name: Publish artifacts (3/4)...
       uses: actions/upload-artifact@v2.1.0
       with:
-        name: PascalABCNET_IDE_WinXP_Full
+        name: PascalABCNET_WinXP_IDE_Full
         path: Release/PascalABCNETWithDotNet40Setup.exe
         
     - name: Publish artifacts (4/4)...
       uses: actions/upload-artifact@v2.1.0
       with:
-        name: PascalABCNET_console_Win_Mac_Linux
+        name: PascalABCNET_Win_Mac_Linux_console
         path: Release/PABCNETC.zip
         
     #- name: Publish artifacts (5/5)...
     #  uses: actions/upload-artifact@v2.1.0
     #  with:
-    #    name: All_setup_files
+    #    name: All_distros
     #    path: Release
