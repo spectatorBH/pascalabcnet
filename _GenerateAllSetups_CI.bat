@@ -1,5 +1,5 @@
 @echo. & echo [%~nx0]
-@echo ############################## CI SCRIPT STARTED #######################################
+@echo ############################ MAIN SCRIPT STARTED #######################################
 @SETLOCAL EnableExtensions
 @if /i {%PABCNET_NOT_VERBOSE%} EQU {true} echo OFF
 @if /i {%PABCNET_BUILD_MODE%} EQU {Release} (set "_BUILD_MODE=Release") else (set "_BUILD_MODE=Debug")
@@ -83,7 +83,6 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
 @echo +======================================================================================+
 @echo.
 @rem @cd /d "%project_root%\ReleaseGenerators\PABCRtl"  2>&1 || goto ERROR
-dir *.dll
 @if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     ..\sn.exe -q -Vr PABCRtl.dll                  2>&1 || goto ERROR
     ..\sn.exe -q -R  PABCRtl.dll KeyPair.snk      2>&1 || goto ERROR
@@ -137,17 +136,18 @@ TestRunner.exe                              2>&1 || goto ERROR
 @echo +======================================================================== Step 9/16 ===+
 @echo !  Preparing Pascal bundled code samples and library sources for packaging:            !
 @echo +======================================================================================+
+@echo.
 @rem @cd /d "%project_root%\ReleaseGenerators"        2>&1 || goto ERROR
 @cd ..\ReleaseGenerators                              2>&1 || goto ERROR
 :: ToDo: Where's better to keep \LibSource: inside \ReleaseGenerators or \bin dir?
-@rmdir /S /Q LibSource                                2>&1
+@rmdir /S /Q LibSource                           >nul 2>&1
 @if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     xcopy /I /Q /Y ..\bin\Lib\*.pas LibSource         2>&1 || goto ERROR
     mklink /D Samples\Pas ..\..\InstallerSamples >nul 2>&1 || goto ERROR
 ) else (
     xcopy /I /L /Y ..\bin\Lib\*.pas LibSource         2>&1 || goto ERROR
     mklink /D Samples\Pas ..\..\InstallerSamples      2>&1 || goto ERROR)
-@echo. & echo [INFO] Done (#9).
+@echo. & echo [INFO] Done (#9) -- \LibSource and \Samples ready.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 10/16 ==+
@@ -172,6 +172,7 @@ rename bin\ bin2  2>&1 || goto ERROR
 @echo +======================================================================== Step 12/16 ==+
 @echo !  Making new isolated \bin directory from saved \bin_copy and fresh PABCRtl.dll       !
 @echo +======================================================================================+
+@echo.
 @rem @cd /d "%project_root%"
 rename bin_copy\ bin                          2>&1 || goto ERROR
 @if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
@@ -187,8 +188,9 @@ rename bin_copy\ bin                          2>&1 || goto ERROR
 @echo +======================================================================== Step 13/16 ==+
 @echo !  Re-Building project using .NET 4.0 as target (for WinXP compatibility):             !
 @echo +======================================================================================+
+@echo.
 @rem @cd /d "%project_root%"
-@echo [INFO] Calling Studio.bat script... & echo.
+@echo [INFO] Calling Studio.bat script...
 call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET_40.sln 2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#13).
 
@@ -196,8 +198,8 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
 @echo +======================================================================== Step 14/16 ==+
 @echo !  Re-Building Pascal standard units (for WinXP):                                      !
 @echo +======================================================================================+
-@echo. & echo [INFO] *** Skipping -- Will use prebuilt units and dll from step #12
 :: ToDo: Is it really necessary to rebuild Pascal standard units again for use with .NET 4.0?
+@echo. & echo [INFO] *** Skipping -- Will use prebuilt units and dll from step #12
 @goto SKIP14
 @rem @cd /d "%project_root%\ReleaseGenerators"                                           2>&1 || goto ERROR
 @cd ReleaseGenerators                                                                    2>&1 || goto ERROR
@@ -214,8 +216,10 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
 @echo +======================================================================== Step 15/16 ==+
 @echo !  Generating WinXP compatible installer:                                              !
 @echo +======================================================================================+
+@echo.
 @rem @cd /d "%project_root%\ReleaseGenerators" 2>&1 || goto ERROR
-@echo [INFO] Calling PascalABCNETWithDotNet40.bat script... & echo.
+@echo. & @echo [INFO] Calling PascalABCNETWithDotNet40.bat script... & echo.
+dir *.bat
 call PascalABCNETWithDotNet40.bat  2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#15).
 
@@ -234,7 +238,7 @@ rmdir /S /Q ReleaseGenerators\Samples\Pas 2>&1 || goto ERROR
 
 popd
 @echo. & echo [%~nx0]
-@echo ############################## CI SCRIPT FINISHED ######################################
+@echo ############################ MAIN SCRIPT FINISHED ######################################
 @echo.
 @goto :EOF
 
@@ -245,7 +249,7 @@ popd
     :: If desired, uncomment next line to always restore Win7+ compatible binaries (if they were compiled at all) to \bin dir in case of any error
     @if exist "%project_root%\bin2" (
         rmdir /S /Q "%project_root%\bin"                        1>nul 2>&1 && ^
-        move "%project_root%\bin2" "%project_root%\bin"         1>nul 2>&1)
+        move /Y "%project_root%\bin2" "%project_root%\bin"      1>nul 2>&1)
     @rmdir /S /Q "%project_root%\bin_copy"                      1>nul 2>&1
     @rmdir /S /Q "%project_root%\ReleaseGenerators\LibSource"   1>nul 2>&1
     @rmdir /S /Q "%project_root%\ReleaseGenerators\Samples\Pas" 1>nul 2>&1

@@ -8,7 +8,7 @@ if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     "..\utils\NSIS\Unicode\makensis.exe" /V0 PascalABCNETWithDotNet40.nsi 2>&1 || goto ERROR
 ) else (
     "..\utils\NSIS\Unicode\makensis.exe" /V4 PascalABCNETWithDotNet40.nsi 2>&1 || goto ERROR)
-@echo. & echo Done -- WinXP (.NET 4.0) installer ready.
+@echo. & echo [INFO] Done -- FULL installer for WinXP (.NET 4.0) ready.
 
 popd
 @echo. & echo [%~nx0] ------ SCRIPT FINISHED ------ & echo.
