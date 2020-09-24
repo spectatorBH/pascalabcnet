@@ -1,5 +1,4 @@
 @echo off
-echo. & echo [%~nx0] ------ SCRIPT STARTED ------- & echo.
 SETLOCAL EnableExtensions
 
 if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
@@ -37,8 +36,7 @@ if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\MSBuild\15.
 	exit /b 2017
 )
 
-echo. & echo [INFO] Project build successfully completed (C# part).
-echo. & echo [%~nx0] ------ SCRIPT FINISHED ------ & echo.
+echo. & echo [%~nx0] Project build successfully completed (C# part).
 goto :EOF
 
 :BUILD_FAILED
