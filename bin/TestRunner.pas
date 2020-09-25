@@ -376,7 +376,6 @@ begin
     Halt
   end;
   
-  var wasException: boolean := False;
   try
     TestSuiteDir := GetTestSuiteDir;
     System.Environment.CurrentDirectory := Path.GetDirectoryName(GetEXEFileName());
@@ -489,11 +488,12 @@ begin
     end;
   except
     on e: Exception do
-      //assert(false, e.ToString());
-      wasException := True;
-      Console.Error.WriteLine(NewLine + $'***ERROR: {e.ToString()}');
+      begin
+        //assert(false, e.ToString());
+        Console.Error.WriteLine(NewLine + $'***ERROR: {e.ToString()}');
+        Halt(1);
+      end;
   end;
-  if wasException then Halt(1);
   if ParamCount = 0 then
   begin
     writeln;
