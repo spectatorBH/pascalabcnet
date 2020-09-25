@@ -490,6 +490,7 @@ begin
     on e: Exception do
       //assert(false, e.ToString());
       Console.Error.WriteLine(NewLine + $'***ERROR: {e.ToString()}');
+      Halt(1)
   end;
   if ParamCount = 0 then
   begin
