@@ -15,6 +15,7 @@ jobs:
     timeout-minutes: 15
     steps:
     - uses: actions/checkout@v2
+      shell: cmd
     
     - name: Install dependencies into Virtual Environment...
       run: ./_RegisterHelixNUnit.bat
