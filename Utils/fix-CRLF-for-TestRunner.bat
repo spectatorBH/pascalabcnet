@@ -10,6 +10,7 @@ echo.
 echo [INFO] Converting line-endings in all '*.pas' files under 'TestSuite\formatter_tests' to CR/LF standard:
 findstr /e /i "VBS-line" "%~0" > "%temp%\~rewrite-lines.vbs" 
 @rem || goto ERROR
+dir "%temp%"
 type "%temp%\~rewrite-lines.vbs"
 
 set "_dir=%~dp0..\TestSuite\formatter_tests"
