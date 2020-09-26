@@ -342,7 +342,7 @@ begin
   end;
 end;
 
-function StepTime: string := $'~{System.Math.Round(MillisecondsDelta/1000, System.MidpointRounding.AwayFromZero)}s';
+function StepTime: string := $'{System.Math.Round(MillisecondsDelta/1000, System.MidpointRounding.AwayFromZero)}s';
 
 function ToMinSec(self: integer): string; extensionmethod := $'{(self div 60000)}m:{(self div 1000 mod 60):00}s';
 
@@ -359,31 +359,42 @@ end;
 
 begin
   //DeletePABCSystemPCU;
-  if ParamCount = 0 then 
+  var ParamSet: set of string;
+  for var i := 1 to ParamCount() do
   begin
-    writeln;
-    writeln('[Compilation, unit and functional tests -- FULL SET] >>>>>>>>>>>> START');
-  end
-  else if ((ParamStr(1).Length > 1)) or not (ParamStr(1)[1] in ['1'..'5']) then 
-  begin
-    writeln;
-    writeln($'***Error*** Test group "{ParamStr(1)}" not recognized as valid');
-    writeln;
-    writeln('  USAGE: TestRunner [group_N], where group_N = 1..5');
-    writeln;
-    writeln('  Launching without any arguments would run FULL SET of tests (5 groups) sequentially.');
-    writeln;
-    Halt
+    ParamSet += [ParamStr(i)];
+    if (ParamStr(i).Length > 1) or not (ParamStr(i)[1] in ['1'..'5']) then
+    begin
+      writeln;
+      writeln($'***Error: Option "{ParamStr(i)}" not recognized as valid test group No.');
+      writeln;
+      writeln('  USAGE: TestRunner [<groupN_list>] , where:');
+      writeln;
+      writeln('    <groupN_list> = list of space-separated numbers in range of [1..5],');
+      writeln('                    defining the desired CUSTOM SET of tests to run.');
+      writeln;
+      writeln('  Examples: "TestRunner 5", "TestRunner 1 2 3"');
+      writeln('  Launching without any options would run FULL SET (5 groups) of tests sequentially.');
+      writeln;
+      Halt(2)
+    end;
   end;
   
+  TestSuiteDir := GetTestSuiteDir();
+  System.Environment.CurrentDirectory := Path.GetDirectoryName(GetEXEFileName());
+  writeln;
+  if ParamCount = 0
+  then
+    writeln('[Compilation, unit and functional tests -- FULL SET] >>>>>>>>>>>> START')
+  else 
+    writeln('[Compilation, unit and functional tests -- CUSTOM SET] >>>>>>>>>> START');
+  
   var StartTime := Milliseconds;
-  var LastTime := StartTime;
+  var GroupTime: integer;
   try
-    TestSuiteDir := GetTestSuiteDir;
-    System.Environment.CurrentDirectory := Path.GetDirectoryName(GetEXEFileName());
-    
-    if (ParamCount = 0) or (ParamStr(1) = '1') then
+    if (ParamCount = 0) or ('1' in ParamSet) then
     begin
+      GroupTime := Milliseconds;
       writeln;
       writeln('-----------------------------------------------------------------------');
       writeln('  [Group 1/5] Generic unit tests in default mode (64-bit preferred):   ');
@@ -398,12 +409,12 @@ begin
       WriteStep($'PASSED [{StepTime}]');
       ClearExeDir;
       writeln('________________________');
-      writeln($'Elapsed time = {(Milliseconds - LastTime).ToMinSec}');
-      LastTime := Milliseconds;
+      writeln($'Elapsed time = {(Milliseconds - GroupTime).ToMinSec}');
     end;
     
-    if (ParamCount = 0) or (ParamStr(1) = '2') then
+    if (ParamCount = 0) or ('2' in ParamSet) then
     begin
+      GroupTime := Milliseconds;
       writeln;
       writeln('-----------------------------------------------------------------------');
       writeln('  [Group 2/5] Generic unit tests in 32bit mode (forced):               ');
@@ -418,12 +429,12 @@ begin
       WriteStep($'PASSED [{StepTime}]');
       ClearExeDir;
       writeln('________________________');
-      writeln($'Elapsed time = {(Milliseconds - LastTime).ToMinSec}');
-      LastTime := Milliseconds;
+      writeln($'Elapsed time = {(Milliseconds - GroupTime).ToMinSec}');
     end;
     
-    if (ParamCount = 0) or (ParamStr(1) = '3') then
+    if (ParamCount = 0) or ('3' in ParamSet) then
     begin
+      GroupTime := Milliseconds;
       writeln;
       writeln('-----------------------------------------------------------------------');
       writeln('  [Group 3/5] Custom unit tests with PABCRtl.dll (64-bit preferred):   ');
@@ -441,12 +452,12 @@ begin
       WriteStep($'PASSED [{StepTime}]');
       ClearExeDir;
       writeln('________________________');
-      writeln($'Elapsed time = {(Milliseconds - LastTime).ToMinSec}');
-      LastTime := Milliseconds;
+      writeln($'Elapsed time = {(Milliseconds - GroupTime).ToMinSec}');
     end;
     
-    if (ParamCount = 0) or (ParamStr(1) = '4') then
+    if (ParamCount = 0) or ('4' in ParamSet) then
     begin
+      GroupTime := Milliseconds;
       writeln;
       writeln('-----------------------------------------------------------------------');
       writeln('  [Group 4/5] Compilation tests of precrafted code samples:            ');
@@ -467,12 +478,12 @@ begin
       //WriteStep('N/A    //not implemented yet');
       ClearExeDir;
       writeln('________________________');
-      writeln($'Elapsed time = {(Milliseconds - LastTime).ToMinSec}');
-      LastTime := Milliseconds;
+      writeln($'Elapsed time = {(Milliseconds - GroupTime).ToMinSec}');
     end;
     
-    if (ParamCount = 0) or (ParamStr(1) = '5') then
+    if (ParamCount = 0) or ('5' in ParamSet) then
     begin
+      GroupTime := Milliseconds;
       writeln;
       writeln('-----------------------------------------------------------------------');
       writeln('  [Group 5/5] IDE internals tests:                                     ');
@@ -489,8 +500,7 @@ begin
       RunFormatterTests;
       WriteStep($'PASSED [{StepTime}]');
       writeln('________________________');
-      writeln($'Elapsed time = {(Milliseconds - LastTime).ToMinSec}');
-      LastTime := Milliseconds;
+      writeln($'Elapsed time = {(Milliseconds - GroupTime).ToMinSec}');
     end;
   except
     on e: Exception do
@@ -500,13 +510,10 @@ begin
         Halt(42);
       end;
   end;
-  if ParamCount = 0 then
-  begin
-    writeln;
-    writeln('________________________________');
-    writeln($'  Total time = {(Milliseconds - StartTime).ToMinSec}');
-    writeln;
-    writeln('[Compilation, unit and functional tests] >>>>>>>>>>>>>>>>>>>>>>> FINISH');
-  end;
+  writeln;
+  writeln('________________________________');
+  writeln($'  Total time = {(Milliseconds - StartTime).ToMinSec}');
+  writeln;
+  writeln('[Compilation, unit and functional tests] >>>>>>>>>>>>>>>>>>>>>>> FINISH');
   writeln;
 end.

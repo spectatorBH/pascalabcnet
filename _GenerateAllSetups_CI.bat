@@ -123,9 +123,9 @@ cd /d "%project_root%\ReleaseGenerators"                                        
 cd /d "%project_root%\bin"                  2>&1 || goto ERROR
 :: DEBUG: fixing CR/LF line-endings for *.pas files in \TestSuite\formatter_tests (useful only in GitHub VM sessions)
 :: https://github.com/pascalabcnet/pascalabcnetide/issues/196
-@rem if defined %GITHUB_ACTIONS% (
-@rem     echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for IDE bug #196...
-@rem     call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto ERROR)
+if defined %GITHUB_ACTIONS% (
+    echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for IDE bug #196...
+    call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto ERROR)
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
 @echo [INFO] Compiling fresh TestRunner.pas...
