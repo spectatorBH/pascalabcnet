@@ -2,7 +2,7 @@
 ::#  Written by spectatorBH for PascalABC.NET project. Published as public domain, Sep-2020  #
 ::============================================================================================
 ::
-@echo off
+echo off
 SETLOCAL
 echo.
 echo [%~nx0] ------ SCRIPT STARTED -------
