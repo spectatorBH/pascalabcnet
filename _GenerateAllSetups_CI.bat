@@ -132,7 +132,7 @@ if defined GITHUB_ACTIONS (
 @echo [INFO] Compiling fresh TestRunner_orig.pas...
 pabcnetcclear /Debug:0 TestRunner_orig.pas       2>&1 || goto ERROR
 @echo [INFO] Launching TestRunner_orig.exe...
-TestRunner_orig.exe                              2>&1 || goto ERROR
+TestRunner_orig.exe 6                             2>&1 || goto ERROR
 @echo. & echo [INFO] Done #8 -- All tests successfully accomplished.
 :SKIP8
 
