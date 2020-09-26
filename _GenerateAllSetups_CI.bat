@@ -123,16 +123,16 @@ cd /d "%project_root%\ReleaseGenerators"                                        
 cd /d "%project_root%\bin"                  2>&1 || goto ERROR
 :: DEBUG: fixing CR/LF line-endings for *.pas files in \TestSuite\formatter_tests (useful only in GitHub VM sessions)
 :: https://github.com/pascalabcnet/pascalabcnetide/issues/196
-set GITHUB_
-if defined %GITHUB_ACTIONS% (
+@rem set GITHUB_
+if defined GITHUB_ACTIONS (
     echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for IDE bug #196...
     call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto ERROR)
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
-@rem @echo [INFO] Compiling fresh TestRunner.pas...
-@rem pabcnetcclear /Debug:0 TestRunner.pas       2>&1 || goto ERROR
-@echo [INFO] Launching TestRunner.exe...
-TestRunner.exe                              2>&1 || goto ERROR
+@echo [INFO] Compiling fresh TestRunner_orig.pas...
+pabcnetcclear /Debug:0 TestRunner_orig.pas       2>&1 || goto ERROR
+@echo [INFO] Launching TestRunner_orig.exe...
+TestRunner_orig.exe                              2>&1 || goto ERROR
 @echo. & echo [INFO] Done #8 -- All tests successfully accomplished.
 :SKIP8
 
