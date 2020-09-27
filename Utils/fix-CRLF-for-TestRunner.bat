@@ -8,7 +8,7 @@ echo.
 echo [%~nx0] ------ SCRIPT STARTED -------
 echo.
 echo [INFO] Converting line-endings in all '*.pas' files under 'TestSuite\formatter_tests' to CR/LF standard:
-findstr /e /i "VBS-line" "%~0" 
+findstr /e /i "VBS-line" "%~f0" 
 @rem > "%temp%\~rewrite-lines.vbs" || goto ERROR
 @rem set _err_code=%ERRORLEVEL% & echo ERRORLEVEL = %ERRORLEVEL%
 @rem dir "%temp%"
