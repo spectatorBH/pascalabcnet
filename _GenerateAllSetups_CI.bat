@@ -119,8 +119,8 @@ cd /d "%project_root%\ReleaseGenerators"                                        
 @echo !  Performing compilation, unit and functional tests:                                  !
 @echo +======================================================================================+
 @if /i {%PABCNET_RUN_TESTS%} NEQ {true} (echo. & echo [INFO] *** Skipping -- Tests will NOT be run... & goto SKIP8)
-@rem cd ..\bin                              2>&1 || goto ERROR
-cd /d "%project_root%\bin"                  2>&1 || goto ERROR
+@rem cd ..\bin                     2>&1 || goto ERROR
+cd /d "%project_root%\bin"         2>&1 || goto ERROR
 :: DEBUG: fixing CR/LF line-endings for *.pas files in \TestSuite\formatter_tests (useful only in GitHub VM sessions)
 :: https://github.com/pascalabcnet/pascalabcnetide/issues/196
 @rem set GITHUB_
@@ -129,11 +129,16 @@ cd /d "%project_root%\bin"                  2>&1 || goto ERROR
 @rem     call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto ERROR)
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
+@echo [INFO] Compiling fresh TestRunner_orig.pas...
+pabcnetcclear TestRunner_orig.pas  2>&1 || goto ERROR
+@echo [INFO] Launching TestRunner_orig.exe...
+TestRunner_orig.exe 6              2>&1 || goto ERROR
+@rem TestRunner_orig.exe                2>&1 || goto ERROR
 @echo [INFO] Compiling fresh TestRunner.pas...
-pabcnetcclear /Debug:0 TestRunner.pas       2>&1 || goto ERROR
+pabcnetcclear TestRunner.pas       2>&1 || goto ERROR
 @echo [INFO] Launching TestRunner.exe...
-@rem TestRunner.exe 5                             2>&1 || goto ERROR
-TestRunner.exe                              2>&1 || goto ERROR
+TestRunner.exe 5                   2>&1 || goto ERROR
+@rem TestRunner.exe                     2>&1 || goto ERROR
 @echo. & echo [INFO] Done #8 -- All tests successfully accomplished.
 :SKIP8
 
