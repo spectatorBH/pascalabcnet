@@ -132,8 +132,8 @@ cd /d "%project_root%\bin"                  2>&1 || goto ERROR
 @echo [INFO] Compiling fresh TestRunner.pas...
 pabcnetcclear /Debug:0 TestRunner.pas       2>&1 || goto ERROR
 @echo [INFO] Launching TestRunner.exe...
-TestRunner.exe 5                              2>&1 || goto ERROR
-TestRunner.exe 1 2 3 4                        2>&1 || goto ERROR
+@rem TestRunner.exe 5                             2>&1 || goto ERROR
+TestRunner.exe                              2>&1 || goto ERROR
 @echo. & echo [INFO] Done #8 -- All tests successfully accomplished.
 :SKIP8
 
