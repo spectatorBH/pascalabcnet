@@ -33,7 +33,7 @@ jobs:
 
     - name: Build project in Debug-mode, compile Pas-units, run tests, create install packages...
       env: 
-        PABCNET_BUILD_MODE: Debug
+        PABCNET_BUILD_MODE: Release
         PABCNET_RUN_TESTS: true
         PABCNET_INC_BUILD: false
         PABCNET_VERBOSE: true
