@@ -139,7 +139,7 @@ pabcnetcclear TestRunner.pas       2>&1 || goto ERROR
 @echo [INFO] Launching TestRunner.exe...
 TestRunner.exe 5                   2>&1 || goto ERROR
 @rem TestRunner.exe                     2>&1 || goto ERROR
-@if /i {%PABCNET_NOT_VERBOSE%} NEQ {true} type TestRunner_verbose.log
+@if /i {%PABCNET_NOT_VERBOSE%} NEQ {true} type TestRunner_log.txt
 @echo. & echo [INFO] Done #8 -- All tests successfully accomplished.
 :SKIP8
 
