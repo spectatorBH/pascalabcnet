@@ -1,4 +1,4 @@
-@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} echo OFF
+@if /i {%PABCNET_VERBOSE%} NEQ {true} echo OFF
 @SETLOCAL
 pushd "%~dp0\..\bin" 2>&1 || goto ERROR
 
@@ -11,7 +11,7 @@ mklink ..\doc\PascalABCNET.chm ..\bin\PascalABCNET.chm 2>&1 || goto ERROR
 
 @echo [%~nx0] Putting pre-selected set of files into zip-package...
 @del /Q ..\Release\PascalABCNETMono.zip  >nul 2>&1
-if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+if /i {%PABCNET_VERBOSE%} NEQ {true} (
     ..\utils\7zip\7za.exe a -mx8 -sse -bse1 -bd -sccUTF-8 ..\Release\PascalABCNETMono.zip -ir0@..\ReleaseGenerators\files2zip_mono.txt -i!LibSource\*.pas 2>&1 || goto ERROR
 ) else (
     ..\utils\7zip\7za.exe a -mx8 -sse -bse1 -bb -sccUTF-8 ..\Release\PascalABCNETMono.zip -ir0@..\ReleaseGenerators\files2zip_mono.txt -i!LibSource\*.pas 2>&1 || goto ERROR)

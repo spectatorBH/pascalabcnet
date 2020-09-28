@@ -368,7 +368,6 @@ begin
     end;
     if (ParamCount = 0) or (ParamStr(1) = '5') then
     begin
-      
         CompileAllRunTests(false, true);
         writeln('Tests in 32bit mode compiled successfully');
         RunAllTests(false);
@@ -393,9 +392,7 @@ begin
   except
     on e: Exception do
     begin
-      //assert(false, e.ToString());
-      Console.Error.WriteLine(NewLine + $'***EXCEPTION: {e.ToString()} + NewLine + {e.Message}');
-      Halt(42);
+      assert(false, e.ToString());
     end;
   end;
 end.

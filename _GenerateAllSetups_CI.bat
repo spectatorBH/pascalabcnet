@@ -1,7 +1,7 @@
 @echo. & echo [%~nx0]
 @echo ############################ MAIN SCRIPT STARTED #######################################
 @SETLOCAL EnableExtensions
-@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} echo OFF
+@if /i {%PABCNET_VERBOSE%} NEQ {true} echo OFF
 @if /i {%PABCNET_BUILD_MODE%} EQU {Release} (set "_BUILD_MODE=Release") else (set "_BUILD_MODE=Debug")
 @if /i {%~1} EQU {Release} (set "_BUILD_MODE=Release")
 @if /i {%~1} EQU {Debug}   (set "_BUILD_MODE=Debug")
@@ -34,7 +34,7 @@ utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs Configuration
 @echo.
 cd /d "%project_root%"
 @rmdir /S /Q bin_copy         >nul 2>&1
-@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+@if /i {%PABCNET_VERBOSE%} NEQ {true} (
     xcopy /I /E /Q /Y bin bin_copy 2>&1 || goto ERROR
 ) else (
     xcopy /I /E /F /Y bin bin_copy 2>&1 || goto ERROR)
@@ -67,10 +67,10 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
 @echo +======================================================================================+
 @rem cd ReleaseGenerators\PABCRtl                                            2>&1 || goto ERROR
 cd /d "%project_root%\ReleaseGenerators\PABCRtl"                             2>&1 || goto ERROR
-if /i {%_BUILD_MODE%} EQU {Release} (echo. & if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+if /i {%_BUILD_MODE%} EQU {Release} (echo. & if /i {%PABCNET_VERBOSE%} NEQ {true} (
             ..\..\bin\pabcnetc PABCRtl.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto ERROR
     ) else (..\..\bin\pabcnetc PABCRtl.pas /rebuildnodebug /noconsole        2>&1 || goto ERROR)
-) else (echo. & if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+) else (echo. & if /i {%PABCNET_VERBOSE%} NEQ {true} (
             ..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole         1>nul 2>&1 || goto ERROR
     ) else (..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole               2>&1 || goto ERROR))
 @echo. & dir | find "PABCRtl.dll"
@@ -83,7 +83,7 @@ if /i {%_BUILD_MODE%} EQU {Release} (echo. & if /i {%PABCNET_NOT_VERBOSE%} EQU {
 @echo +======================================================================================+
 @echo.
 cd /d "%project_root%\ReleaseGenerators\PABCRtl"  2>&1 || goto ERROR
-@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+@if /i {%PABCNET_VERBOSE%} NEQ {true} (
     ..\sn.exe -q -Vr PABCRtl.dll                  2>&1 || goto ERROR
     ..\sn.exe -q -R  PABCRtl.dll KeyPair.snk      2>&1 || goto ERROR
     ..\sn.exe -q -Vu PABCRtl.dll                  2>&1 || goto ERROR
@@ -106,10 +106,10 @@ gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll  2>&1 || goto ERROR
 @echo !  Building all Pascal standard units:                                                 !
 @echo +======================================================================================+
 cd /d "%project_root%\ReleaseGenerators"                                                 2>&1 || goto ERROR
-@if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+@if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_VERBOSE%} NEQ {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto ERROR
     ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole        2>&1 || goto ERROR)
-) else (if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+) else (if /i {%PABCNET_VERBOSE%} NEQ {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole         1>nul 2>&1 || goto ERROR
     ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole               2>&1 || goto ERROR))
 @echo. & echo [INFO] Done #7 -- Standard units successfully built.
@@ -129,16 +129,17 @@ cd /d "%project_root%\bin"         2>&1 || goto ERROR
 @rem     call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto ERROR)
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
-@echo [INFO] Compiling fresh TestRunner_orig.pas...
-pabcnetcclear TestRunner_orig.pas  2>&1 || goto ERROR
-@echo [INFO] Launching TestRunner_orig.exe...
-TestRunner_orig.exe 6              2>&1 || goto ERROR
+@rem @echo [INFO] Compiling fresh TestRunner_orig.pas...
+@rem pabcnetcclear TestRunner_orig.pas  2>&1 || goto ERROR
+@rem @echo [INFO] Launching TestRunner_orig.exe...
+@rem TestRunner_orig.exe 6              2>&1 || goto ERROR
 @rem TestRunner_orig.exe                2>&1 || goto ERROR
 @echo [INFO] Compiling fresh TestRunner.pas...
 pabcnetcclear TestRunner.pas       2>&1 || goto ERROR
 @echo [INFO] Launching TestRunner.exe...
 TestRunner.exe 5                   2>&1 || goto ERROR
 @rem TestRunner.exe                     2>&1 || goto ERROR
+@if /i {%PABCNET_NOT_VERBOSE%} NEQ {true} type TestRunner_verbose.log
 @echo. & echo [INFO] Done #8 -- All tests successfully accomplished.
 :SKIP8
 
@@ -150,7 +151,7 @@ TestRunner.exe 5                   2>&1 || goto ERROR
 @rem cd ..\ReleaseGenerators                          2>&1 || goto ERROR
 cd /d "%project_root%\ReleaseGenerators"              2>&1 || goto ERROR
 @rmdir /S /Q LibSource                           >nul 2>&1
-@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+@if /i {%PABCNET_VERBOSE%} NEQ {true} (
     xcopy /I /Q /Y ..\bin\Lib\*.pas LibSource         2>&1 || goto ERROR
     mklink /D Samples\Pas ..\..\InstallerSamples >nul 2>&1 || goto ERROR
 ) else (
@@ -185,7 +186,7 @@ rename bin\ bin2        2>&1 || goto ERROR
 cd /d "%project_root%"
 rename bin_copy\ bin                          2>&1 || goto ERROR
 :: ToDo: Is it really necessary to rebuild Pascal standard units again for use with .NET 4.0? (see step 14)
-@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+@if /i {%PABCNET_VERBOSE%} NEQ {true} (
     xcopy /Q /Y bin2\Lib\*.pcu bin\Lib\       2>&1 || goto ERROR
     xcopy /Q /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto ERROR
 ) else (
@@ -211,10 +212,10 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
 @goto SKIP14
 cd /d "%project_root%\ReleaseGenerators"                                                2>&1 || goto ERROR
 cd ReleaseGenerators                                                                    2>&1 || goto ERROR
-@if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+@if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_VERBOSE%} NEQ {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole  >nul 2>&1 || goto ERROR
     ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole       2>&1 || goto ERROR)
-) else (if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+) else (if /i {%PABCNET_VERBOSE%} NEQ {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole         >nul 2>&1 || goto ERROR
     ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole              2>&1 || goto ERROR))
 @echo. & echo [INFO] Done #14 -- Standard units successfully re-built.
