@@ -81,7 +81,7 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=Release" "/p:Platform=Any CPU" P
 copy /Y PABCRtl.dll ..\..\bin\Lib\                   2>&1 || goto :ERROR
 @echo [INFO] PABCRtl.dll copied to \bin\Lib
 :: DEBUG: Saving a copy of PABCRtl.dll for retrieval as artifact later
-@rem copy /Y PABCRtl.dll ..\..\Release\                   2>&1 || goto :ERROR
+copy /Y PABCRtl.dll ..\..\Release\                   2>&1 || goto :ERROR
 @cd ..
 gacutil.exe /nologo /u PABCRtl                1>nul 2>nul || goto :ERROR
 gacutil.exe /f /i ..\bin\Lib\PABCRtl.dll             2>&1 || goto :ERROR
@@ -113,16 +113,16 @@ gacutil.exe /f /i ..\bin\Lib\PABCRtl.dll             2>&1 || goto :ERROR
 call ..\Utils\fix-CRLF-for-TestRunner.bat  || goto :ERROR
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or job refactoring within GitHub Actions?);
-@echo Compiling TestRunner.pas...
+@echo [INFO] Compiling TestRunner.pas...
 @rem pabcnetc TestRunner.pas /noconsole 2>&1 || goto :ERROR
 pabcnetcclear /Debug:0 TestRunner.pas 2>&1 || goto :ERROR
 @echo [INFO] Launching TestRunner.exe...& echo.
-TestRunner.exe 3                      2>&1 || goto :ERROR
-TestRunner.exe 1                      2>&1 || goto :ERROR
-TestRunner.exe 2                      2>&1 || goto :ERROR
-TestRunner.exe 4                      2>&1 || goto :ERROR
-TestRunner.exe 5                      2>&1 || goto :ERROR
-@rem TestRunner.exe                   2>&1 || goto :ERROR
+@rem TestRunner.exe 3                      2>&1 || goto :ERROR
+@rem TestRunner.exe 1                      2>&1 || goto :ERROR
+@rem TestRunner.exe 2                      2>&1 || goto :ERROR
+@rem TestRunner.exe 4                      2>&1 || goto :ERROR
+@rem TestRunner.exe 5                      2>&1 || goto :ERROR
+TestRunner.exe                   2>&1 || goto :ERROR
 :SKIP8
 
 @echo. & echo [%~nx0]
