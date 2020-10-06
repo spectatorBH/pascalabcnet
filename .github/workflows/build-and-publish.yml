@@ -32,31 +32,35 @@ jobs:
       run: ./_GenerateAllSetups_CI.bat
 
     - name: Publish artifacts (1/4)...
-      uses: actions/upload-artifact@v2.1.0
+      uses: actions/upload-artifact@v2
       with:
         name: PascalABCNET_Win7_IDE_Full
         path: Release/PascalABCNETSetup.exe
 
     - name: Publish artifacts (2/4)...
-      uses: actions/upload-artifact@v2.1.0
+      uses: actions/upload-artifact@v2
       with:
         name: PascalABCNET_Win7_IDE_Mini
         path: Release/PascalABCNETMiniSetup.exe
 
     - name: Publish artifacts (3/4)...
-      uses: actions/upload-artifact@v2.1.0
+      uses: actions/upload-artifact@v2
       with:
         name: PascalABCNET_WinXP_IDE_Full
         path: Release/PascalABCNETWithDotNet40Setup.exe
 
     - name: Publish artifacts (4/4)...
-      uses: actions/upload-artifact@v2.1.0
+      uses: actions/upload-artifact@v2
       with:
         name: PascalABCNET_Win_Mac_Linux_console
         path: Release/PABCNETC.zip
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> origin/HEAD
     #- name: Publish artifacts (5/5)...
-    #  uses: actions/upload-artifact@v2.1.0
+    #  uses: actions/upload-artifact@v2
     #  with:
     #    name: All_distros
     #    path: Release
