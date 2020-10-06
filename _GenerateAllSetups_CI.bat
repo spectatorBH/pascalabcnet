@@ -163,6 +163,7 @@ rename bin\ bin2  2>&1 || goto :ERROR
 rename bin_copy\ bin                  2>&1 || goto :ERROR
 @rem copy /Y bin2\Lib\*.pcu bin\Lib\  2>&1 || goto :ERROR
 copy /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto :ERROR
+@echo [INFO] PABCRtl.dll copied to \bin\Lib
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 13/16 ==+
@@ -185,7 +186,7 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=Release" "/p:Platform=Any CPU" P
 ) else (
     ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole        2>&1 || goto :ERROR)
 @rem ..\bin\pabcnetcclear /Debug:0 RebuildStandartModules.pas ..\bin\Temp        2>&1 || goto :ERROR
-@echo. & echo [%~nx0] Standard units successfully built.
+@echo [INFO] Standard units successfully built.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 15/16 ==+
