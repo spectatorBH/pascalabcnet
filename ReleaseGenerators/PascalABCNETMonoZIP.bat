@@ -1,4 +1,4 @@
-@if /i {%QUIET_MODE%} EQU {true} echo OFF
+@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} echo OFF
 @echo. & echo [%~nx0] ------ SCRIPT STARTED ------- & echo.
 @SETLOCAL
 pushd "%~dp0\..\bin" 2>&1 || goto ERROR
@@ -8,14 +8,14 @@ pushd "%~dp0\..\bin" 2>&1 || goto ERROR
 mklink /D LibSource Lib                                2>&1 || goto ERROR
 mklink /D Samples ..\ReleaseGenerators\Samples\Pas     2>&1 || goto ERROR
 mklink /D Doc ..\doc                                   2>&1 || goto ERROR
-:: ToDo: Where to better keep PascalABCNET.chm: under 'root' dir or inside \Doc folder?
+:: ToDo: Where's to better keep PascalABCNET.chm: under 'root' dir or inside \Doc folder?
 mklink ..\doc\PascalABCNET.chm ..\bin\PascalABCNET.chm 2>&1 || goto ERROR
 @echo. & echo [INFO] Done {#1}.
 
 @echo. & echo [%~nx0] --------- Step 2/3 ----------
-@echo [INFO] Putting pre-selected set of files into zip-package... & echo.
+@echo [INFO] Putting pre-selected set of files into zip-package...
 @del /Q ..\Release\PascalABCNETMono.zip 1>nul 2>&1
-if /i {%QUIET_MODE%} EQU {true} (
+if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     ..\utils\7zip\7za.exe a -mx8 -sse -bse1 -bd -sccUTF-8 ..\Release\PascalABCNETMono.zip -ir0@..\ReleaseGenerators\files2zip_mono.txt -i!LibSource\*.pas 2>&1 || goto ERROR
 ) else (
     ..\utils\7zip\7za.exe a -mx8 -sse -bse1 -bb -sccUTF-8 ..\Release\PascalABCNETMono.zip -ir0@..\ReleaseGenerators\files2zip_mono.txt -i!LibSource\*.pas 2>&1 || goto ERROR)

@@ -9,6 +9,7 @@
 :: Making sure batch file would run properly regardless of where it was launched from (due to usage of relative paths)
 @rem @SET launched_from=%CD%
 @rem @SET project_root=%~dp0
+@rem pushd "%project_root%"
 pushd "%~dp0"
 
 @echo. & echo [%~nx0]
@@ -121,13 +122,13 @@ gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll  2>&1 || goto ERROR
 @rem @cd /d "%project_root%\bin"            2>&1 || goto ERROR
 @cd ..\bin                                  2>&1 || goto ERROR
 :: DEBUG: fixing CR/LF line-endings for *.pas files in \TestSuite\formatter_tests
-@echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for bug... & echo.
+@echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for bug...
 call ..\Utils\fix-CRLF-for-TestRunner.bat        || goto ERROR
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
-@echo [INFO] Compiling fresh TestRunner.pas... & echo.
+@echo [INFO] Compiling fresh TestRunner.pas...
 pabcnetcclear /Debug:0 TestRunner.pas       2>&1 || goto ERROR
-@echo [INFO] Launching TestRunner.exe... & echo.
+@echo [INFO] Launching TestRunner.exe...
 TestRunner.exe                              2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#8) -- All tests successfully accomplished.
 :SKIP8
@@ -153,8 +154,9 @@ TestRunner.exe                              2>&1 || goto ERROR
 @echo +======================================================================== Step 10/16 ==+
 @echo !  Generating Win7+ compatible installers and packages (not for XP!):                  !
 @echo +======================================================================================+
+@echo.
 @rem @cd /d "%project_root%\ReleaseGenerators" 2>&1 || goto ERROR
-@echo [INFO] Calling PascalABCNET_ALL.bat script... & echo.
+@echo [INFO] Calling PascalABCNET_ALL.bat script...
 call PascalABCNET_ALL.bat  2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#10).
 
@@ -166,7 +168,7 @@ call PascalABCNET_ALL.bat  2>&1 || goto ERROR
 @cd .. >nul
 @rmdir /S /Q bin2 1>nul 2>&1
 rename bin\ bin2  2>&1 || goto ERROR
-@echo. & echo [INFO] Done (#11) -- Renamed \bin ==^> \bin2
+@echo. & echo [INFO] Done (#11) -- Renamed \bin to \bin2
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 12/16 ==+
@@ -175,14 +177,14 @@ rename bin\ bin2  2>&1 || goto ERROR
 @echo.
 @rem @cd /d "%project_root%"
 rename bin_copy\ bin                          2>&1 || goto ERROR
-@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
 :: ToDo: Is it really necessary to rebuild Pascal standard units again for use with .NET 4.0? (see step 14)
+@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     xcopy /Q /Y bin2\Lib\*.pcu bin\Lib\       2>&1 || goto ERROR
     xcopy /Q /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto ERROR
 ) else (
     xcopy /L /Y bin2\Lib\*.pcu bin\Lib\       2>&1 || goto ERROR
     xcopy /L /Y bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto ERROR)
-@echo. & echo [INFO] Done (#12) -- Renamed: \bin_copy ==^> \bin, Copied: prebuilt *.pcu modules + PABCRtl.dll ==^> \bin\Lib
+@echo. & echo [INFO] Done (#12) -- Renamed \bin_copy to \bin, copied prebuilt *.pcu modules + PABCRtl.dll to \bin\Lib
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 13/16 ==+
@@ -218,7 +220,8 @@ call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any 
 @echo +======================================================================================+
 @echo.
 @rem @cd /d "%project_root%\ReleaseGenerators" 2>&1 || goto ERROR
-@echo. & @echo [INFO] Calling PascalABCNETWithDotNet40.bat script... & echo.
+@cd ReleaseGenerators              2>&1 || goto ERROR
+@echo. & @echo [INFO] Calling PascalABCNETWithDotNet40.bat script...
 dir *.bat
 call PascalABCNETWithDotNet40.bat  2>&1 || goto ERROR
 @echo. & echo [INFO] Done (#15).
