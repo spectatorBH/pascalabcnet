@@ -436,7 +436,7 @@ begin
     end;
   end;
   
-  Log := new StreamWriter('TestRunner_verbose.log', false);
+  Log := new StreamWriter('TestRunner_log.txt', false);
   Log.WriteLine(DateTime.Now.ToString + NewLine);
   System.Environment.CurrentDirectory := Path.GetDirectoryName(GetEXEFileName());
   TestSuiteDir := GetTestSuiteDir();

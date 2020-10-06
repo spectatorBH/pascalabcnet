@@ -32,12 +32,16 @@ jobs:
       run: ./_RegisterHelixNUnit.bat
 
     - name: Build project in Debug-mode, compile Pas-units, run tests, create install packages...
+      timeout-minutes: 20
       env: 
         PABCNET_BUILD_MODE: Release
         PABCNET_RUN_TESTS: true
         PABCNET_INC_BUILD: false
         PABCNET_VERBOSE: true
       run: ./_GenerateAllSetups_CI.bat
+      
+    - name: TestRunner_log.txt...
+      run: type ./TestRunner_log.txt
 
     - name: Publish artifacts (1/4)...
       uses: actions/upload-artifact@v2.1.0
