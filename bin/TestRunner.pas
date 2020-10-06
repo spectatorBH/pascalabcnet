@@ -334,12 +334,12 @@ begin
   var pcu := Path.Combine(dir, 'PABCSystem.pcu');
 end;
 
-procedure CopyLibFiles;
+procedure CopyLibFiles(TestSubDir: string);
 begin
   var files := Directory.GetFiles(GetLibDir(), '*.pas');
   foreach f: string in files do
   begin
-    &File.Copy(f, TestSuiteDir + PathSeparator + 'CompilationSamples' + PathSeparator + Path.GetFileName(f), true);
+    &File.Copy(f, Path.Combine(TestSuiteDir, TestSubDir, Path.GetFileName(f)), true);
   end;
 end;
 
@@ -406,7 +406,7 @@ begin
       writeln('  [Group 2/5] Generic unit tests in 32bit mode (forced):               ');
       writeln('-----------------------------------------------------------------------');
       DeletePCUFiles;
-      ClearExeDir;    //???
+      ClearExeDir;
       WriteStep('a) Compilation step', '-> ');
       CompileAllRunTests(false, true);        
       WriteStep('PASSED');
@@ -448,8 +448,8 @@ begin
       writeln('-----------------------------------------------------------------------');
       DeletePCUFiles;
       ClearExeDir;
-      CopyLibFiles;
       WriteStep('a) ERROR-FREE samples', '-> ');
+      CopyLibFiles('CompilationSamples');
       CompileAllCompilationTests('CompilationSamples', false);
       WriteStep('PASSED');
       WriteStep('b) ERROR samples ', '-> ');
@@ -479,6 +479,7 @@ begin
       RunIntellisenseTests;
       WriteStep('PASSED');
       WriteStep('c) Code Formatter', '-> ');
+      CopyLibFiles('formatter_tests\input');
       RunFormatterTests;
       WriteStep('PASSED');
       writeln('________________________');

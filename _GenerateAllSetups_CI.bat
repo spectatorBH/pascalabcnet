@@ -17,7 +17,7 @@ pushd "%project_root%"
 @echo !  Incrementing current Build No. (aka Revision) in various places:                    !
 @echo +======================================================================================+
 cd /d "%project_root%"
-@if /i {%PABCNET_INC_BUILD%} NEQ {true} (echo. & echo [INFO] *** Skipping -- No build/revision update & goto SKIP1)
+@if /i {%PABCNET_INC_BUILD%} NEQ {true} (echo. & echo [INFO] *** Skipping -- No build/revision update... & goto SKIP1)
 :: ToDo: fix filename spelling error for 'IncrementVresion.exe' -> 'IncrementVersion.exe';
 :: ToDo: implement reporting of processed files & basic error handling in the tools below:
 utils\IncrementVresion\IncrementVresion.exe Configuration\Version.defs REVISION 1                                                                             2>&1 || goto ERROR
@@ -118,7 +118,7 @@ cd /d "%project_root%\ReleaseGenerators"                                        
 @echo +======================================================================== Step 8/16 ===+
 @echo !  Performing compilation, unit and functional tests:                                  !
 @echo +======================================================================================+
-@if /i {%PABCNET_RUN_TESTS%} NEQ {true} (echo. & echo [INFO] *** Skipping -- Tests will not be run & goto SKIP8)
+@if /i {%PABCNET_RUN_TESTS%} NEQ {true} (echo. & echo [INFO] *** Skipping -- Tests will NOT be run... & goto SKIP8)
 @rem cd ..\bin                              2>&1 || goto ERROR
 cd /d "%project_root%\bin"                  2>&1 || goto ERROR
 :: DEBUG: fixing CR/LF line-endings for *.pas files in \TestSuite\formatter_tests (useful only in GitHub VM sessions)
@@ -128,8 +128,8 @@ cd /d "%project_root%\bin"                  2>&1 || goto ERROR
 @rem     call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto ERROR)
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
-@echo [INFO] Compiling fresh TestRunner.pas...
-pabcnetcclear /Debug:0 TestRunner.pas       2>&1 || goto ERROR
+@rem @echo [INFO] Compiling fresh TestRunner.pas...
+@rem pabcnetcclear /Debug:0 TestRunner.pas       2>&1 || goto ERROR
 @echo [INFO] Launching TestRunner.exe...
 TestRunner.exe                              2>&1 || goto ERROR
 @echo. & echo [INFO] Done #8 -- All tests successfully accomplished.
