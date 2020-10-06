@@ -463,8 +463,8 @@ begin
       CompileAllUsesUnits;
       CompileErrorTests(false);
       WriteStep('PASSED :: by failure, as expected');
-      WriteStep('c) DEMO (bundled) samples', '-> ');
-      WriteStep('N/A    :: not implemented yet');
+      //WriteStep('c) DEMO (bundled) samples', '-> ');
+      //WriteStep('N/A    :: not implemented yet');
       ClearExeDir;    //???
       writeln('________________________');
       writeln($'It took {MillisecondsDelta.ToMinSec}');
