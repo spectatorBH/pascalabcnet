@@ -392,8 +392,10 @@ begin
     end;
   except
     on e: Exception do
+    begin
       //assert(false, e.ToString());
       Console.Error.WriteLine(NewLine + $'***EXCEPTION: {e.ToString()} + NewLine + {e.Message}');
       Halt(42);
+    end;
   end;
 end.
