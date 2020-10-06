@@ -475,9 +475,9 @@ begin
       WriteStep('a) Intellisense (expressions)', '-> ');
       RunExpressionsExtractTests;
       WriteStep('PASSED');
-      WriteStep('b) Intellisense (other)', '-> ');
-      RunIntellisenseTests;
-      WriteStep('PASSED');
+      //WriteStep('b) Intellisense (other)', '-> ');
+      //RunIntellisenseTests;
+      //WriteStep('PASSED');
       WriteStep('c) Code Formatter', '-> ');
       CopyLibFiles('formatter_tests\input');
       RunFormatterTests;
