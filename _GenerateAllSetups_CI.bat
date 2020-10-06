@@ -128,8 +128,8 @@ if defined %GITHUB_ACTIONS% (
     call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto ERROR)
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
-@echo [INFO] Compiling fresh TestRunner.pas...
-pabcnetcclear /Debug:0 TestRunner.pas       2>&1 || goto ERROR
+@rem @echo [INFO] Compiling fresh TestRunner.pas...
+@rem pabcnetcclear /Debug:0 TestRunner.pas       2>&1 || goto ERROR
 @echo [INFO] Launching TestRunner.exe...
 TestRunner.exe                              2>&1 || goto ERROR
 @echo. & echo [INFO] Done #8 -- All tests successfully accomplished.
