@@ -54,11 +54,7 @@ jobs:
       with:
         name: PascalABCNET_Win_Mac_Linux_console
         path: Release/PABCNETC.zip
-<<<<<<< HEAD
 
-=======
-
->>>>>>> origin/HEAD
     #- name: Publish artifacts (5/5)...
     #  uses: actions/upload-artifact@v2
     #  with:
