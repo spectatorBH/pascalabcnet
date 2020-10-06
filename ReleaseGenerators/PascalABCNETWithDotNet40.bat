@@ -1,17 +1,15 @@
 @if /i {%PABCNET_NOT_VERBOSE%} EQU {true} echo OFF
-@echo. & echo [%~nx0] ------ SCRIPT STARTED ------- & echo.
 @SETLOCAL
 pushd "%~dp0"
 
-@echo. & echo [INFO] Creating STANDARD installer for WinXP with .NET 4.0 (incl. Programming Taskbook)... & echo.
+@echo [%~nx0] Creating FULL installer for WinXP (.NET 4.0)...& echo.
 if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     "..\utils\NSIS\Unicode\makensis.exe" /V0 PascalABCNETWithDotNet40.nsi 2>&1 || goto ERROR
 ) else (
     "..\utils\NSIS\Unicode\makensis.exe" /V4 PascalABCNETWithDotNet40.nsi 2>&1 || goto ERROR)
-@echo. & echo [INFO] Done -- FULL installer for WinXP (.NET 4.0) is in \Release dir.
+@echo. & echo [%~nx0] Done (in \Release).
 
 popd
-@echo. & echo [%~nx0] ------ SCRIPT FINISHED ------ & echo.
 @goto :EOF
 
 :ERROR

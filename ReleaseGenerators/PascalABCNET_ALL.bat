@@ -1,40 +1,32 @@
 @if /i {%PABCNET_NOT_VERBOSE%} EQU {true} echo OFF
-@echo. & echo [%~nx0] ------ SCRIPT STARTED ------- & echo.
 @SETLOCAL
 pushd "%~dp0"
 
 :: ToFix: fix filename spelling error for PascalABCNETStandar[d].nsi
-@echo. & echo [%~nx0] -------- Step #1/3 -----------
-@echo [INFO] Creating STANDARD multilingual (ENG/RUS/UKR) distro for Win7+ with .NET 4.7.1 (incl. Programming Taskbook)... & echo.
+@echo. & echo [%~nx0] Creating FULL installer for Win7+... & echo.
 if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     "..\utils\NSIS\Unicode\makensis.exe" /V0 PascalABCNETStandart.nsi 2>&1 || goto ERROR
 ) else (
     "..\utils\NSIS\Unicode\makensis.exe" /V4 PascalABCNETStandart.nsi 2>&1 || goto ERROR)
-@echo. & echo [INFO] Done #1/3 -- FULL installer for Win7+ is in \Release dir.
+@echo. & echo [%~nx0] Done (in \Release).
 
-@echo. & echo [%~nx0] -------- Step #2/3 -----------
-@echo [INFO] Creating MINI (RUS-only) distro for Win7+ with .NET 4.7.1 (w/o Programming Taskbook)... & echo.
+@echo. & echo [%~nx0] Creating MINI installer for Win7+... & echo.
 if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     "..\utils\NSIS\Unicode\makensis.exe" /V0 PascalABCNETMini.nsi 2>&1 || goto ERROR
 ) else (
     "..\utils\NSIS\Unicode\makensis.exe" /V4 PascalABCNETMini.nsi 2>&1 || goto ERROR)
-@echo. & echo [INFO] Done #2/3 -- MINI installer for Win7+ is in \Release dir.
+@echo. & echo [%~nx0] Done (in \Release).
 
-@echo. & echo [%~nx0] -------- Step #3/3 -----------
-@echo [INFO] Creating minimal CONSOLE distro (Mono-compatible):
-@echo. & echo [INFO] Calling PascalABCNETConsoleZIP.bat script...& echo.
+@echo. & echo [%~nx0] Creating CONSOLE zip-package for Win/Mac/Linux (Mono-compatible)...
 @call PascalABCNETConsoleZIP.bat 2>&1 || goto ERROR
-@echo. & echo [INFO] Done #3/3 -- Console zip-package for Win/Mac/Linux is in \Release dir.
+@echo. & echo [%~nx0] Done (in \Release).
 
 :: ToDo: Still incomplete and officially unsupported option?
-@rem @echo. & echo [%~nx0] -------- Step #4/4 -----------
-@rem @echo. & echo [INFO] Creating CUSTOM distro for use exclusively on Mono platform...
-@rem @echo. [INFO] Calling PascalABCNETMonoZIP.bat script...
-@rem echo. & call PascalABCNETMonoZIP.bat 2>&1 || goto ERROR
-@rem @echo. & echo Done #4/4 -- Special zip-package for Mono platform ready.
+@echo. & echo [%~nx0] Creating special zip-package for Mono platform...
+@call PascalABCNETMonoZIP.bat 2>&1 || goto ERROR
+@echo. & echo [%~nx0] Done (in \Release).
 
 popd
-@echo. & echo [%~nx0] ------ SCRIPT FINISHED ------ & echo.
 @goto :EOF
 
 :ERROR

@@ -58,7 +58,6 @@ LanguageResMaker.exe                                 2>&1 || goto ERROR
 @echo.
 @rem cd ..\..
 cd /d "%project_root%"
-@echo [INFO] Calling Studio.bat script...
 call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET.sln 2>&1 || goto ERROR
 @echo. & echo [INFO] Done #4.
 
@@ -124,9 +123,9 @@ cd /d "%project_root%\ReleaseGenerators"                                        
 cd /d "%project_root%\bin"                  2>&1 || goto ERROR
 :: DEBUG: fixing CR/LF line-endings for *.pas files in \TestSuite\formatter_tests (useful only in GitHub VM sessions)
 :: https://github.com/pascalabcnet/pascalabcnetide/issues/196
-if defined %GITHUB_ACTIONS% (
-    echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for IDE bug #196...
-    call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto ERROR)
+@rem if defined %GITHUB_ACTIONS% (
+@rem     echo [INFO] Calling fix-CRLF-for-TestRunner.bat script as a workaround for IDE bug #196...
+@rem     call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto ERROR)
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
 @echo [INFO] Compiling fresh TestRunner.pas...
@@ -158,7 +157,6 @@ cd /d "%project_root%\ReleaseGenerators"              2>&1 || goto ERROR
 @echo +======================================================================================+
 @echo.
 cd /d "%project_root%\ReleaseGenerators" 2>&1 || goto ERROR
-@echo [INFO] Calling PascalABCNET_ALL.bat script...
 call PascalABCNET_ALL.bat                2>&1 || goto ERROR
 @echo. & echo [INFO] Done #10.
 
@@ -194,7 +192,6 @@ rename bin_copy\ bin                          2>&1 || goto ERROR
 @echo +======================================================================================+
 @echo.
 cd /d "%project_root%"
-@echo [INFO] Calling Studio.bat script...
 call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET_40.sln 2>&1 || goto ERROR
 @echo. & echo [INFO] Done #13.
 
@@ -223,7 +220,6 @@ cd ReleaseGenerators                                                            
 @echo.
 @rem cd ReleaseGenerators                 2>&1 || goto ERROR
 cd /d "%project_root%\ReleaseGenerators"  2>&1 || goto ERROR
-@echo. & @echo [INFO] Calling PascalABCNETWithDotNet40.bat script...
 call PascalABCNETWithDotNet40.bat         2>&1 || goto ERROR
 @echo. & echo [INFO] Done #15.
 
