@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies into Virtual Environment...
-      run: ./_RegisterHelix.bat
+      run: ./_RegisterHelixNUnit.bat
 
     - name: Build project in Release-mode (+ compile pas-units, run tests, create install packages)...
       env: 
