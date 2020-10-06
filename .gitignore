@@ -1,6 +1,6 @@
 .vs
 
-*/**/bin/
+*/**/bin
 bin/Lib/*.pcu
 bin/Lib/*.xml
 bin/Lib/*.dll
@@ -10,7 +10,8 @@ bin/*.config
 bin/*.xml
 bin/log.txt
 bin/CompilerController.ini
-bin/Temp/
+bin/Temp
+bin_copy/
 
 **/_vti_cnf 
 **/_vti_pvt 
@@ -20,8 +21,8 @@ TestSuite/CompilationSamples/*.pcu
 TestSuite/CompilationSamples/*.pdb
 TestSuite/CompilationSamples/*.exe
 TestSuite/CompilationSamples/*.xml
-TestSuite/exe/
-TestSuite/formatter_tests/output/
+TestSuite/exe
+TestSuite/formatter_tests/output
 
 TestSuite/usesunits/*.pcu
 
@@ -57,7 +58,7 @@ bin/pabcnetcclear.exe
 #ReleaseGenerators/DotNet471/*.exe
 #ReleaseGenerators/DotNet40/*.exe
 #!ReleaseGenerators/DotNet40/dotNetFx40LP_Full_x86ru.exe
-#Utils/pkzipc/
+#Utils/pkzipc
 *.log
 *_log.txt
 *.bak
