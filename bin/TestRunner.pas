@@ -12,8 +12,7 @@ uses
   System.Diagnostics;
 
 var
-  StartTime    : integer;
-  TestSuiteDir : string;
+  TestSuiteDir:  string;
   PathSeparator: string := Path.DirectorySeparatorChar;
 
 function IsUnix: boolean;
@@ -343,6 +342,8 @@ begin
   end;
 end;
 
+function StepTime: string := $'{(MillisecondsDelta div 1000)}s';
+
 function ToMinSec(self: integer): string; extensionmethod := $'{(self div 60000)}m:{(self div 1000 mod 60):00}s';
 
 procedure WriteStep(str1: string; str2: string := '');
@@ -362,7 +363,6 @@ begin
   begin
     writeln;
     writeln('[Compilation, unit and functional tests -- FULL SET] >>>>>>>>>>>> START');
-    StartTime := Milliseconds;
   end
   else if ((ParamStr(1).Length > 1)) or not (ParamStr(1)[1] in ['1'..'5']) then 
   begin
@@ -376,6 +376,8 @@ begin
     Halt
   end;
   
+  var StartTime := Milliseconds;
+  var LastTime := StartTime;
   try
     TestSuiteDir := GetTestSuiteDir;
     System.Environment.CurrentDirectory := Path.GetDirectoryName(GetEXEFileName());
@@ -390,13 +392,14 @@ begin
       ClearExeDir;
       WriteStep('a) Compilation step', '-> ');
       CompileAllRunTests(false);
-      WriteStep('PASSED');
+      WriteStep($'PASSED [{StepTime}]');
       WriteStep('b) Run step', '-> ');
       RunAllTests(false);
-      WriteStep('PASSED');
+      WriteStep($'PASSED [{StepTime}]');
       ClearExeDir;
       writeln('________________________');
-      writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
+      writeln($'Elapsed time = {(Milliseconds - LastTime).ToMinSec}');
+      LastTime := Milliseconds;
     end;
     
     if (ParamCount = 0) or (ParamStr(1) = '2') then
@@ -408,14 +411,15 @@ begin
       DeletePCUFiles;
       ClearExeDir;
       WriteStep('a) Compilation step', '-> ');
-      CompileAllRunTests(false, true);        
-      WriteStep('PASSED');
+      CompileAllRunTests(false, true);
+      WriteStep($'PASSED [{StepTime}]');
       WriteStep('b) Run step', '-> ');
       RunAllTests(false);
-      WriteStep('PASSED');
+      WriteStep($'PASSED [{StepTime}]');
       ClearExeDir;
       writeln('________________________');
-      writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
+      writeln($'Elapsed time = {(Milliseconds - LastTime).ToMinSec}');
+      LastTime := Milliseconds;
     end;
     
     if (ParamCount = 0) or (ParamStr(1) = '3') then
@@ -428,16 +432,17 @@ begin
       ClearExeDir;
       WriteStep('a) Compilation step (generic samples)', '-> ');
       CompileAllRunTests(true);
-      WriteStep('PASSED');
+      WriteStep($'PASSED [{StepTime}]');
       WriteStep('b) Compilation step (special samples)', '-> ');
       CompileAllCompilationTests('pabcrtl_tests', true);
-      WriteStep('PASSED');
+      WriteStep($'PASSED [{StepTime}]');
       WriteStep('c) Run step (all samples)', '-> ');
       RunAllTests(false);
-      WriteStep('PASSED');
+      WriteStep($'PASSED [{StepTime}]');
       ClearExeDir;
       writeln('________________________');
-      writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
+      writeln($'Elapsed time = {(Milliseconds - LastTime).ToMinSec}');
+      LastTime := Milliseconds;
     end;
     
     if (ParamCount = 0) or (ParamStr(1) = '4') then
@@ -451,18 +456,19 @@ begin
       WriteStep('a) ERROR-FREE samples', '-> ');
       CopyLibFiles('CompilationSamples');
       CompileAllCompilationTests('CompilationSamples', false);
-      WriteStep('PASSED');
+      WriteStep($'PASSED [{StepTime}]');
       WriteStep('b) ERROR samples ', '-> ');
       CompileAllUnits;
       CopyPCUFiles;
       CompileAllUsesUnits;
       CompileErrorTests(false);
-      WriteStep('PASSED //by failure, as expected');
+      WriteStep($'PASSED [{StepTime}] //by failure, as expected');
       //WriteStep('c) DEMO (bundled) samples', '-> ');
       //WriteStep('N/A    //not implemented yet');
       ClearExeDir;
       writeln('________________________');
-      writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
+      writeln($'Elapsed time = {(Milliseconds - LastTime).ToMinSec}');
+      LastTime := Milliseconds;
     end;
     
     if (ParamCount = 0) or (ParamStr(1) = '5') then
@@ -474,24 +480,24 @@ begin
       System.Environment.CurrentDirectory := Path.GetDirectoryName(GetEXEFileName());
       WriteStep('a) Intellisense (expressions)', '-> ');
       RunExpressionsExtractTests;
-      WriteStep('PASSED');
-      //WriteStep('b) Intellisense (other)', '-> ');
-      //RunIntellisenseTests;
-      //WriteStep('PASSED');
+      WriteStep($'PASSED [{StepTime}]');
+      WriteStep('b) Intellisense (other)', '-> ');
+      RunIntellisenseTests;
+      WriteStep($'PASSED [{StepTime}]');
       WriteStep('c) Code Formatter', '-> ');
       CopyLibFiles('formatter_tests\input');
       RunFormatterTests;
-      WriteStep('PASSED');
+      WriteStep($'PASSED [{StepTime}]');
       writeln('________________________');
-      writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
-      
+      writeln($'Elapsed time = {(Milliseconds - LastTime).ToMinSec}');
+      LastTime := Milliseconds;
     end;
   except
     on e: Exception do
       begin
         //assert(false, e.ToString());
-        Console.Error.WriteLine(NewLine + $'***ERROR: {e.ToString()}');
-        Halt(1);
+        Console.Error.WriteLine(NewLine + $'***EXCEPTION: {e.ToString()} + NewLine + {e.Message}');
+        Halt(42);
       end;
   end;
   if ParamCount = 0 then
