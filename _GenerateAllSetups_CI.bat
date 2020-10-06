@@ -129,11 +129,11 @@ cd /d "%project_root%\bin"                  2>&1 || goto ERROR
 @rem     call ..\Utils\fix-CRLF-for-TestRunner.bat    || goto ERROR)
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
-@echo [INFO] Compiling fresh TestRunner.pas...
-pabcnetcclear /Debug:0 TestRunner.pas       2>&1 || goto ERROR
+@rem @echo [INFO] Compiling fresh TestRunner.pas...
+@rem pabcnetcclear /Debug:0 TestRunner.pas       2>&1 || goto ERROR
 @echo [INFO] Launching TestRunner.exe...
 @rem TestRunner.exe 5                             2>&1 || goto ERROR
-TestRunner.exe                              2>&1 || goto ERROR
+TestRunner_orig.exe                              2>&1 || goto ERROR
 @echo. & echo [INFO] Done #8 -- All tests successfully accomplished.
 :SKIP8
 
