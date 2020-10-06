@@ -10,7 +10,7 @@ mklink /D Samples ..\ReleaseGenerators\Samples\Pas     2>&1 || goto ERROR
 mklink /D Doc ..\doc                                   2>&1 || goto ERROR
 :: ToDo: Where to better keep PascalABCNET.chm: under 'root' dir or inside \Doc folder?
 mklink ..\doc\PascalABCNET.chm ..\bin\PascalABCNET.chm 2>&1 || goto ERROR
-@echo. & echo Done.
+@echo. & echo Done {#1}.
 
 @echo. & echo [%~nx0] --------- Step 2/3 ----------
 @echo [INFO] Putting pre-selected set of files into zip-package... & echo.
@@ -19,7 +19,7 @@ if /i {%QUIET_MODE%} EQU {true} (
     ..\utils\7zip\7za.exe a -mx8 -sse -bse1 -bd -sccUTF-8 ..\Release\PascalABCNETMono.zip -ir0@..\ReleaseGenerators\files2zip_mono.txt -i!LibSource\*.pas 2>&1 || goto ERROR
 ) else (
     ..\utils\7zip\7za.exe a -mx8 -sse -bse1 -bb -sccUTF-8 ..\Release\PascalABCNETMono.zip -ir0@..\ReleaseGenerators\files2zip_mono.txt -i!LibSource\*.pas 2>&1 || goto ERROR)
-@echo. & echo Done.
+@echo. & echo Done {#2}.
 
 @echo. & echo [%~nx0] --------- Step 3/3 ----------
 @echo [INFO] Cleaning up: removing temporary symlinks... & echo.
@@ -27,7 +27,7 @@ rmdir /S /Q LibSource          2>&1 || goto ERROR
 rmdir /S /Q Samples            2>&1 || goto ERROR
 rmdir /S /Q Doc                2>&1 || goto ERROR
 del /Q ..\doc\PascalABCNET.chm 2>&1 || goto ERROR
-@echo. & echo Done.
+@echo. & echo Done {#3}.
 
 popd
 @echo. & echo [%~nx0] ------ SCRIPT FINISHED ------ & echo.
