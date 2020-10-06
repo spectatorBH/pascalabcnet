@@ -17,7 +17,7 @@ jobs:
         BUMP_REVISION: false
         RUN_TESTS: true
         QUIET_MODE: true
-      run: ./Utils/fix-CRLF-for-TestRunner.bat && ./_GenerateAllSetups_CI.bat
+      run: ./_GenerateAllSetups_CI.bat
 
     - name: Publish artifacts (1/5)...
       uses: actions/upload-artifact@v2.1.0

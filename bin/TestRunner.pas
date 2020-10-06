@@ -463,7 +463,7 @@ begin
       CompileAllUsesUnits;
       CompileErrorTests(false);
       WriteStep('PASSED (by failure as expected)');
-      WriteStep('c) STANDARD (bundled) samples', '-> ');
+      WriteStep('c) DEMO (bundled) samples', '-> ');
       WriteStep('N/A    (not implemented yet)');
       ClearExeDir;    //???
       writeln('________________________');
