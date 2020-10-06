@@ -343,10 +343,7 @@ begin
   end;
 end;
 
-function ToMinSec(self: integer): string; extensionmethod;
-begin
-  Result := $'{(self div 60000)}m:{(self div 1000 mod 60):00}s';
-end;
+function ToMinSec(self: integer): string; extensionmethod := $'{(self div 60000)}m:{(self div 1000 mod 60):00}s';
 
 procedure WriteStep(str1: string; str2: string := '');
 const
@@ -376,7 +373,7 @@ begin
     writeln;
     writeln('  Launching without any arguments would run FULL SET of tests (5 groups) sequentially.');
     writeln;
-    Halt(1)
+    Halt
   end;
   
   try
@@ -427,20 +424,18 @@ begin
       writeln('-----------------------------------------------------------------------');
       writeln('  [Group 3/5] Custom unit tests with PABCRtl.dll (64-bit preferred):   ');
       writeln('-----------------------------------------------------------------------');
-      DeletePCUFiles; //???
-      ClearExeDir;    //???
+      DeletePCUFiles;
+      ClearExeDir;
       WriteStep('a) Compilation step (generic samples)', '-> ');
       CompileAllRunTests(true);
       WriteStep('PASSED');
-      //WriteStep('N/A    (crashes -- skipped for now)');
       WriteStep('b) Compilation step (special samples)', '-> ');
       CompileAllCompilationTests('pabcrtl_tests', true);
       WriteStep('PASSED');
-      //WriteStep('N/A    (crashes -- skipped for now)');
       WriteStep('c) Run step (all samples)', '-> ');
       RunAllTests(false);
       WriteStep('PASSED');
-      ClearExeDir;    //???
+      ClearExeDir;
       writeln('________________________');
       writeln($'Duration = {MillisecondsDelta.ToMinSec}');
     end;
@@ -451,8 +446,8 @@ begin
       writeln('-----------------------------------------------------------------------');
       writeln('  [Group 4/5] Compilation tests of precrafted code samples:            ');
       writeln('-----------------------------------------------------------------------');
-      DeletePCUFiles; //???
-      ClearExeDir;    //???
+      DeletePCUFiles;
+      ClearExeDir;
       CopyLibFiles;
       WriteStep('a) ERROR-FREE samples', '-> ');
       CompileAllCompilationTests('CompilationSamples', false);
@@ -462,10 +457,10 @@ begin
       CopyPCUFiles;
       CompileAllUsesUnits;
       CompileErrorTests(false);
-      WriteStep('PASSED :: by failure, as expected');
+      WriteStep('PASSED //by failure, as expected');
       //WriteStep('c) DEMO (bundled) samples', '-> ');
-      //WriteStep('N/A    :: not implemented yet');
-      ClearExeDir;    //???
+      //WriteStep('N/A    //not implemented yet');
+      ClearExeDir;
       writeln('________________________');
       writeln($'It took {MillisecondsDelta.ToMinSec}');
     end;

@@ -14,7 +14,7 @@ mklink ..\doc\PascalABCNET.chm ..\bin\PascalABCNET.chm 2>&1 || goto ERROR
 
 @echo. & echo [%~nx0] --------- Step 2/3 ----------
 @echo [INFO] Putting pre-selected set of files into zip-package...
-@del /Q ..\Release\PascalABCNETMono.zip 1>nul 2>&1
+@del /Q ..\Release\PascalABCNETMono.zip  >nul 2>&1
 if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
     ..\utils\7zip\7za.exe a -mx8 -sse -bse1 -bd -sccUTF-8 ..\Release\PascalABCNETMono.zip -ir0@..\ReleaseGenerators\files2zip_mono.txt -i!LibSource\*.pas 2>&1 || goto ERROR
 ) else (
@@ -35,10 +35,10 @@ popd
 
 :ERROR
     @SET exit_code=%ERRORLEVEL%
-    @rmdir /S /Q LibSource          1>nul 2>&1
-    @rmdir /S /Q Samples            1>nul 2>&1
-    @rmdir /S /Q Doc                1>nul 2>&1
-    @del /Q ..\doc\PascalABCNET.chm 1>nul 2>&1
+    @rmdir /S /Q LibSource           >nul 2>&1
+    @rmdir /S /Q Samples             >nul 2>&1
+    @rmdir /S /Q Doc                 >nul 2>&1
+    @del /Q ..\doc\PascalABCNET.chm  >nul 2>&1
     @echo. & echo [%~nx0] ***ERROR*** Last command failed with exit code %exit_code%. & echo.
     @popd
     @pause
