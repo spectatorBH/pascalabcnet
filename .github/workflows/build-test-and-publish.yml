@@ -11,9 +11,9 @@ on: #[push, pull_request]
   #  branches:
   #    - master
 
-defaults:
-  run:
-    shell: cmd
+#defaults:
+#  run:
+#    shell: cmd
 
 jobs:
   build_and_test:
