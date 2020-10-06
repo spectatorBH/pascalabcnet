@@ -65,12 +65,12 @@ echo. & call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platf
 @echo.
 @rem @cd /d "%project_root%\ReleaseGenerators\PABCRtl" 2>&1 || goto :ERROR
 @cd ReleaseGenerators\PABCRtl  2>&1 || goto :ERROR
-@if /i {%_BUILD_MODE%} EQU {Release} (@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+@if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
             ..\..\bin\pabcnetc PABCRtl.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto :ERROR
     ) else (..\..\bin\pabcnetc PABCRtl.pas /rebuildnodebug /noconsole        2>&1 || goto :ERROR)
-) else (@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+) else (if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
             ..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole         1>nul 2>&1 || goto :ERROR
-    ) else (..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole               2>&1 || goto :ERROR)
+    ) else (..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole               2>&1 || goto :ERROR))
 @dir PABCRtl | find "PABCRtl.dll" & echo.
 @echo [INFO] Done.
 
@@ -96,12 +96,12 @@ gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll   2>&1 || goto :ERROR
 @echo +======================================================================================+
 @echo.
 @rem @cd /d "%project_root%\ReleaseGenerators"                                           2>&1 || goto :ERROR
-@if /i {%_BUILD_MODE%} EQU {Release} (@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+@if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto :ERROR
     ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole        2>&1 || goto :ERROR)
-) else (@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+) else (if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole         1>nul 2>&1 || goto :ERROR
-    ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole               2>&1 || goto :ERROR)
+    ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole               2>&1 || goto :ERROR))
 @echo. & echo [INFO] Standard units successfully built.
 
 @echo. & echo [%~nx0]
@@ -187,12 +187,12 @@ echo. & call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platf
 @echo.
 @rem @cd /d "%project_root%\ReleaseGenerators"                                           2>&1 || goto :ERROR
 @cd ReleaseGenerators                                                                    2>&1 || goto :ERROR
-@if /i {%_BUILD_MODE%} EQU {Release} (@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+@if /i {%_BUILD_MODE%} EQU {Release} (if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole  1>nul 2>&1 || goto :ERROR
     ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuildnodebug /noconsole        2>&1 || goto :ERROR)
-) else (@if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
+) else (if /i {%PABCNET_BUILD_QUIET%} EQU {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole         1>nul 2>&1 || goto :ERROR
-    ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole               2>&1 || goto :ERROR)
+    ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole               2>&1 || goto :ERROR))
 @echo. & echo [INFO] Standard units successfully re-built.
 
 @echo. & echo [%~nx0]
