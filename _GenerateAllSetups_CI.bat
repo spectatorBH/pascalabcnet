@@ -51,7 +51,7 @@ cd /d "%project_root%\utils\DefaultLanguageResMaker" 2>&1 || goto ERROR
 LanguageResMaker.exe                                 2>&1 || goto ERROR
 @echo. & echo [INFO] Done #3.
 
-@echo. & echo [%~nx0] 
+@echo. & echo [%~nx0]
 @echo +======================================================================== Step 4/16 ===+
 @echo !  Building project using .NET 4.7.1 as target (for Win7+ platforms):                  !
 @echo +======================================================================================+
@@ -76,7 +76,7 @@ if /i {%_BUILD_MODE%} EQU {Release} (echo. & if /i {%PABCNET_VERBOSE%} NEQ {true
 @echo. & dir | find "PABCRtl.dll"
 @echo. & echo [INFO] Done #5 -- PABCRtl.dll successfully built.
 
-@echo. 
+@echo.
 @echo [%~nx0]
 @echo +======================================================================== Step 6/16 ===+
 @echo !  Signing and registering fresh PABCRtl.dll in GAC:                                   !
@@ -137,8 +137,8 @@ cd /d "%project_root%\bin"         2>&1 || goto ERROR
 @echo [INFO] Compiling fresh TestRunner.pas...
 pabcnetcclear TestRunner.pas       2>&1 || goto ERROR
 @echo [INFO] Launching TestRunner.exe...
-@rem TestRunner.exe 5                   2>&1 || goto ERROR
-TestRunner.exe                     2>&1 || goto ERROR
+TestRunner.exe 5                   2>&1 || goto ERROR
+REM TestRunner.exe                     2>&1 || goto ERROR
 @if /i {%PABCNET_NOT_VERBOSE%} NEQ {true} type TestRunner_log.txt
 @echo. & echo [INFO] Done #8 -- All tests successfully accomplished.
 :SKIP8

@@ -1,8 +1,8 @@
 name: Build & Publish (release)
 
-on: 
+on:
   workflow_dispatch:
-  
+
   release:
     types:
       - created
@@ -15,16 +15,16 @@ jobs:
   build:
 
     name: Prepare and build on Windows Server 2016 VM
-    runs-on: windows-2016
+    runs-on: windows-latest
     timeout-minutes: 15
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Install dependencies into Virtual Environment...
       run: ./_RegisterHelixNUnit.bat
 
     - name: Build project in Release-mode, compile Pas-units, create install packages...
-      env: 
+      env:
         PABCNET_BUILD_MODE: Release
         PABCNET_RUN_TESTS: false
         PABCNET_INC_BUILD: false
@@ -36,7 +36,7 @@ jobs:
       with:
         name: PascalABCNET_Win7_IDE_Full
         path: Release/PascalABCNETSetup.exe
-        
+
     - name: Publish artifacts (2/4)...
       uses: actions/upload-artifact@v2.1.0
       with:
@@ -48,13 +48,13 @@ jobs:
       with:
         name: PascalABCNET_WinXP_IDE_Full
         path: Release/PascalABCNETWithDotNet40Setup.exe
-        
+
     - name: Publish artifacts (4/4)...
       uses: actions/upload-artifact@v2.1.0
       with:
         name: PascalABCNET_Win_Mac_Linux_console
         path: Release/PABCNETC.zip
-        
+
     #- name: Publish artifacts (5/5)...
     #  uses: actions/upload-artifact@v2.1.0
     #  with:
