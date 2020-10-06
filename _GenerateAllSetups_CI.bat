@@ -117,12 +117,12 @@ call ..\Utils\fix-CRLF-for-TestRunner.bat  || goto :ERROR
 @rem pabcnetc TestRunner.pas /noconsole 2>&1 || goto :ERROR
 pabcnetcclear /Debug:0 TestRunner.pas 2>&1 || goto :ERROR
 @echo [INFO] Launching TestRunner.exe...& echo.
-@rem TestRunner.exe 3                      2>&1 || goto :ERROR
-@rem TestRunner.exe 1                      2>&1 || goto :ERROR
-@rem TestRunner.exe 2                      2>&1 || goto :ERROR
-@rem TestRunner.exe 4                      2>&1 || goto :ERROR
-@rem TestRunner.exe 5                      2>&1 || goto :ERROR
-TestRunner.exe                   2>&1 || goto :ERROR
+TestRunner.exe 3                      2>&1 || goto :ERROR
+TestRunner.exe 1                      2>&1 || goto :ERROR
+TestRunner.exe 2                      2>&1 || goto :ERROR
+TestRunner.exe 4                      2>&1 || goto :ERROR
+TestRunner.exe 5                      2>&1 || goto :ERROR
+@rem TestRunner.exe                   2>&1 || goto :ERROR
 :SKIP8
 
 @echo. & echo [%~nx0]
@@ -209,6 +209,7 @@ call PascalABCNETWithDotNet40.bat 2>&1 || goto :ERROR
 rmdir /S /Q bin && rename bin2\ bin       2>&1 || goto :ERROR
 rmdir /S /Q ReleaseGenerators\LibSource   2>&1 || goto :ERROR
 rmdir /S /Q ReleaseGenerators\Samples\Pas 2>&1 || goto :ERROR
+@echo Done.
 
 @popd
 @echo. & echo [%~nx0]
