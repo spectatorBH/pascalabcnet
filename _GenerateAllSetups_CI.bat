@@ -113,15 +113,16 @@ gacutil.exe /f /i ..\bin\Lib\PABCRtl.dll             2>&1 || goto :ERROR
 call ..\Utils\fix-CRLF-for-TestRunner.bat  || goto :ERROR
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or job refactoring within GitHub Actions?);
-@rem @echo Compiling TestRunner.pas...
+@echo Compiling TestRunner.pas...
+pabcnetc TestRunner.pas /rebuildnodebug /noconsole 2>&1 || goto :ERROR
 @rem pabcnetcclear /Debug:0 TestRunner.pas 2>&1 || goto :ERROR
 @echo [INFO] Launching TestRunner.exe...& echo.
-@rem TestRunner.exe 3                      2>&1 || goto :ERROR
-@rem TestRunner.exe 1                      2>&1 || goto :ERROR
-@rem TestRunner.exe 2                      2>&1 || goto :ERROR
-@rem TestRunner.exe 4                      2>&1 || goto :ERROR
-@rem TestRunner.exe 5                      2>&1 || goto :ERROR
-TestRunner.exe                   2>&1 || goto :ERROR
+TestRunner.exe 3                      2>&1 || goto :ERROR
+TestRunner.exe 1                      2>&1 || goto :ERROR
+TestRunner.exe 2                      2>&1 || goto :ERROR
+TestRunner.exe 4                      2>&1 || goto :ERROR
+TestRunner.exe 5                      2>&1 || goto :ERROR
+@rem TestRunner.exe                   2>&1 || goto :ERROR
 :SKIP8
 
 @echo. & echo [%~nx0]
