@@ -21,7 +21,7 @@ jobs:
     name: Prepare and build on Windows Server 2016 VM
     runs-on: windows-2016
     timeout-minutes: 30
-    #continue-on-error: true
+    continue-on-error: true
     steps:
         
     - run: git config --global core.autocrlf input
