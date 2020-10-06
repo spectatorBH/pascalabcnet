@@ -76,6 +76,7 @@ begin
     end;
   end;
   Log.WriteLine($'[ClearDirByPattern] Emptied all {pattern} in {dir}');
+  Log.Flush;
 end;
 
 procedure ClearExeDirs;
@@ -112,6 +113,7 @@ begin
     &File.Move(fname, fname_new);
     Log.WriteLine($'[CopyPCUFiles] Moving: {fname} --> {fname_new}');
   end;
+  Log.Flush;
 end;
 
 procedure CopyLibFiles(TestSubDir: string);
@@ -123,6 +125,7 @@ begin
     &File.Copy(fname, fname_copy, true);
     Log.WriteLine($'[CopyLibFiles] Copying: {fname} --> {fname_copy}');
   end;
+  Log.Flush;
 end;
 
 procedure CompileErrorTests(withide: boolean);
@@ -171,6 +174,7 @@ begin
       System.GC.Collect();
   end;
   Log.WriteLine('[CompileErrorTests] -- Finished.');
+  Log.Flush;
 end;
 
 procedure CompileAllRunTests(withdll: boolean; only32bit: boolean := false);
@@ -211,6 +215,7 @@ begin
       System.GC.Collect();
   end;
   Log.WriteLine('[CompileAllRunTests] -- Finished.');
+  Log.Flush;
 end;
 
 procedure CompileAllCompilationTests(dir: string; withdll: boolean);
@@ -248,6 +253,7 @@ begin
       System.GC.Collect();
   end;
   Log.WriteLine($'[CompileAllCompilationTests] -- Finished.');
+  Log.Flush;
 end;
 
 procedure CompileAllUnits;
@@ -283,6 +289,7 @@ begin
   end;
   System.GC.Collect;
   Log.WriteLine($'[CompileAllUnits] -- Finished.');
+  Log.Flush;
 end;
 
 procedure CompileAllUsesUnits;
@@ -317,6 +324,7 @@ begin
   end;
   System.GC.Collect;
   Log.WriteLine($'[CompileAllUsesUnits] -- Finished.');
+  Log.Flush;
 end;
 
 procedure RunAllTests(redirectIO: boolean);
@@ -356,6 +364,7 @@ begin
     end;
   end;
   Log.WriteLine('[RunAllTests] -- Finished.');
+  Log.Flush;
 end;
 
 procedure RunExpressionsExtractTests;
@@ -363,6 +372,7 @@ begin
   Log.WriteLine('[RunExpressionsExtractTests] -- Started:');
   CodeCompletion.CodeCompletionTester.Test();
   Log.WriteLine('[RunExpressionsExtractTests] -- Finished.');
+  Log.Flush;
 end;
 
 procedure RunIntellisenseTests;
@@ -371,6 +381,7 @@ begin
   PascalABCCompiler.StringResourcesLanguage.CurrentTwoLetterISO := 'ru';
   CodeCompletion.CodeCompletionTester.TestIntellisense(TestSuiteDir + PathSeparator + 'intellisense_tests');
   Log.WriteLine('[RunIntellisenseTests] -- Finished.');
+  Log.Flush;
 end;
 
 procedure RunFormatterTests;
@@ -388,6 +399,7 @@ begin
     Halt(1);
   end;
   Log.WriteLine('[RunFormatterTests] -- Finished.');
+  Log.Flush;
 end;
 
 procedure write2(msg: string);
