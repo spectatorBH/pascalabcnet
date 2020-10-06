@@ -130,8 +130,8 @@ if defined GITHUB_ACTIONS (
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or refactor GitHub Actions config);
 @echo [INFO] Compiling fresh TestRunner_orig.pas...
-pabcnetcclear /Debug:0 TestRunner_orig.pas       2>&1 || goto ERROR
-@echo [INFO] Launching TestRunner_orig.exe...
+@rem pabcnetcclear /Debug:0 TestRunner_orig.pas       2>&1 || goto ERROR
+@rem @echo [INFO] Launching TestRunner_orig.exe...
 TestRunner_orig.exe 6                             2>&1 || goto ERROR
 @echo. & echo [INFO] Done #8 -- All tests successfully accomplished.
 :SKIP8
