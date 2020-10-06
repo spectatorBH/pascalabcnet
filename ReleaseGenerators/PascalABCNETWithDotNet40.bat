@@ -1,17 +1,17 @@
 @if /i {%PABCNET_QUIET_MODE%} EQU {true} echo OFF
-@echo. & echo [%~nx0] ++++++ SCRIPT STARTED +++++++ & echo.
+@echo. & echo [%~nx0] ------ SCRIPT STARTED ------- & echo.
 @SETLOCAL
 pushd "%~dp0"
 
 @echo. & echo [INFO] Creating STANDARD installer for WinXP with .NET 4.0 (incl. Programming Taskbook)... & echo.
 if /i {%PABCNET_QUIET_MODE%} EQU {true} (
-    "..\utils\NSIS\Unicode\makensis.exe" /V0 PascalABCNETWithDotNet40.nsi 2>&1 || goto :ERROR
+    "..\utils\NSIS\Unicode\makensis.exe" /V0 PascalABCNETWithDotNet40.nsi 2>&1 || goto ERROR
 ) else (
-    "..\utils\NSIS\Unicode\makensis.exe" /V4 PascalABCNETWithDotNet40.nsi 2>&1 || goto :ERROR)
+    "..\utils\NSIS\Unicode\makensis.exe" /V4 PascalABCNETWithDotNet40.nsi 2>&1 || goto ERROR)
 @echo. & echo Done.
 
-@popd
-@echo. & echo [%~nx0] ++++++ SCRIPT FINISHED ++++++ & echo.
+popd
+@echo. & echo [%~nx0] ------ SCRIPT FINISHED ------ & echo.
 @goto :EOF
 
 :ERROR

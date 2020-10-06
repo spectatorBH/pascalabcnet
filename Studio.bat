@@ -1,5 +1,5 @@
 @echo off
-echo. & echo [%~nx0] ###### SCRIPT STARTED ####### & echo.
+echo. & echo [%~nx0] ------ SCRIPT STARTED ------- & echo.
 SETLOCAL EnableExtensions
 
 if /i {%QUIET_MODE%} EQU {true} (
@@ -9,27 +9,27 @@ if /i {%QUIET_MODE%} EQU {true} (
 
 if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe" (
     echo [%~nx0] Found VS2017 Community Edition --> Building project.. & echo.
-    "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe"       %params% 2>&1 || goto :BUILD_FAILED
+    "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe"       %params% 2>&1 || goto BUILD_FAILED
 
 ) else if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\msbuild.exe" (
     echo [%~nx0] Found VS2017 Professional Edition --> Building project... & echo.
-    "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\msbuild.exe"    %params% 2>&1 || goto :BUILD_FAILED
+    "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\msbuild.exe"    %params% 2>&1 || goto BUILD_FAILED
 
 ) else if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\msbuild.exe" (
     echo [%~nx0] Found VS2017 Enterprise Edition --> Building project... & echo.
-    "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\msbuild.exe"      %params% 2>&1 || goto :BUILD_FAILED
+    "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\msbuild.exe"      %params% 2>&1 || goto BUILD_FAILED
 
 ) else if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\msbuild.exe" (
     echo [%~nx0] Found VS2019 Community Edition --> Building project... & echo. 
-    "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\msbuild.exe"    %params% 2>&1 || goto :BUILD_FAILED
+    "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\msbuild.exe"    %params% 2>&1 || goto BUILD_FAILED
 
 ) else if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\msbuild.exe" (
     echo [%~nx0] Found VS2019 Professional Edition --> Building project... & echo.
-    "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\msbuild.exe" %params% 2>&1 || goto :BUILD_FAILED
+    "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\msbuild.exe" %params% 2>&1 || goto BUILD_FAILED
 
 ) else if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe" (
     echo [%~nx0] Found VS2019 Enterprise Edition --> Building project... & echo.
-    "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe"   %params% 2>&1 || goto :BUILD_FAILED
+    "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe"   %params% 2>&1 || goto BUILD_FAILED
 
 ) else (
 	echo. & echo [%~nx0] ***ERROR*** MS Visual Studio 2017/2019 not found! & echo.
@@ -37,8 +37,8 @@ if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\MSBuild\15.
 	exit /b 2017
 )
 
-echo [INFO] Project build successfully completed.
-echo. & echo [%~nx0] ###### SCRIPT FINISHED ###### & echo.
+echo. & echo [INFO] Project build successfully completed.
+echo. & echo [%~nx0] ------ SCRIPT FINISHED ------ & echo.
 goto :EOF
 
 :BUILD_FAILED
