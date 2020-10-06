@@ -473,9 +473,9 @@ begin
       CopyPCUFiles;
       CompileAllUsesUnits;
       CompileErrorTests(false);
-      WriteStep($'PASSED [{StepTime}] //by failure, as expected');
+      WriteStep($'PASSED [{StepTime}]  //by failure, as expected');
       //WriteStep('c) DEMO (bundled) samples', '-> ');
-      //WriteStep('N/A    //not implemented yet');
+      //WriteStep('N/A           //not implemented yet');
       ClearExeDir;
       writeln('________________________');
       writeln($'Elapsed time = {(Milliseconds - GroupTime).ToMinSec}');
