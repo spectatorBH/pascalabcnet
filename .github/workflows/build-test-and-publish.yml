@@ -1,6 +1,7 @@
 name: Build & Test (CI)
 
 on: workflow_dispatch
+#on: [push, pull_request]
 
 jobs:
   build_and_test:
