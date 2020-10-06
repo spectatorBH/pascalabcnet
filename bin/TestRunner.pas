@@ -14,6 +14,7 @@ uses
 var
   TestSuiteDir:  string;
   PathSeparator: string := Path.DirectorySeparatorChar;
+  Log: System.IO.StreamWriter;
   
 {function GetLineByPos(lines: array of string; pos: integer): integer;
 begin
@@ -435,7 +436,7 @@ begin
     end;
   end;
   
-  var Log := new StreamWriter('TestRunner_verbose.log', false);
+  Log := new StreamWriter('TestRunner_verbose.log', false);
   Log.WriteLine(DateTime.Now.ToString + NewLine);
   System.Environment.CurrentDirectory := Path.GetDirectoryName(GetEXEFileName());
   TestSuiteDir := GetTestSuiteDir();
