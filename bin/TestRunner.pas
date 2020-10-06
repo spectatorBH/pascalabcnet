@@ -342,7 +342,7 @@ begin
   end;
 end;
 
-function StepTime: string := $'{(MillisecondsDelta div 1000)}s';
+function StepTime: string := $'~{System.Math.Round(MillisecondsDelta/1000, System.MidpointRounding.AwayFromZero)}s';
 
 function ToMinSec(self: integer): string; extensionmethod := $'{(self div 60000)}m:{(self div 1000 mod 60):00}s';
 
