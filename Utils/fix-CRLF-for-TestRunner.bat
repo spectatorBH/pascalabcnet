@@ -8,7 +8,9 @@ echo.
 echo [%~nx0] ------ SCRIPT STARTED -------
 echo.
 echo [INFO] Converting line-endings in all '*.pas' files under 'TestSuite\formatter_tests' to CR/LF standard:
-findstr /e /i "VBS-line" "%~0" > "%temp%\~rewrite-lines.vbs" || goto ERROR
+findstr /e /i "VBS-line" "%~0" > "%temp%\~rewrite-lines.vbs" 
+@rem || goto ERROR
+type "%temp%\~rewrite-lines.vbs"
 
 set "_dir=%~dp0..\TestSuite\formatter_tests"
 forfiles /m *.pas /s /p "%_dir%" /c "cmd /c echo Rewriting -- @path && cscript //NoLogo """%temp%\~rewrite-lines.vbs""" <@path >@path.CRLF && move /Y @path.CRLF @path 1>nul"
