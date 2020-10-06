@@ -10,6 +10,7 @@ bin/*.config
 bin/*.xml
 bin/log.txt
 bin/CompilerController.ini
+bin/Temp/
 
 **/_vti_cnf 
 **/_vti_pvt 
@@ -53,8 +54,11 @@ bin/mscorlib.txt
 bin/pabcnetc.exe
 bin/pabcnetcclear.exe
 
-Utils/pkzipc/
-ReleaseGenerators/DotNet471/*.exe
-ReleaseGenerators/DotNet40/*.exe
-!ReleaseGenerators/DotNet40/dotNetFx40LP_Full_x86ru.exe
-*.*bak
+#ReleaseGenerators/DotNet471/*.exe
+#ReleaseGenerators/DotNet40/*.exe
+#!ReleaseGenerators/DotNet40/dotNetFx40LP_Full_x86ru.exe
+#Utils/pkzipc/
+*.log
+*_log.txt
+*.bak
+*.*_bak

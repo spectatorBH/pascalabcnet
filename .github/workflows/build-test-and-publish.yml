@@ -36,7 +36,7 @@ jobs:
         PABCNET_BUILD_MODE: Debug
         PABCNET_RUN_TESTS: true
         PABCNET_INC_BUILD: false
-        PABCNET_NOT_VERBOSE: false
+        PABCNET_VERBOSE: true
       run: ./_GenerateAllSetups_CI.bat
 
     - name: Publish artifacts (1/4)...

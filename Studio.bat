@@ -1,7 +1,7 @@
 @echo off
 SETLOCAL EnableExtensions
 
-if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+if /i {%PABCNET_VERBOSE%} NEQ {true} (
     SET params=%* -v:quiet   -p:WarningLevel=1 -noLogo -noWarn:CS0108;CS0114;CS0162;CS0168;CS0184;CS0219;CS0414;CS0649;CS0675;CS0809;CS1717
 ) else (
     SET params=%* -v:minimal -p:WarningLevel=2)

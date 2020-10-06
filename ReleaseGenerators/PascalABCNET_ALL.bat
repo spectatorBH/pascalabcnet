@@ -1,17 +1,17 @@
-@if /i {%PABCNET_NOT_VERBOSE%} EQU {true} echo OFF
+@if /i {%PABCNET_VERBOSE%} NEQ {true} echo OFF
 @SETLOCAL
 pushd "%~dp0"
 
 :: ToFix: fix filename spelling error for PascalABCNETStandar[d].nsi
 @echo. & echo [%~nx0] Creating FULL installer for Win7+... & echo.
-if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+if /i {%PABCNET_VERBOSE%} NEQ {true} (
     "..\utils\NSIS\Unicode\makensis.exe" /V0 PascalABCNETStandart.nsi 2>&1 || goto ERROR
 ) else (
     "..\utils\NSIS\Unicode\makensis.exe" /V4 PascalABCNETStandart.nsi 2>&1 || goto ERROR)
 @echo. & echo [%~nx0] Done (in \Release).
 
 @echo. & echo [%~nx0] Creating MINI installer for Win7+... & echo.
-if /i {%PABCNET_NOT_VERBOSE%} EQU {true} (
+if /i {%PABCNET_VERBOSE%} NEQ {true} (
     "..\utils\NSIS\Unicode\makensis.exe" /V0 PascalABCNETMini.nsi 2>&1 || goto ERROR
 ) else (
     "..\utils\NSIS\Unicode\makensis.exe" /V4 PascalABCNETMini.nsi 2>&1 || goto ERROR)
