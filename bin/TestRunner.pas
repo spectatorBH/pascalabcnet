@@ -437,7 +437,7 @@ begin
       WriteStep('PASSED');
       ClearExeDir;
       writeln('________________________');
-      writeln($'Duration = {MillisecondsDelta.ToMinSec}');
+      writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
     end;
     
     if (ParamCount = 0) or (ParamStr(1) = '4') then
@@ -462,7 +462,7 @@ begin
       //WriteStep('N/A    //not implemented yet');
       ClearExeDir;
       writeln('________________________');
-      writeln($'It took {MillisecondsDelta.ToMinSec}');
+      writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
     end;
     
     if (ParamCount = 0) or (ParamStr(1) = '5') then
@@ -482,17 +482,19 @@ begin
       RunFormatterTests;
       WriteStep('PASSED');
       writeln('________________________');
-      writeln($'This took {MillisecondsDelta.ToMinSec}');
+      writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
+      
     end;
   except
     on e: Exception do
-      assert(false, e.ToString());
+      //assert(false, e.ToString());
+      Console.Error.WriteLine(NewLine + $'***ERROR: {e.ToString()}');
   end;
   if ParamCount = 0 then
   begin
     writeln;
     writeln('________________________________');
-    writeln($'Total duration = {(Milliseconds - StartTime).ToMinSec}');
+    writeln($'  Total time = {(Milliseconds - StartTime).ToMinSec}');
     writeln;
     writeln('[Compilation, unit and functional tests] >>>>>>>>>>>>>>>>>>>>>>> FINISH');
   end;
