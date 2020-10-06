@@ -1,24 +1,23 @@
-﻿// This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
+﻿// Copyright (c) Ivan Bondarev, Stanislav Mikhalkovich (for details please see \doc\copyright.txt)
+// This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 {$reference Compiler.dll}
-{$reference CompilerTools.dll}
 {$reference CodeCompletion.dll}
 {$reference Errors.dll}
+{$reference CompilerTools.dll}
 {$reference Localization.dll}
-//{$reference System.Windows.Forms.dll}
+{$reference System.Windows.Forms.dll}
 
-uses
-  PascalABCCompiler,
-  System.IO,
-  System.Diagnostics;
+uses PascalABCCompiler, System.IO, System.Diagnostics;
 
 var
-  StartTime    : integer;
-  TestSuiteDir : string;
+  TestSuiteDir: string;
+
+var
   PathSeparator: string := Path.DirectorySeparatorChar;
 
 function IsUnix: boolean;
 begin
-  Result := (System.Environment.OSVersion.Platform = System.PlatformID.Unix) or (System.Environment.OSVersion.Platform = System.PlatformID.MacOSX);
+  Result := (System.Environment.OSVersion.Platform = System.PlatformID.Unix) or (System.Environment.OSVersion.Platform = System.PlatformID.MacOSX);  
 end;
 
 function GetTestSuiteDir: string;
@@ -57,15 +56,13 @@ begin
     comp.Compile(co);
     if comp.ErrorsList.Count = 0 then
     begin
-      //System.Windows.Forms.MessageBox.Show('Compilation of error sample ' + files[i] + ' was successfull' + System.Environment.NewLine);
-      Console.Error.WriteLine(NewLine + '***ERROR: Compilation of ERROR sample ' + files[i] + ' was successfull -- This is WRONG and not expected!' + NewLine);
-      Halt(1);
+      System.Windows.Forms.MessageBox.Show('Compilation of error sample ' + files[i] + ' was successfull' + System.Environment.NewLine);
+      Halt();
     end
     else if comp.ErrorsList.Count = 1 then
     begin
       if comp.ErrorsList[0].GetType() = typeof(PascalABCCompiler.Errors.CompilerInternalError) then
-        //System.Windows.Forms.MessageBox.Show('Compilation of ' + files[i] + ' failed' + System.Environment.NewLine + comp.ErrorsList[0].ToString());
-        Writeln(NewLine + 'Compilation of ERROR sample ' + files[i] + ' failed as expected' + NewLine + comp.ErrorsList[0].ToString());
+        System.Windows.Forms.MessageBox.Show('Compilation of ' + files[i] + ' failed' + System.Environment.NewLine + comp.ErrorsList[0].ToString());
     end;
     if i mod 50 = 0 then
       System.GC.Collect();
@@ -99,9 +96,8 @@ begin
     comp.Compile(co);
     if comp.ErrorsList.Count > 0 then
     begin
-      //System.Windows.Forms.MessageBox.Show('Compilation of ' + files[i] + ' failed' + System.Environment.NewLine + comp.ErrorsList[0].ToString());
-      Console.Error.WriteLine(NewLine + '***ERROR: Compilation of ' + files[i] + ' failed' + NewLine + comp.ErrorsList[0].ToString());
-      Halt(1);
+      System.Windows.Forms.MessageBox.Show('Compilation of ' + files[i] + ' failed' + System.Environment.NewLine + comp.ErrorsList[0].ToString());
+      Halt();
     end;
     if i mod 50 = 0 then
     begin
@@ -134,9 +130,8 @@ begin
     comp.Compile(co);
     if comp.ErrorsList.Count > 0 then
     begin
-      //System.Windows.Forms.MessageBox.Show('Compilation of ' + files[i] + ' failed' + System.Environment.NewLine + comp.ErrorsList[0].ToString());
-      Console.Error.WriteLine(NewLine + '***ERROR: Compilation of ' + files[i] + ' failed' + NewLine + comp.ErrorsList[0].ToString());
-      Halt(1);
+      System.Windows.Forms.MessageBox.Show('Compilation of ' + files[i] + ' failed' + System.Environment.NewLine + comp.ErrorsList[0].ToString());
+      Halt();
     end;
     if i mod 50 = 0 then
       System.GC.Collect();
@@ -164,9 +159,8 @@ begin
     comp.Compile(co);
     if comp.ErrorsList.Count > 0 then
     begin
-      //System.Windows.Forms.MessageBox.Show('Compilation of ' + files[i] + ' failed' + System.Environment.NewLine + comp.ErrorsList[0].ToString());
-      Console.Error.WriteLine(NewLine + '***ERROR: Compilation of ' + files[i] + ' failed' + NewLine + comp.ErrorsList[0].ToString());
-      Halt(1);
+      System.Windows.Forms.MessageBox.Show('Compilation of ' + files[i] + ' failed' + System.Environment.NewLine + comp.ErrorsList[0].ToString());
+      Halt();
     end;
   end;
   System.GC.Collect;
@@ -192,9 +186,8 @@ begin
     comp.Compile(co);
     if comp.ErrorsList.Count > 0 then
     begin
-      //System.Windows.Forms.MessageBox.Show('Compilation of ' + files[i] + ' failed' + System.Environment.NewLine + comp.ErrorsList[0].ToString());
-      Console.Error.WriteLine(NewLine + '***ERROR: Compilation of ' + files[i] + ' failed' + NewLine + comp.ErrorsList[0].ToString());
-      Halt(1);
+      System.Windows.Forms.MessageBox.Show('Compilation of ' + files[i] + ' failed' + System.Environment.NewLine + comp.ErrorsList[0].ToString());
+      Halt();
     end;
   end;
   System.GC.Collect;
@@ -237,9 +230,8 @@ begin
       Sleep(10);
     if p.ExitCode <> 0 then
     begin
-      //System.Windows.Forms.MessageBox.Show('Running of ' + files[i] + ' failed. Exit code is not 0');
-      Console.Error.WriteLine(NewLine + $'***ERROR: Running of ' + files[i] + ' failed -- Exit code is not 0 ({p.ExitCode})' + NewLine);
-      Halt(p.ExitCode);
+      System.Windows.Forms.MessageBox.Show('Running of ' + files[i] + ' failed. Exit code is not 0');
+      Halt;
     end;
   end;
 end;
@@ -291,9 +283,8 @@ begin
   var errors := &File.ReadAllText(TestSuiteDir + PathSeparator + 'formatter_tests' + PathSeparator + 'output' + PathSeparator + 'log.txt');
   if not string.IsNullOrEmpty(errors) then
   begin
-    //System.Windows.Forms.MessageBox.Show(errors + System.Environment.NewLine + 'more info at TestSuite/formatter_tests/output/log.txt');
-    Console.Error.WriteLine(NewLine + '***ERROR: check TestSuite/formatter_tests/output/log.txt:' + NewLine + errors);
-    Halt(1);
+    System.Windows.Forms.MessageBox.Show(errors + System.Environment.NewLine + 'more info at TestSuite/formatter_tests/output/log.txt');
+    Halt;
   end;
 end;
 
@@ -343,163 +334,64 @@ begin
   end;
 end;
 
-function ToMinSec(self: integer): string; extensionmethod;
-begin
-  Result := $'{(self div 60000)}m:{(self div 1000 mod 60):00}s';
-end;
-
-procedure WriteStep(str1: string; str2: string := '');
-const
-  RightMargin = 47;
-  LeftPadding = 5;
-begin
-  if str2 = '' then
-    writeln(str1)
-  else
-    write((LeftPadding * ' ' + str1).PadRight(RightMargin) + str2);
-end;
-
 begin
   //DeletePABCSystemPCU;
-  if ParamCount = 0 then 
-  begin
-    writeln;
-    writeln('[Compilation, unit and functional tests -- FULL SET] >>>>>>>>>>>> START');
-    StartTime := Milliseconds;
-  end
-  else if ((ParamStr(1).Length > 1)) or not (ParamStr(1)[1] in ['1'..'5']) then 
-  begin
-    writeln;
-    writeln($'***Error*** Test group "{ParamStr(1)}" not recognized as valid');
-    writeln;
-    writeln('  USAGE: TestRunner [group_N], where group_N = 1..5');
-    writeln;
-    writeln('  Launching without any arguments would run FULL SET of tests (5 groups) sequentially.');
-    writeln;
-    Halt(1)
-  end;
-  
   try
     TestSuiteDir := GetTestSuiteDir;
     System.Environment.CurrentDirectory := Path.GetDirectoryName(GetEXEFileName());
-    
     if (ParamCount = 0) or (ParamStr(1) = '1') then
     begin
-      writeln;
-      writeln('-----------------------------------------------------------------------');
-      writeln('  [Group 1/5] Generic unit tests in default mode (64-bit preferred):   ');
-      writeln('-----------------------------------------------------------------------');
       DeletePCUFiles;
       ClearExeDir;
-      WriteStep('a) Compilation step', '-> ');
       CompileAllRunTests(false);
-      WriteStep('PASSED');
-      WriteStep('b) Run step', '-> ');
-      RunAllTests(false);
-      WriteStep('PASSED');
-      ClearExeDir;
-      writeln('________________________');
-      writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
     end;
     
     if (ParamCount = 0) or (ParamStr(1) = '2') then
     begin
-      writeln;
-      writeln('-----------------------------------------------------------------------');
-      writeln('  [Group 2/5] Generic unit tests in 32bit mode (forced):               ');
-      writeln('-----------------------------------------------------------------------');
-      DeletePCUFiles;
-      ClearExeDir;    //???
-      WriteStep('a) Compilation step', '-> ');
-      CompileAllRunTests(false, true);        
-      WriteStep('PASSED');
-      WriteStep('b) Run step', '-> ');
-      RunAllTests(false);
-      WriteStep('PASSED');
-      ClearExeDir;
-      writeln('________________________');
-      writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
+      CopyLibFiles;
+      CompileAllCompilationTests('CompilationSamples', false);
     end;
-    
     if (ParamCount = 0) or (ParamStr(1) = '3') then
     begin
-      writeln;
-      writeln('-----------------------------------------------------------------------');
-      writeln('  [Group 3/5] Custom unit tests with PABCRtl.dll (64-bit preferred):   ');
-      writeln('-----------------------------------------------------------------------');
-      DeletePCUFiles; //???
-      ClearExeDir;    //???
-      WriteStep('a) Compilation step (generic samples)', '-> ');
-      CompileAllRunTests(true);
-      WriteStep('PASSED');
-      //WriteStep('N/A    (crashes -- skipped for now)');
-      WriteStep('b) Compilation step (special samples)', '-> ');
-      CompileAllCompilationTests('pabcrtl_tests', true);
-      WriteStep('PASSED');
-      //WriteStep('N/A    (crashes -- skipped for now)');
-      WriteStep('c) Run step (all samples)', '-> ');
-      RunAllTests(false);
-      WriteStep('PASSED');
-      ClearExeDir;    //???
-      writeln('________________________');
-      writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
-    end;
-    
-    if (ParamCount = 0) or (ParamStr(1) = '4') then
-    begin
-      writeln;
-      writeln('-----------------------------------------------------------------------');
-      writeln('  [Group 4/5] Compilation tests of precrafted code samples:            ');
-      writeln('-----------------------------------------------------------------------');
-      DeletePCUFiles; //???
-      ClearExeDir;    //???
-      CopyLibFiles;
-      WriteStep('a) ERROR-FREE samples', '-> ');
-      CompileAllCompilationTests('CompilationSamples', false);
-      WriteStep('PASSED');
-      WriteStep('b) ERROR samples ', '-> ');
       CompileAllUnits;
       CopyPCUFiles;
       CompileAllUsesUnits;
       CompileErrorTests(false);
-      WriteStep('PASSED (by failure as expected)');
-      WriteStep('c) DEMO (bundled) samples', '-> ');
-      WriteStep('N/A    (not implemented yet)');
-      ClearExeDir;    //???
-      writeln('________________________');
-      writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
+      writeln('Tests compiled successfully');
     end;
-    
+    if (ParamCount = 0) or (ParamStr(1) = '4') then
+    begin
+      RunAllTests(false);
+      writeln('Tests run successfully');
+      ClearExeDir;
+      DeletePCUFiles;
+    end;
     if (ParamCount = 0) or (ParamStr(1) = '5') then
     begin
-      writeln;
-      writeln('-----------------------------------------------------------------------');
-      writeln('  [Group 5/5] IDE internals tests:                                     ');
-      writeln('-----------------------------------------------------------------------');
+      
+        CompileAllRunTests(false, true);
+        writeln('Tests in 32bit mode compiled successfully');
+        RunAllTests(false);
+        writeln('Tests in 32bit run successfully');
+        ClearExeDir;
+        CompileAllRunTests(true);
+        writeln('Tests with pabcrtl compiled successfully');
+        CompileAllCompilationTests('pabcrtl_tests', true);
+    end;
+    if (ParamCount = 0) or (ParamStr(1) = '6') then
+    begin
+      RunAllTests(false);
+      writeln('Tests with pabcrtl run successfully');
       System.Environment.CurrentDirectory := Path.GetDirectoryName(GetEXEFileName());
-      WriteStep('a) Intellisense (expressions)', '-> ');
       RunExpressionsExtractTests;
-      WriteStep('PASSED');
-      WriteStep('b) Intellisense (other)', '-> ');
+      writeln('Intellisense expression tests run successfully');
       RunIntellisenseTests;
-      WriteStep('PASSED');
-      WriteStep('c) Code Formatter', '-> ');
+      writeln('Intellisense tests run successfully');
       RunFormatterTests;
-      WriteStep('PASSED');
-      writeln('________________________');
-      writeln($'Elapsed time = {MillisecondsDelta.ToMinSec}');
+      writeln('Formatter tests run successfully');
     end;
   except
     on e: Exception do
       assert(false, e.ToString());
   end;
-  if ParamCount = 0 then
-  begin
-    writeln;
-    writeln('________________________________');
-    writeln($'Total time of tests = {(Milliseconds - StartTime).ToMinSec}');
-    writeln;
-    writeln('[Compilation, unit and functional tests] >>>>>>>>>>>>>>>>>>>>>>> FINISH');
-  end;
-  writeln;
 end.

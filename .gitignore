@@ -57,3 +57,4 @@ Utils/pkzipc/
 ReleaseGenerators/DotNet471/*.exe
 ReleaseGenerators/DotNet40/*.exe
 !ReleaseGenerators/DotNet40/dotNetFx40LP_Full_x86ru.exe
+*.*bak

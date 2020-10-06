@@ -114,8 +114,8 @@ call ..\Utils\fix-CRLF-for-TestRunner.bat  || goto :ERROR
 :: ToDo: add compilation tests to TestRunner for bundled demo samples;
 :: ToDo: research possibility of running some tests in parallel (improve TestRunner or job refactoring within GitHub Actions?);
 @echo Compiling TestRunner.pas...
-pabcnetc TestRunner.pas /rebuildnodebug /noconsole 2>&1 || goto :ERROR
-@rem pabcnetcclear /Debug:0 TestRunner.pas 2>&1 || goto :ERROR
+@rem pabcnetc TestRunner.pas /noconsole 2>&1 || goto :ERROR
+pabcnetcclear /Debug:0 TestRunner.pas 2>&1 || goto :ERROR
 @echo [INFO] Launching TestRunner.exe...& echo.
 TestRunner.exe 3                      2>&1 || goto :ERROR
 TestRunner.exe 1                      2>&1 || goto :ERROR
