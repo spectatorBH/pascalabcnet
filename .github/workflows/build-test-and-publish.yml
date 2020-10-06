@@ -17,10 +17,10 @@ jobs:
 
     - name: Build C# project in Debug-mode, compile Pas-units, run tests, create install packages...
       env: 
-        PABCNET_QUIET_MODE: false
         PABCNET_BUILD_MODE: Debug
         PABCNET_RUN_TESTS: true
         PABCNET_INC_BUILD: false
+        PABCNET_NOT_VERBOSE: false
       run: ./_GenerateAllSetups_CI.bat
 
     - name: Publish artifacts (1/4)...
@@ -42,13 +42,13 @@ jobs:
         path: Release/PascalABCNETWithDotNet40Setup.exe
         
     - name: Publish artifacts (4/4)...
-      uses: actions/upload-artifact@2.1.0
+      uses: actions/upload-artifact@v2.1.0
       with:
         name: PascalABCNET_console_Win_Mac_Linux
         path: Release/PABCNETC.zip
         
     #- name: Publish artifacts (5/5)...
-    #  uses: actions/upload-artifact@2.1.0
+    #  uses: actions/upload-artifact@v2.1.0
     #  with:
     #    name: All_setup_files
     #    path: Release
