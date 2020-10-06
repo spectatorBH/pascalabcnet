@@ -1,7 +1,7 @@
 @echo off
 echo [%~nx0] --------------------------------------------------------------------------------
-echo Trying to convert line-endings in all '*.pas' files under 'TestSuite\formatter_tests' to CR/LF standard
 echo.
+echo Trying to convert line-endings in all '*.pas' files under 'TestSuite\formatter_tests' to CR/LF standard:
 findstr /e /i "VBS-line" "%~0" > "%temp%\~rewrite-lines.vbs" || goto ERROR
 
 forfiles /m *.pas /s /p "%~dp0..\TestSuite\formatter_tests" /c "cmd /c echo Rewriting -- @path && cscript //NoLogo """%temp%\~rewrite-lines.vbs""" <@path >@path.CRLF && move /Y @path.CRLF @path 1>nul"
