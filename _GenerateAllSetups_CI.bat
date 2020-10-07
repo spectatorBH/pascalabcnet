@@ -24,7 +24,7 @@ utils\IncrementVresion\IncrementVresion.exe Configuration\Version.defs REVISION 
 utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs Configuration\GlobalAssemblyInfo.cs.tmpl Configuration\GlobalAssemblyInfo.cs               2>&1 || goto ERROR
 utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs ReleaseGenerators\PascalABCNET_version.nsh.tmpl ReleaseGenerators\PascalABCNET_version.nsh 2>&1 || goto ERROR
 utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs Configuration\pabcversion.txt.tmpl Release\pabcversion.txt                                 2>&1 || goto ERROR
-@echo. & echo [INFO] Done #1.
+@echo. & echo [INFO] Done step #1.
 :SKIP1
 
 @echo. & echo [%~nx0]
@@ -38,7 +38,7 @@ cd /d "%project_root%"
     xcopy /I /E /Q /Y bin bin_copy 2>&1 || goto ERROR
 ) else (
     xcopy /I /E /F /Y bin bin_copy 2>&1 || goto ERROR)
-@echo. & echo [INFO] Done #2 -- Created \bin_copy from \bin.
+@echo. & echo [INFO] Done step #2 -- Created \bin_copy from \bin.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 3/16 ===+
@@ -49,7 +49,7 @@ cd /d "%project_root%"
 cd /d "%project_root%\utils\DefaultLanguageResMaker" 2>&1 || goto ERROR
 :: ToDo: implement basic error handling in the 'LanguageResMaker.exe' tool
 LanguageResMaker.exe                                 2>&1 || goto ERROR
-@echo. & echo [INFO] Done #3.
+@echo. & echo [INFO] Done step #3.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 4/16 ===+
@@ -59,7 +59,7 @@ LanguageResMaker.exe                                 2>&1 || goto ERROR
 @rem cd ..\..
 cd /d "%project_root%"
 call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET.sln 2>&1 || goto ERROR
-@echo. & echo [INFO] Done #4.
+@echo. & echo [INFO] Done step #4.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 5/16 ===+
@@ -74,7 +74,7 @@ if /i {%_BUILD_MODE%} EQU {Release} (echo. & if /i {%PABCNET_VERBOSE%} NEQ {true
             ..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole         1>nul 2>&1 || goto ERROR
     ) else (..\..\bin\pabcnetc PABCRtl.pas /rebuild /noconsole               2>&1 || goto ERROR))
 @echo. & dir | find "PABCRtl.dll"
-@echo. & echo [INFO] Done #5 -- PABCRtl.dll successfully built.
+@echo. & echo [INFO] Done step #5 -- PABCRtl.dll successfully built.
 
 @echo.
 @echo [%~nx0]
@@ -99,7 +99,7 @@ echo.
 cd ..
 gacutil.exe /nologo /u PABCRtl              1>nul 2>&1 || goto ERROR
 gacutil.exe /nologo /f /i ..\bin\Lib\PABCRtl.dll  2>&1 || goto ERROR
-@echo. & echo [INFO] Done #6 -- PABCRtl.dll (\bin\Lib) signed and registered in GAC.
+@echo. & echo [INFO] Done step #6 -- PABCRtl.dll (\bin\Lib) signed and registered in GAC.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 7/16 ===+
@@ -112,7 +112,7 @@ cd /d "%project_root%\ReleaseGenerators"                                        
 ) else (if /i {%PABCNET_VERBOSE%} NEQ {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole         1>nul 2>&1 || goto ERROR
     ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole               2>&1 || goto ERROR))
-@echo. & echo [INFO] Done #7 -- Standard units successfully built.
+@echo. & echo [INFO] Done step #7 -- Standard units successfully built.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 8/16 ===+
@@ -132,7 +132,7 @@ cd /d "%project_root%\bin"         2>&1 || goto ERROR
 @rem @echo [INFO] Compiling fresh TestRunner_orig.pas...
 @rem pabcnetcclear TestRunner_orig.pas  2>&1 || goto ERROR
 @rem @echo [INFO] Launching TestRunner_orig.exe...
-@rem TestRunner_orig.exe 6              2>&1 || goto ERROR
+TestRunner_orig.exe 6              2>&1 || goto ERROR
 @rem TestRunner_orig.exe                2>&1 || goto ERROR
 @echo [INFO] Compiling fresh TestRunner.pas...
 pabcnetcclear TestRunner.pas       2>&1 || goto ERROR
@@ -140,7 +140,7 @@ pabcnetcclear TestRunner.pas       2>&1 || goto ERROR
 TestRunner.exe 5                   2>&1 || goto ERROR
 REM TestRunner.exe                     2>&1 || goto ERROR
 @if /i {%PABCNET_NOT_VERBOSE%} NEQ {true} type TestRunner_log.txt
-@echo. & echo [INFO] Done #8 -- All tests successfully accomplished.
+@echo. & echo [INFO] Done step #8 -- All tests successfully accomplished.
 :SKIP8
 
 @echo. & echo [%~nx0]
@@ -157,7 +157,7 @@ cd /d "%project_root%\ReleaseGenerators"              2>&1 || goto ERROR
 ) else (
     xcopy /I /F /Y ..\bin\Lib\*.pas LibSource         2>&1 || goto ERROR
     mklink /D Samples\Pas ..\..\InstallerSamples      2>&1 || goto ERROR)
-@echo. & echo [INFO] Done #9 -- \LibSource and \Samples ready.
+@echo. & echo [INFO] Done step #9 -- \LibSource and \Samples ready.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 10/16 ==+
@@ -166,7 +166,7 @@ cd /d "%project_root%\ReleaseGenerators"              2>&1 || goto ERROR
 @echo.
 cd /d "%project_root%\ReleaseGenerators" 2>&1 || goto ERROR
 call PascalABCNET_ALL.bat                2>&1 || goto ERROR
-@echo. & echo [INFO] Done #10.
+@echo. & echo [INFO] Done step #10.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 11/16 ==+
@@ -176,7 +176,7 @@ call PascalABCNET_ALL.bat                2>&1 || goto ERROR
 cd /d "%project_root%"
 @rmdir /S /Q bin2  >nul 2>&1
 rename bin\ bin2        2>&1 || goto ERROR
-@echo. & echo [INFO] Done #11 -- Renamed \bin to \bin2
+@echo. & echo [INFO] Done step #11 -- Renamed \bin to \bin2
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 12/16 ==+
@@ -192,7 +192,7 @@ rename bin_copy\ bin                          2>&1 || goto ERROR
 ) else (
     xcopy /L /F bin2\Lib\*.pcu bin\Lib\       2>&1 || goto ERROR
     xcopy /L /F bin2\Lib\PABCRtl.dll bin\Lib\ 2>&1 || goto ERROR)
-@echo. & echo [INFO] Done #12 -- Renamed \bin_copy to \bin, copied prebuilt *.pcu modules + PABCRtl.dll to \bin\Lib
+@echo. & echo [INFO] Done step #12 -- Renamed \bin_copy to \bin, copied prebuilt *.pcu modules + PABCRtl.dll to \bin\Lib
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 13/16 ==+
@@ -201,7 +201,7 @@ rename bin_copy\ bin                          2>&1 || goto ERROR
 @echo.
 cd /d "%project_root%"
 call Studio.bat /m /t:Rebuild "/p:Configuration=%_BUILD_MODE%" "/p:Platform=Any CPU" PascalABCNET_40.sln 2>&1 || goto ERROR
-@echo. & echo [INFO] Done #13.
+@echo. & echo [INFO] Done step #13.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 14/16 ==+
@@ -218,7 +218,7 @@ cd ReleaseGenerators                                                            
 ) else (if /i {%PABCNET_VERBOSE%} NEQ {true} (
             ..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole         >nul 2>&1 || goto ERROR
     ) else (..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole              2>&1 || goto ERROR))
-@echo. & echo [INFO] Done #14 -- Standard units successfully re-built.
+@echo. & echo [INFO] Done step #14 -- Standard units successfully re-built.
 :SKIP14
 
 @echo. & echo [%~nx0]
@@ -229,7 +229,7 @@ cd ReleaseGenerators                                                            
 @rem cd ReleaseGenerators                 2>&1 || goto ERROR
 cd /d "%project_root%\ReleaseGenerators"  2>&1 || goto ERROR
 call PascalABCNETWithDotNet40.bat         2>&1 || goto ERROR
-@echo. & echo [INFO] Done #15.
+@echo. & echo [INFO] Done step #15.
 
 @echo. & echo [%~nx0]
 @echo +======================================================================== Step 16/16 ==+
@@ -242,7 +242,7 @@ cd /d "%project_root%"
 rmdir /S /Q bin && rename bin2\ bin        2>&1 || goto ERROR
 rmdir /S /Q ReleaseGenerators\LibSource    2>&1 || goto ERROR
 rmdir /S /Q ReleaseGenerators\Samples\Pas  2>&1 || goto ERROR
-@echo. & echo [INFO] Done #16 -- restored \bin with Pascal binaries for .NET 4.7.1 target (Win7+).
+@echo. & echo [INFO] Done step #16 -- restored \bin with Pascal binaries for .NET 4.7.1 target (Win7+).
 
 popd
 @echo. & echo [%~nx0]
