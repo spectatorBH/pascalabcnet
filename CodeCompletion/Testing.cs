@@ -272,7 +272,7 @@ namespace CodeCompletion
             //---BH
 //#if DEBUG
 //            if (message != null)
-//      		  System.Diagnostics.Debug.Assert(cond, message);
+//      		      System.Diagnostics.Debug.Assert(cond, message);
 //            else
 //                System.Diagnostics.Debug.Assert(cond);
 //#else
@@ -1080,7 +1080,7 @@ namespace CodeCompletion
         public static void Test()
         {
             string test_dir = GetTestSuiteDir() + @"\formatter_tests";
-            string[] files = Directory.GetFiles(test_dir+@"\input","*.pas");
+            string[] files = Directory.GetFiles(test_dir + @"\input","*.pas");
             StreamWriter log = new StreamWriter(test_dir + @"\output\log.txt", false, Encoding.GetEncoding(1251));
             SyntaxTreeComparer stc = new SyntaxTreeComparer();
             foreach (string s in files)
