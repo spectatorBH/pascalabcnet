@@ -36,9 +36,9 @@ namespace CodeCompletion
             for (int i = 0; i < files.Length; i++)
             {
                 var FileName = files[i];
-#if DEBUG
+            #if DEBUG
                 Console.WriteLine("Processing: " + FileName); //BH
-#endif
+            #endif
                 var content = File.ReadAllText(FileName);
                 var dc = controller.Compile(FileName, content);
 
@@ -266,21 +266,21 @@ namespace CodeCompletion
     	{
             //BH---
             if (message == null)
-                message="";
+                message = "";
             if (!cond)
-                Console.Error.WriteLine("***ASSERT FAILURE: "+ message);
+                Console.Error.WriteLine("***ASSERT FAILURE: " + message);
             //---BH
-//#if DEBUG
-//            if (message != null)
-//      		      System.Diagnostics.Debug.Assert(cond, message);
-//            else
-//                System.Diagnostics.Debug.Assert(cond);
-//#else
-//           if (message != null)
-//                System.Diagnostics.Trace.Assert(cond, message);
-//            else
-//                System.Diagnostics.Trace.Assert(cond);
-//#endif
+        //#if DEBUG
+        //    if (message != null)
+        //        System.Diagnostics.Debug.Assert(cond, message);
+        //    else
+        //        System.Diagnostics.Debug.Assert(cond);
+        //#else
+        //    if (message != null)
+        //        System.Diagnostics.Trace.Assert(cond, message);
+        //    else
+        //        System.Diagnostics.Trace.Assert(cond);
+        //#endif
         }
 
     	private static void TestVBNETExpressionExtract()

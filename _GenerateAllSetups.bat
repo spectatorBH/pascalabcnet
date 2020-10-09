@@ -21,11 +21,11 @@ call Studio.bat /t:rebuild "/property:Configuration=Release" PascalABCNET.sln
 @IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 cd ReleaseGenerators
-..\bin\pabcnetc RebuildStandartModules.pas /rebuild
+..\bin\pabcnetc RebuildStandartModules.pas /rebuild /console
 @IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 cd PABCRtl
-..\..\bin\pabcnetc PABCRtl.pas /rebuild
+..\..\bin\pabcnetc PABCRtl.pas /rebuild /console
 @IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 ..\sn.exe -Vr PABCRtl.dll
 ..\sn.exe -R PABCRtl.dll KeyPair.snk
@@ -36,16 +36,17 @@ cd ..
 ExecHide.exe gacutil.exe /u PABCRtl
 ExecHide.exe gacutil.exe /i ..\bin\Lib\PABCRtl.dll
 
-..\bin\pabcnetc RebuildStandartModules.pas /rebuild
+..\bin\pabcnetc RebuildStandartModules.pas /rebuild /console
 @IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 cd ..\bin
-TestRunner.exe 1
-TestRunner.exe 2
-TestRunner.exe 3
-TestRunner.exe 4
-TestRunner.exe 5
-TestRunner.exe 6
+REM TestRunner_orig.exe
+REM TestRunner.exe 1
+REM TestRunner.exe 2
+REM TestRunner.exe 3
+REM TestRunner.exe 4
+REM TestRunner.exe 5
+REM TestRunner.exe 6
 
 cd ..\ReleaseGenerators
 call PascalABCNET_ALL.bat
@@ -57,6 +58,7 @@ call PascalABCNETWithDotNet40.bat
 
 cd ..
 call Studio.bat /t:rebuild "/property:Configuration=Release" PascalABCNET.sln
+TestRunner_orig.exe
 
 GOTO EXIT
 
