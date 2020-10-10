@@ -40,7 +40,7 @@ ExecHide.exe gacutil.exe /i ..\bin\Lib\PABCRtl.dll
 @IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
 cd ..\bin
-REM TestRunner.exe
+REM TestRunner_orig.exe
 REM TestRunner.exe 1
 REM TestRunner.exe 2
 REM TestRunner.exe 3
@@ -58,7 +58,9 @@ call PascalABCNETWithDotNet40.bat
 
 cd ..
 call Studio.bat /t:rebuild "/property:Configuration=Release" PascalABCNET.sln
-TestRunner.exe
+
+cd bin
+TestRunner_orig.exe
 
 GOTO EXIT
 
