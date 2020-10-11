@@ -1,4 +1,4 @@
-﻿// This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
+// This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 {$reference Compiler.dll}
 {$reference CodeCompletion.dll}
 {$reference Errors.dll}
@@ -15,7 +15,7 @@ var
   TestSuiteDir:  string;
   PathSeparator: string := Path.DirectorySeparatorChar;
   Log: System.IO.StreamWriter;
-  
+
 {function GetLineByPos(lines: array of string; pos: integer): integer;
 begin
   var cum_pos := 0;
@@ -27,7 +27,7 @@ begin
         Result := i + 1;
         exit;
       end;
-      Inc(cum_pos);  
+      Inc(cum_pos);
     end;
 end;
 
@@ -42,7 +42,7 @@ begin
         Result := j + 1;
         exit;
       end;
-      Inc(cum_pos);  
+      Inc(cum_pos);
     end;
 end;}
 
@@ -132,7 +132,7 @@ procedure CompileErrorTests(withide: boolean);
 begin
   Log.WriteLine('[CompileErrorTests] -- Started:');
   var comp := new Compiler();
-  
+
   var files := Directory.GetFiles(TestSuiteDir + PathSeparator + 'errors', '*.pas');
   for var i := 0 to files.Length - 1 do
   begin
@@ -147,7 +147,7 @@ begin
     co.RunWithEnvironment := withide;
     comp.ErrorsList.Clear();
     comp.Warnings.Clear();
-    
+
     comp.Compile(co);
     if comp.ErrorsList.Count = 0 then
     begin
@@ -181,7 +181,7 @@ procedure CompileAllRunTests(withdll: boolean; only32bit: boolean := false);
 begin
   Log.WriteLine($'[CompileAllRunTests] -- Started:');
   var comp := new Compiler();
-  
+
   var files := Directory.GetFiles(TestSuiteDir, '*.pas');
   for var i := 0 to files.Length - 1 do
   begin
@@ -200,7 +200,7 @@ begin
     co.Only32Bit := only32bit;
     comp.ErrorsList.Clear();
     comp.Warnings.Clear();
-    
+
     comp.Compile(co);
     if comp.ErrorsList.Count > 0 then
     begin
@@ -222,7 +222,7 @@ procedure CompileAllCompilationTests(dir: string; withdll: boolean);
 begin
   Log.WriteLine($'[CompileAllCompilationTests] -- Started:');
   var comp := new Compiler();
-  
+
   var files := Directory.GetFiles(TestSuiteDir + PathSeparator + dir, '*.pas');
   for var i := 0 to files.Length - 1 do
   begin
@@ -238,7 +238,7 @@ begin
     co.IgnoreRtlErrors := false;
     comp.ErrorsList.Clear();
     comp.Warnings.Clear();
-    
+
     comp.Compile(co);
     if comp.ErrorsList.Count > 0 then
     begin
@@ -260,7 +260,7 @@ procedure CompileAllUnits;
 begin
   Log.WriteLine($'[CompileAllUnits] -- Started:');
   var comp := new Compiler();
-  
+
   var files := Directory.GetFiles(TestSuiteDir + PathSeparator + 'units', '*.pas');
   var dir := TestSuiteDir + PathSeparator + 'units' + PathSeparator;
   for var i := 0 to files.Length - 1 do
@@ -275,7 +275,7 @@ begin
     co.UseDllForSystemUnits := false;
     comp.ErrorsList.Clear();
     comp.Warnings.Clear();
-    
+
     comp.Compile(co);
     if comp.ErrorsList.Count > 0 then
     begin
@@ -297,7 +297,7 @@ begin
   Log.WriteLine($'[CompileAllUsesUnits] -- Started:');
   System.Environment.CurrentDirectory := Path.GetDirectoryName(GetEXEFileName());
   var comp := new Compiler();
-  
+
   var files := Directory.GetFiles(TestSuiteDir + PathSeparator + 'usesunits', '*.pas');
   for var i := 0 to files.Length - 1 do
   begin
@@ -338,7 +338,7 @@ begin
     var psi := new System.Diagnostics.ProcessStartInfo(files[i]);
     psi.CreateNoWindow := true;
     psi.UseShellExecute := false;
-    
+
     psi.WorkingDirectory := TestSuiteDir + PathSeparator + 'exe';
 		  {psi.RedirectStandardInput := true;
 		  psi.RedirectStandardOutput := true;
@@ -350,7 +350,7 @@ begin
       p.StandardInput.WriteLine('GO');
 		  //p.StandardInput.AutoFlush := true;
 		  //var p := System.Diagnostics.Process.Start(psi);
-    
+
     while not p.HasExited do
       Sleep(10);
     if p.ExitCode <> 0 then
@@ -447,18 +447,17 @@ begin
       Halt(-1)
     end;
   end;
-  
+
   Log := new StreamWriter('TestRunner_log.txt', false);
   Log.WriteLine(DateTime.Now.ToString + NewLine);
   System.Environment.CurrentDirectory := Path.GetDirectoryName(GetEXEFileName());
   TestSuiteDir := GetTestSuiteDir();
   writeln;
-  if ParamCount = 0
-  then
+  if ParamCount = 0 then
     writeln('[Compilation, unit and functional tests -- FULL SET] >>>>>>>>>>>> START')
-  else 
+  else
     writeln('[Compilation, unit and functional tests -- CUSTOM SET] >>>>>>>>>> START');
-  
+
   var StartTime := Milliseconds;
   var GroupTime: integer;
   try
@@ -481,7 +480,7 @@ begin
       writeln2('________________________');
       writeln2($'Elapsed time = {(Milliseconds - GroupTime).ToMinSec}');
     end;
-    
+
     if (ParamCount = 0) or ('2' in ParamSet) then
     begin
       GroupTime := Milliseconds;
@@ -501,7 +500,7 @@ begin
       writeln2('________________________');
       writeln2($'Elapsed time = {(Milliseconds - GroupTime).ToMinSec}');
     end;
-    
+
     if (ParamCount = 0) or ('3' in ParamSet) then
     begin
       GroupTime := Milliseconds;
@@ -524,7 +523,7 @@ begin
       writeln2('________________________');
       writeln2($'Elapsed time = {(Milliseconds - GroupTime).ToMinSec}');
     end;
-    
+
     if (ParamCount = 0) or ('4' in ParamSet) then
     begin
       GroupTime := Milliseconds;
@@ -550,7 +549,7 @@ begin
       writeln2('________________________');
       writeln2($'Elapsed time = {(Milliseconds - GroupTime).ToMinSec}');
     end;
-    
+
     if (ParamCount = 0) or ('5' in ParamSet) then
     begin
       GroupTime := Milliseconds;

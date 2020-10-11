@@ -29,7 +29,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install dependencies into Virtual Environment...
-      run: ./_RegisterHelixNUnit.bat
+      run: _RegisterHelixNUnit.bat
 
     - name: Build project in Debug-mode, compile Pas-units, run tests, create install packages...
       timeout-minutes: 20
@@ -38,7 +38,7 @@ jobs:
         PABCNET_RUN_TESTS: true
         PABCNET_INC_BUILD: false
         PABCNET_VERBOSE: true
-      run: _GenerateAllSetups.bat
+      run: _GenerateAllSetups_CI.bat
 
     #- name: TestRunner_log.txt...
     #  run: if exist bin\TestRunner_log.txt (type bin\TestRunner_log.txt)
