@@ -38,10 +38,10 @@ jobs:
         PABCNET_RUN_TESTS: true
         PABCNET_INC_BUILD: false
         PABCNET_VERBOSE: true
-      run: ./_GenerateAllSetups.bat
+      run: _GenerateAllSetups.bat
 
-    - name: TestRunner_log.txt...
-      run: type ./TestRunner_log.txt
+    #- name: TestRunner_log.txt...
+    #  run: if exist bin\TestRunner_log.txt (type bin\TestRunner_log.txt)
 
     - name: Publish artifacts (1/4)...
       uses: actions/upload-artifact@v2.1.0
