@@ -20,10 +20,8 @@ jobs:
 
     name: Prepare and build on Windows Server 2016 VM
     runs-on: windows-2016
-    #timeout-minutes: 30
     #continue-on-error: true
     steps:
-
     #- run: git config --system core.autocrlf true
 
     - uses: actions/checkout@v2
@@ -32,13 +30,13 @@ jobs:
       run: _RegisterHelixNUnit.bat
 
     - name: Build project in Debug-mode, compile Pas-units, run tests, create install packages...
+      run: _GenerateAllSetups_CI.bat
       timeout-minutes: 20
       env:
         PABCNET_BUILD_MODE: Debug
-        PABCNET_RUN_TESTS: true
-        PABCNET_INC_BUILD: false
-        PABCNET_VERBOSE: true
-      run: _GenerateAllSetups_CI.bat
+        PABCNET_RUN_TESTS:  true
+        PABCNET_INC_BUILD:  false
+        PABCNET_VERBOSE:    true
 
     #- name: TestRunner_log.txt...
     #  run: if exist bin\TestRunner_log.txt (type bin\TestRunner_log.txt)
