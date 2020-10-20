@@ -1,2 +1,14 @@
-*.bat text=auto eol=crlf
-*.cmd text=auto eol=crlf
+# The default global behavior (equal autocrlf=true), in case somebody doesn't have core.autocrlf set locally:
+* text=auto
+
+# Files that will always use CRLF endings on git checkout even in non-Windows environments:
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Files that are truly binary and will never be modified:
+*.png binary
+*.jpg binary
+*.bmp binary
+*.ico binary
+*.exe binary
+*.dll binary
