@@ -1,14 +1,17 @@
-# The default global behavior (equal autocrlf=true), in case somebody doesn't have core.autocrlf set locally:
+# Default global behavior (aka autocrlf=true), in case somebody doesn't have core.autocrlf set locally:
 * text=auto
 
-# Files that will always use CRLF endings on git checkout even in non-Windows environments:
-*.bat text eol=crlf
-*.cmd text eol=crlf
+# Custom files that will always use specific line-endings on checkout irrelevant of the OS being used:
+*.sln    text eol=crlf
+*.csproj text eol=crlf
+*.bat    text eol=crlf
+*.cmd    text eol=crlf
+*.sh     text eol=lf
 
 # Files that are truly binary and will never be modified:
-*.png binary
-*.jpg binary
-*.bmp binary
-*.ico binary
-*.exe binary
-*.dll binary
+*.png    binary
+*.jpg    binary
+*.bmp    binary
+*.ico    binary
+*.exe    binary
+*.dll    binary
