@@ -1,14 +1,15 @@
-# Default global behavior (aka autocrlf=true), in case somebody doesn't have core.autocrlf set locally:
+# Auto detect text files and perform LF normalization:
+# (equivalent to 'git config --global core.autocrlf true' set locally)
 * text=auto
 
-# Custom files that will always use specific line-endings on checkout irrelevant of the OS being used:
-*.sln    text eol=crlf
-*.csproj text eol=crlf
+# Files that will always use specific line-endings:
 *.bat    text eol=crlf
 *.cmd    text eol=crlf
 *.sh     text eol=lf
+#*.sln    text eol=crlf
+#*.csproj text eol=crlf
 
-# Files that are truly binary and will never be modified:
+# Files that are truly binary and should never be normalized:
 *.png    binary
 *.jpg    binary
 *.bmp    binary
