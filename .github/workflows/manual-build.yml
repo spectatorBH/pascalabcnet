@@ -2,7 +2,11 @@ name: Build & Publish (pre-UTF8)
 
 on:
   workflow_dispatch:
-  
+
+defaults:
+  run:
+    shell: cmd
+
 jobs:
   build:
 
