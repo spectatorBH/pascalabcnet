@@ -1,11 +1,11 @@
-name: Build & Publish (pre-UTF8)
+name: Build, Test & Publish (pre-UTF8)
 
 on:
   workflow_dispatch:
 
-defaults:
-  run:
-    shell: cmd
+#defaults:
+#  run:
+#    shell: cmd
 
 jobs:
   build:
@@ -19,7 +19,7 @@ jobs:
       run: _RegisterHelixNUnit.bat
 
     - name: Build project in Release-mode, compile Pas-units, create install packages...
-      run: _GenerateAllSetups.bat
+      run: _RebuildReleaseAndRunTestsForGitHubActions.bat
       timeout-minutes: 30
       env:
         PABCNET_BUILD_MODE: Release
