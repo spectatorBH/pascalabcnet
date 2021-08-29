@@ -1,4 +1,4 @@
-name: Build, Test & Publish (pre-UTF8)
+name: Build & Publish (pre-UTF8)
 
 on:
   workflow_dispatch:
@@ -18,12 +18,12 @@ jobs:
     - name: Install dependencies into Virtual Environment...
       run: _RegisterHelixNUnit.bat
 
-    - name: Build project in Release-mode, compile Pas-units, run tests & create install packages...
-      run: _RebuildReleaseAndRunTestsForGitHubActions.bat
+    - name: Build project in Release-mode, compile Pas-units & create install packages...
+      run: _GenerateAllSetups2.bat
       timeout-minutes: 30
       env:
         PABCNET_BUILD_MODE: Release
-        PABCNET_RUN_TESTS:  true
+        PABCNET_RUN_TESTS:  false
         PABCNET_INC_BUILD:  false
         PABCNET_VERBOSE:    false
 
