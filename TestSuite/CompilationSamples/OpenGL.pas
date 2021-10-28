@@ -1976,6 +1976,7 @@ type
     public static property PRIMITIVE_RESTART_FIXED_INDEX:           EnableCap read new EnableCap($8D69);
     public static property FRAMEBUFFER_SRGB:                        EnableCap read new EnableCap($8DB9);
     public static property SAMPLE_MASK:                             EnableCap read new EnableCap($8E51);
+    public static property FETCH_PER_SAMPLE_ARM:                    EnableCap read new EnableCap($8F65);
     public static property PRIMITIVE_RESTART:                       EnableCap read new EnableCap($8F9D);
     public static property DEBUG_OUTPUT:                            EnableCap read new EnableCap($92E0);
     public static property SHADING_RATE_IMAGE_PER_PRIMITIVE_NV:     EnableCap read new EnableCap($95B1);
@@ -2113,6 +2114,7 @@ type
       if self.val = UInt32($8D69) then Result := 'PRIMITIVE_RESTART_FIXED_INDEX' else
       if self.val = UInt32($8DB9) then Result := 'FRAMEBUFFER_SRGB' else
       if self.val = UInt32($8E51) then Result := 'SAMPLE_MASK' else
+      if self.val = UInt32($8F65) then Result := 'FETCH_PER_SAMPLE_ARM' else
       if self.val = UInt32($8F9D) then Result := 'PRIMITIVE_RESTART' else
       if self.val = UInt32($92E0) then Result := 'DEBUG_OUTPUT' else
       if self.val = UInt32($95B1) then Result := 'SHADING_RATE_IMAGE_PER_PRIMITIVE_NV' else
@@ -3232,6 +3234,8 @@ type
     public static property MAX_SAMPLE_MASK_WORDS:                          GetPName read new GetPName($8E59);
     public static property MAX_TESS_CONTROL_UNIFORM_BLOCKS:                GetPName read new GetPName($8E89);
     public static property MAX_TESS_EVALUATION_UNIFORM_BLOCKS:             GetPName read new GetPName($8E8A);
+    public static property FETCH_PER_SAMPLE_ARM:                           GetPName read new GetPName($8F65);
+    public static property FRAGMENT_SHADER_FRAMEBUFFER_FETCH_MRT_ARM:      GetPName read new GetPName($8F66);
     public static property PRIMITIVE_RESTART_INDEX:                        GetPName read new GetPName($8F9E);
     public static property MIN_MAP_BUFFER_ALIGNMENT:                       GetPName read new GetPName($90BC);
     public static property SHADER_STORAGE_BUFFER_BINDING:                  GetPName read new GetPName($90D3);
@@ -3797,6 +3801,8 @@ type
       if self.val = UInt32($8E59) then Result := 'MAX_SAMPLE_MASK_WORDS' else
       if self.val = UInt32($8E89) then Result := 'MAX_TESS_CONTROL_UNIFORM_BLOCKS' else
       if self.val = UInt32($8E8A) then Result := 'MAX_TESS_EVALUATION_UNIFORM_BLOCKS' else
+      if self.val = UInt32($8F65) then Result := 'FETCH_PER_SAMPLE_ARM' else
+      if self.val = UInt32($8F66) then Result := 'FRAGMENT_SHADER_FRAMEBUFFER_FETCH_MRT_ARM' else
       if self.val = UInt32($8F9E) then Result := 'PRIMITIVE_RESTART_INDEX' else
       if self.val = UInt32($90BC) then Result := 'MIN_MAP_BUFFER_ALIGNMENT' else
       if self.val = UInt32($90D3) then Result := 'SHADER_STORAGE_BUFFER_BINDING' else
@@ -4253,304 +4259,399 @@ type
     public val: UInt32;
     public constructor(val: UInt32) := self.val := val;
     
-    public static property STENCIL_INDEX:                             InternalFormat read new InternalFormat($1901);
-    public static property STENCIL_INDEX_OES:                         InternalFormat read new InternalFormat($1901);
-    public static property DEPTH_COMPONENT:                           InternalFormat read new InternalFormat($1902);
-    public static property RED:                                       InternalFormat read new InternalFormat($1903);
-    public static property RED_EXT:                                   InternalFormat read new InternalFormat($1903);
-    public static property RGB:                                       InternalFormat read new InternalFormat($1907);
-    public static property RGBA:                                      InternalFormat read new InternalFormat($1908);
-    public static property R3_G3_B2:                                  InternalFormat read new InternalFormat($2A10);
-    public static property ALPHA4:                                    InternalFormat read new InternalFormat($803B);
-    public static property ALPHA8:                                    InternalFormat read new InternalFormat($803C);
-    public static property ALPHA12:                                   InternalFormat read new InternalFormat($803D);
-    public static property ALPHA16:                                   InternalFormat read new InternalFormat($803E);
-    public static property LUMINANCE4:                                InternalFormat read new InternalFormat($803F);
-    public static property LUMINANCE8:                                InternalFormat read new InternalFormat($8040);
-    public static property LUMINANCE12:                               InternalFormat read new InternalFormat($8041);
-    public static property LUMINANCE16:                               InternalFormat read new InternalFormat($8042);
-    public static property LUMINANCE4_ALPHA4:                         InternalFormat read new InternalFormat($8043);
-    public static property LUMINANCE6_ALPHA2:                         InternalFormat read new InternalFormat($8044);
-    public static property LUMINANCE8_ALPHA8:                         InternalFormat read new InternalFormat($8045);
-    public static property LUMINANCE12_ALPHA4:                        InternalFormat read new InternalFormat($8046);
-    public static property LUMINANCE12_ALPHA12:                       InternalFormat read new InternalFormat($8047);
-    public static property LUMINANCE16_ALPHA16:                       InternalFormat read new InternalFormat($8048);
-    public static property INTENSITY:                                 InternalFormat read new InternalFormat($8049);
-    public static property INTENSITY4:                                InternalFormat read new InternalFormat($804A);
-    public static property INTENSITY8:                                InternalFormat read new InternalFormat($804B);
-    public static property INTENSITY12:                               InternalFormat read new InternalFormat($804C);
-    public static property INTENSITY16:                               InternalFormat read new InternalFormat($804D);
-    public static property RGB2_EXT:                                  InternalFormat read new InternalFormat($804E);
-    public static property RGB4:                                      InternalFormat read new InternalFormat($804F);
-    public static property RGB4_EXT:                                  InternalFormat read new InternalFormat($804F);
-    public static property RGB5:                                      InternalFormat read new InternalFormat($8050);
-    public static property RGB5_EXT:                                  InternalFormat read new InternalFormat($8050);
-    public static property RGB8:                                      InternalFormat read new InternalFormat($8051);
-    public static property RGB8_EXT:                                  InternalFormat read new InternalFormat($8051);
-    public static property RGB8_OES:                                  InternalFormat read new InternalFormat($8051);
-    public static property RGB10:                                     InternalFormat read new InternalFormat($8052);
-    public static property RGB10_EXT:                                 InternalFormat read new InternalFormat($8052);
-    public static property RGB12:                                     InternalFormat read new InternalFormat($8053);
-    public static property RGB12_EXT:                                 InternalFormat read new InternalFormat($8053);
-    public static property RGB16:                                     InternalFormat read new InternalFormat($8054);
-    public static property RGB16_EXT:                                 InternalFormat read new InternalFormat($8054);
-    public static property RGBA4:                                     InternalFormat read new InternalFormat($8056);
-    public static property RGBA4_EXT:                                 InternalFormat read new InternalFormat($8056);
-    public static property RGBA4_OES:                                 InternalFormat read new InternalFormat($8056);
-    public static property RGB5_A1:                                   InternalFormat read new InternalFormat($8057);
-    public static property RGB5_A1_EXT:                               InternalFormat read new InternalFormat($8057);
-    public static property RGB5_A1_OES:                               InternalFormat read new InternalFormat($8057);
-    public static property RGBA8:                                     InternalFormat read new InternalFormat($8058);
-    public static property RGBA8_EXT:                                 InternalFormat read new InternalFormat($8058);
-    public static property RGBA8_OES:                                 InternalFormat read new InternalFormat($8058);
-    public static property RGB10_A2:                                  InternalFormat read new InternalFormat($8059);
-    public static property RGB10_A2_EXT:                              InternalFormat read new InternalFormat($8059);
-    public static property RGBA12:                                    InternalFormat read new InternalFormat($805A);
-    public static property RGBA12_EXT:                                InternalFormat read new InternalFormat($805A);
-    public static property RGBA16:                                    InternalFormat read new InternalFormat($805B);
-    public static property RGBA16_EXT:                                InternalFormat read new InternalFormat($805B);
-    public static property DUAL_ALPHA4_SGIS:                          InternalFormat read new InternalFormat($8110);
-    public static property DUAL_ALPHA8_SGIS:                          InternalFormat read new InternalFormat($8111);
-    public static property DUAL_ALPHA12_SGIS:                         InternalFormat read new InternalFormat($8112);
-    public static property DUAL_ALPHA16_SGIS:                         InternalFormat read new InternalFormat($8113);
-    public static property DUAL_LUMINANCE4_SGIS:                      InternalFormat read new InternalFormat($8114);
-    public static property DUAL_LUMINANCE8_SGIS:                      InternalFormat read new InternalFormat($8115);
-    public static property DUAL_LUMINANCE12_SGIS:                     InternalFormat read new InternalFormat($8116);
-    public static property DUAL_LUMINANCE16_SGIS:                     InternalFormat read new InternalFormat($8117);
-    public static property DUAL_INTENSITY4_SGIS:                      InternalFormat read new InternalFormat($8118);
-    public static property DUAL_INTENSITY8_SGIS:                      InternalFormat read new InternalFormat($8119);
-    public static property DUAL_INTENSITY12_SGIS:                     InternalFormat read new InternalFormat($811A);
-    public static property DUAL_INTENSITY16_SGIS:                     InternalFormat read new InternalFormat($811B);
-    public static property DUAL_LUMINANCE_ALPHA4_SGIS:                InternalFormat read new InternalFormat($811C);
-    public static property DUAL_LUMINANCE_ALPHA8_SGIS:                InternalFormat read new InternalFormat($811D);
-    public static property QUAD_ALPHA4_SGIS:                          InternalFormat read new InternalFormat($811E);
-    public static property QUAD_ALPHA8_SGIS:                          InternalFormat read new InternalFormat($811F);
-    public static property QUAD_LUMINANCE4_SGIS:                      InternalFormat read new InternalFormat($8120);
-    public static property QUAD_LUMINANCE8_SGIS:                      InternalFormat read new InternalFormat($8121);
-    public static property QUAD_INTENSITY4_SGIS:                      InternalFormat read new InternalFormat($8122);
-    public static property QUAD_INTENSITY8_SGIS:                      InternalFormat read new InternalFormat($8123);
-    public static property DEPTH_COMPONENT16:                         InternalFormat read new InternalFormat($81A5);
-    public static property DEPTH_COMPONENT16_ARB:                     InternalFormat read new InternalFormat($81A5);
-    public static property DEPTH_COMPONENT16_OES:                     InternalFormat read new InternalFormat($81A5);
-    public static property DEPTH_COMPONENT16_SGIX:                    InternalFormat read new InternalFormat($81A5);
-    public static property DEPTH_COMPONENT24_ARB:                     InternalFormat read new InternalFormat($81A6);
-    public static property DEPTH_COMPONENT24_OES:                     InternalFormat read new InternalFormat($81A6);
-    public static property DEPTH_COMPONENT24_SGIX:                    InternalFormat read new InternalFormat($81A6);
-    public static property DEPTH_COMPONENT32_ARB:                     InternalFormat read new InternalFormat($81A7);
-    public static property DEPTH_COMPONENT32_OES:                     InternalFormat read new InternalFormat($81A7);
-    public static property DEPTH_COMPONENT32_SGIX:                    InternalFormat read new InternalFormat($81A7);
-    public static property COMPRESSED_RED:                            InternalFormat read new InternalFormat($8225);
-    public static property COMPRESSED_RG:                             InternalFormat read new InternalFormat($8226);
-    public static property RG:                                        InternalFormat read new InternalFormat($8227);
-    public static property R8:                                        InternalFormat read new InternalFormat($8229);
-    public static property R8_EXT:                                    InternalFormat read new InternalFormat($8229);
-    public static property R16:                                       InternalFormat read new InternalFormat($822A);
-    public static property R16_EXT:                                   InternalFormat read new InternalFormat($822A);
-    public static property RG8:                                       InternalFormat read new InternalFormat($822B);
-    public static property RG8_EXT:                                   InternalFormat read new InternalFormat($822B);
-    public static property RG16:                                      InternalFormat read new InternalFormat($822C);
-    public static property RG16_EXT:                                  InternalFormat read new InternalFormat($822C);
-    public static property R16F:                                      InternalFormat read new InternalFormat($822D);
-    public static property R16F_EXT:                                  InternalFormat read new InternalFormat($822D);
-    public static property R32F:                                      InternalFormat read new InternalFormat($822E);
-    public static property R32F_EXT:                                  InternalFormat read new InternalFormat($822E);
-    public static property RG16F:                                     InternalFormat read new InternalFormat($822F);
-    public static property RG16F_EXT:                                 InternalFormat read new InternalFormat($822F);
-    public static property RG32F:                                     InternalFormat read new InternalFormat($8230);
-    public static property RG32F_EXT:                                 InternalFormat read new InternalFormat($8230);
-    public static property R8I:                                       InternalFormat read new InternalFormat($8231);
-    public static property R8UI:                                      InternalFormat read new InternalFormat($8232);
-    public static property R16I:                                      InternalFormat read new InternalFormat($8233);
-    public static property R16UI:                                     InternalFormat read new InternalFormat($8234);
-    public static property R32I:                                      InternalFormat read new InternalFormat($8235);
-    public static property R32UI:                                     InternalFormat read new InternalFormat($8236);
-    public static property RG8I:                                      InternalFormat read new InternalFormat($8237);
-    public static property RG8UI:                                     InternalFormat read new InternalFormat($8238);
-    public static property RG16I:                                     InternalFormat read new InternalFormat($8239);
-    public static property RG16UI:                                    InternalFormat read new InternalFormat($823A);
-    public static property RG32I:                                     InternalFormat read new InternalFormat($823B);
-    public static property RG32UI:                                    InternalFormat read new InternalFormat($823C);
-    public static property COMPRESSED_RGB_S3TC_DXT1_EXT:              InternalFormat read new InternalFormat($83F0);
-    public static property COMPRESSED_RGBA_S3TC_DXT1_EXT:             InternalFormat read new InternalFormat($83F1);
-    public static property COMPRESSED_RGBA_S3TC_DXT3_EXT:             InternalFormat read new InternalFormat($83F2);
-    public static property COMPRESSED_RGBA_S3TC_DXT5_EXT:             InternalFormat read new InternalFormat($83F3);
-    public static property COMPRESSED_RGB:                            InternalFormat read new InternalFormat($84ED);
-    public static property COMPRESSED_RGBA:                           InternalFormat read new InternalFormat($84EE);
-    public static property DEPTH_STENCIL:                             InternalFormat read new InternalFormat($84F9);
-    public static property DEPTH_STENCIL_EXT:                         InternalFormat read new InternalFormat($84F9);
-    public static property DEPTH_STENCIL_NV:                          InternalFormat read new InternalFormat($84F9);
-    public static property DEPTH_STENCIL_OES:                         InternalFormat read new InternalFormat($84F9);
-    public static property DEPTH_STENCIL_MESA:                        InternalFormat read new InternalFormat($8750);
-    public static property RGBA32F:                                   InternalFormat read new InternalFormat($8814);
-    public static property RGBA32F_ARB:                               InternalFormat read new InternalFormat($8814);
-    public static property RGBA32F_EXT:                               InternalFormat read new InternalFormat($8814);
-    public static property RGB32F:                                    InternalFormat read new InternalFormat($8815);
-    public static property RGBA16F:                                   InternalFormat read new InternalFormat($881A);
-    public static property RGBA16F_ARB:                               InternalFormat read new InternalFormat($881A);
-    public static property RGBA16F_EXT:                               InternalFormat read new InternalFormat($881A);
-    public static property RGB16F:                                    InternalFormat read new InternalFormat($881B);
-    public static property RGB16F_ARB:                                InternalFormat read new InternalFormat($881B);
-    public static property RGB16F_EXT:                                InternalFormat read new InternalFormat($881B);
-    public static property DEPTH24_STENCIL8:                          InternalFormat read new InternalFormat($88F0);
-    public static property DEPTH24_STENCIL8_EXT:                      InternalFormat read new InternalFormat($88F0);
-    public static property DEPTH24_STENCIL8_OES:                      InternalFormat read new InternalFormat($88F0);
-    public static property R11F_G11F_B10F:                            InternalFormat read new InternalFormat($8C3A);
-    public static property R11F_G11F_B10F_APPLE:                      InternalFormat read new InternalFormat($8C3A);
-    public static property R11F_G11F_B10F_EXT:                        InternalFormat read new InternalFormat($8C3A);
-    public static property RGB9_E5:                                   InternalFormat read new InternalFormat($8C3D);
-    public static property RGB9_E5_APPLE:                             InternalFormat read new InternalFormat($8C3D);
-    public static property RGB9_E5_EXT:                               InternalFormat read new InternalFormat($8C3D);
-    public static property SRGB:                                      InternalFormat read new InternalFormat($8C40);
-    public static property SRGB_EXT:                                  InternalFormat read new InternalFormat($8C40);
-    public static property SRGB8:                                     InternalFormat read new InternalFormat($8C41);
-    public static property SRGB8_EXT:                                 InternalFormat read new InternalFormat($8C41);
-    public static property SRGB8_NV:                                  InternalFormat read new InternalFormat($8C41);
-    public static property SRGB_ALPHA:                                InternalFormat read new InternalFormat($8C42);
-    public static property SRGB_ALPHA_EXT:                            InternalFormat read new InternalFormat($8C42);
-    public static property SRGB8_ALPHA8:                              InternalFormat read new InternalFormat($8C43);
-    public static property SRGB8_ALPHA8_EXT:                          InternalFormat read new InternalFormat($8C43);
-    public static property COMPRESSED_SRGB:                           InternalFormat read new InternalFormat($8C48);
-    public static property COMPRESSED_SRGB_ALPHA:                     InternalFormat read new InternalFormat($8C49);
-    public static property COMPRESSED_SRGB_S3TC_DXT1_EXT:             InternalFormat read new InternalFormat($8C4C);
-    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT:       InternalFormat read new InternalFormat($8C4D);
-    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT:       InternalFormat read new InternalFormat($8C4E);
-    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:       InternalFormat read new InternalFormat($8C4F);
-    public static property DEPTH_COMPONENT32F:                        InternalFormat read new InternalFormat($8CAC);
-    public static property DEPTH32F_STENCIL8:                         InternalFormat read new InternalFormat($8CAD);
-    public static property STENCIL_INDEX1:                            InternalFormat read new InternalFormat($8D46);
-    public static property STENCIL_INDEX1_EXT:                        InternalFormat read new InternalFormat($8D46);
-    public static property STENCIL_INDEX1_OES:                        InternalFormat read new InternalFormat($8D46);
-    public static property STENCIL_INDEX4:                            InternalFormat read new InternalFormat($8D47);
-    public static property STENCIL_INDEX4_EXT:                        InternalFormat read new InternalFormat($8D47);
-    public static property STENCIL_INDEX4_OES:                        InternalFormat read new InternalFormat($8D47);
-    public static property STENCIL_INDEX8:                            InternalFormat read new InternalFormat($8D48);
-    public static property STENCIL_INDEX8_EXT:                        InternalFormat read new InternalFormat($8D48);
-    public static property STENCIL_INDEX8_OES:                        InternalFormat read new InternalFormat($8D48);
-    public static property STENCIL_INDEX16:                           InternalFormat read new InternalFormat($8D49);
-    public static property STENCIL_INDEX16_EXT:                       InternalFormat read new InternalFormat($8D49);
-    public static property RGBA32UI:                                  InternalFormat read new InternalFormat($8D70);
-    public static property RGB32UI:                                   InternalFormat read new InternalFormat($8D71);
-    public static property RGBA16UI:                                  InternalFormat read new InternalFormat($8D76);
-    public static property RGB16UI:                                   InternalFormat read new InternalFormat($8D77);
-    public static property RGBA8UI:                                   InternalFormat read new InternalFormat($8D7C);
-    public static property RGB8UI:                                    InternalFormat read new InternalFormat($8D7D);
-    public static property RGBA32I:                                   InternalFormat read new InternalFormat($8D82);
-    public static property RGB32I:                                    InternalFormat read new InternalFormat($8D83);
-    public static property RGBA16I:                                   InternalFormat read new InternalFormat($8D88);
-    public static property RGB16I:                                    InternalFormat read new InternalFormat($8D89);
-    public static property RGBA8I:                                    InternalFormat read new InternalFormat($8D8E);
-    public static property RGB8I:                                     InternalFormat read new InternalFormat($8D8F);
-    public static property DEPTH_COMPONENT32F_NV:                     InternalFormat read new InternalFormat($8DAB);
-    public static property DEPTH32F_STENCIL8_NV:                      InternalFormat read new InternalFormat($8DAC);
-    public static property COMPRESSED_RED_RGTC1:                      InternalFormat read new InternalFormat($8DBB);
-    public static property COMPRESSED_RED_RGTC1_EXT:                  InternalFormat read new InternalFormat($8DBB);
-    public static property COMPRESSED_SIGNED_RED_RGTC1:               InternalFormat read new InternalFormat($8DBC);
-    public static property COMPRESSED_SIGNED_RED_RGTC1_EXT:           InternalFormat read new InternalFormat($8DBC);
-    public static property COMPRESSED_RG_RGTC2:                       InternalFormat read new InternalFormat($8DBD);
-    public static property COMPRESSED_SIGNED_RG_RGTC2:                InternalFormat read new InternalFormat($8DBE);
-    public static property COMPRESSED_RGBA_BPTC_UNORM:                InternalFormat read new InternalFormat($8E8C);
-    public static property COMPRESSED_SRGB_ALPHA_BPTC_UNORM:          InternalFormat read new InternalFormat($8E8D);
-    public static property COMPRESSED_RGB_BPTC_SIGNED_FLOAT:          InternalFormat read new InternalFormat($8E8E);
-    public static property COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT:        InternalFormat read new InternalFormat($8E8F);
-    public static property R8_SNORM:                                  InternalFormat read new InternalFormat($8F94);
-    public static property RG8_SNORM:                                 InternalFormat read new InternalFormat($8F95);
-    public static property RGB8_SNORM:                                InternalFormat read new InternalFormat($8F96);
-    public static property RGBA8_SNORM:                               InternalFormat read new InternalFormat($8F97);
-    public static property R16_SNORM:                                 InternalFormat read new InternalFormat($8F98);
-    public static property R16_SNORM_EXT:                             InternalFormat read new InternalFormat($8F98);
-    public static property RG16_SNORM:                                InternalFormat read new InternalFormat($8F99);
-    public static property RG16_SNORM_EXT:                            InternalFormat read new InternalFormat($8F99);
-    public static property RGB16_SNORM:                               InternalFormat read new InternalFormat($8F9A);
-    public static property RGB16_SNORM_EXT:                           InternalFormat read new InternalFormat($8F9A);
-    public static property SR8_EXT:                                   InternalFormat read new InternalFormat($8FBD);
-    public static property SRG8_EXT:                                  InternalFormat read new InternalFormat($8FBE);
-    public static property RGB10_A2UI:                                InternalFormat read new InternalFormat($906F);
-    public static property COMPRESSED_R11_EAC:                        InternalFormat read new InternalFormat($9270);
-    public static property COMPRESSED_SIGNED_R11_EAC:                 InternalFormat read new InternalFormat($9271);
-    public static property COMPRESSED_RG11_EAC:                       InternalFormat read new InternalFormat($9272);
-    public static property COMPRESSED_SIGNED_RG11_EAC:                InternalFormat read new InternalFormat($9273);
-    public static property COMPRESSED_RGB8_ETC2:                      InternalFormat read new InternalFormat($9274);
-    public static property COMPRESSED_SRGB8_ETC2:                     InternalFormat read new InternalFormat($9275);
-    public static property COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2:  InternalFormat read new InternalFormat($9276);
-    public static property COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2: InternalFormat read new InternalFormat($9277);
-    public static property COMPRESSED_RGBA8_ETC2_EAC:                 InternalFormat read new InternalFormat($9278);
-    public static property COMPRESSED_SRGB8_ALPHA8_ETC2_EAC:          InternalFormat read new InternalFormat($9279);
-    public static property COMPRESSED_RGBA_ASTC_4x4:                  InternalFormat read new InternalFormat($93B0);
-    public static property COMPRESSED_RGBA_ASTC_4x4_KHR:              InternalFormat read new InternalFormat($93B0);
-    public static property COMPRESSED_RGBA_ASTC_5x4:                  InternalFormat read new InternalFormat($93B1);
-    public static property COMPRESSED_RGBA_ASTC_5x4_KHR:              InternalFormat read new InternalFormat($93B1);
-    public static property COMPRESSED_RGBA_ASTC_5x5:                  InternalFormat read new InternalFormat($93B2);
-    public static property COMPRESSED_RGBA_ASTC_5x5_KHR:              InternalFormat read new InternalFormat($93B2);
-    public static property COMPRESSED_RGBA_ASTC_6x5:                  InternalFormat read new InternalFormat($93B3);
-    public static property COMPRESSED_RGBA_ASTC_6x5_KHR:              InternalFormat read new InternalFormat($93B3);
-    public static property COMPRESSED_RGBA_ASTC_6x6:                  InternalFormat read new InternalFormat($93B4);
-    public static property COMPRESSED_RGBA_ASTC_6x6_KHR:              InternalFormat read new InternalFormat($93B4);
-    public static property COMPRESSED_RGBA_ASTC_8x5:                  InternalFormat read new InternalFormat($93B5);
-    public static property COMPRESSED_RGBA_ASTC_8x5_KHR:              InternalFormat read new InternalFormat($93B5);
-    public static property COMPRESSED_RGBA_ASTC_8x6:                  InternalFormat read new InternalFormat($93B6);
-    public static property COMPRESSED_RGBA_ASTC_8x6_KHR:              InternalFormat read new InternalFormat($93B6);
-    public static property COMPRESSED_RGBA_ASTC_8x8:                  InternalFormat read new InternalFormat($93B7);
-    public static property COMPRESSED_RGBA_ASTC_8x8_KHR:              InternalFormat read new InternalFormat($93B7);
-    public static property COMPRESSED_RGBA_ASTC_10x5:                 InternalFormat read new InternalFormat($93B8);
-    public static property COMPRESSED_RGBA_ASTC_10x5_KHR:             InternalFormat read new InternalFormat($93B8);
-    public static property COMPRESSED_RGBA_ASTC_10x6:                 InternalFormat read new InternalFormat($93B9);
-    public static property COMPRESSED_RGBA_ASTC_10x6_KHR:             InternalFormat read new InternalFormat($93B9);
-    public static property COMPRESSED_RGBA_ASTC_10x8:                 InternalFormat read new InternalFormat($93BA);
-    public static property COMPRESSED_RGBA_ASTC_10x8_KHR:             InternalFormat read new InternalFormat($93BA);
-    public static property COMPRESSED_RGBA_ASTC_10x10:                InternalFormat read new InternalFormat($93BB);
-    public static property COMPRESSED_RGBA_ASTC_10x10_KHR:            InternalFormat read new InternalFormat($93BB);
-    public static property COMPRESSED_RGBA_ASTC_12x10:                InternalFormat read new InternalFormat($93BC);
-    public static property COMPRESSED_RGBA_ASTC_12x10_KHR:            InternalFormat read new InternalFormat($93BC);
-    public static property COMPRESSED_RGBA_ASTC_12x12:                InternalFormat read new InternalFormat($93BD);
-    public static property COMPRESSED_RGBA_ASTC_12x12_KHR:            InternalFormat read new InternalFormat($93BD);
-    public static property COMPRESSED_RGBA_ASTC_3x3x3_OES:            InternalFormat read new InternalFormat($93C0);
-    public static property COMPRESSED_RGBA_ASTC_4x3x3_OES:            InternalFormat read new InternalFormat($93C1);
-    public static property COMPRESSED_RGBA_ASTC_4x4x3_OES:            InternalFormat read new InternalFormat($93C2);
-    public static property COMPRESSED_RGBA_ASTC_4x4x4_OES:            InternalFormat read new InternalFormat($93C3);
-    public static property COMPRESSED_RGBA_ASTC_5x4x4_OES:            InternalFormat read new InternalFormat($93C4);
-    public static property COMPRESSED_RGBA_ASTC_5x5x4_OES:            InternalFormat read new InternalFormat($93C5);
-    public static property COMPRESSED_RGBA_ASTC_5x5x5_OES:            InternalFormat read new InternalFormat($93C6);
-    public static property COMPRESSED_RGBA_ASTC_6x5x5_OES:            InternalFormat read new InternalFormat($93C7);
-    public static property COMPRESSED_RGBA_ASTC_6x6x5_OES:            InternalFormat read new InternalFormat($93C8);
-    public static property COMPRESSED_RGBA_ASTC_6x6x6_OES:            InternalFormat read new InternalFormat($93C9);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x4:          InternalFormat read new InternalFormat($93D0);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x4_KHR:      InternalFormat read new InternalFormat($93D0);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x4:          InternalFormat read new InternalFormat($93D1);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x4_KHR:      InternalFormat read new InternalFormat($93D1);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x5:          InternalFormat read new InternalFormat($93D2);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x5_KHR:      InternalFormat read new InternalFormat($93D2);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x5:          InternalFormat read new InternalFormat($93D3);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x5_KHR:      InternalFormat read new InternalFormat($93D3);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x6:          InternalFormat read new InternalFormat($93D4);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x6_KHR:      InternalFormat read new InternalFormat($93D4);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x5:          InternalFormat read new InternalFormat($93D5);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x5_KHR:      InternalFormat read new InternalFormat($93D5);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x6:          InternalFormat read new InternalFormat($93D6);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x6_KHR:      InternalFormat read new InternalFormat($93D6);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x8:          InternalFormat read new InternalFormat($93D7);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x8_KHR:      InternalFormat read new InternalFormat($93D7);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x5:         InternalFormat read new InternalFormat($93D8);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x5_KHR:     InternalFormat read new InternalFormat($93D8);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x6:         InternalFormat read new InternalFormat($93D9);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x6_KHR:     InternalFormat read new InternalFormat($93D9);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x8:         InternalFormat read new InternalFormat($93DA);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x8_KHR:     InternalFormat read new InternalFormat($93DA);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x10:        InternalFormat read new InternalFormat($93DB);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x10_KHR:    InternalFormat read new InternalFormat($93DB);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_12x10:        InternalFormat read new InternalFormat($93DC);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_12x10_KHR:    InternalFormat read new InternalFormat($93DC);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_12x12:        InternalFormat read new InternalFormat($93DD);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_12x12_KHR:    InternalFormat read new InternalFormat($93DD);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_3x3x3_OES:    InternalFormat read new InternalFormat($93E0);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x3x3_OES:    InternalFormat read new InternalFormat($93E1);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x4x3_OES:    InternalFormat read new InternalFormat($93E2);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x4x4_OES:    InternalFormat read new InternalFormat($93E3);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x4x4_OES:    InternalFormat read new InternalFormat($93E4);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x5x4_OES:    InternalFormat read new InternalFormat($93E5);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x5x5_OES:    InternalFormat read new InternalFormat($93E6);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x5x5_OES:    InternalFormat read new InternalFormat($93E7);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x6x5_OES:    InternalFormat read new InternalFormat($93E8);
-    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x6x6_OES:    InternalFormat read new InternalFormat($93E9);
+    public static property STENCIL_INDEX:                                 InternalFormat read new InternalFormat($1901);
+    public static property STENCIL_INDEX_OES:                             InternalFormat read new InternalFormat($1901);
+    public static property DEPTH_COMPONENT:                               InternalFormat read new InternalFormat($1902);
+    public static property RED:                                           InternalFormat read new InternalFormat($1903);
+    public static property RED_EXT:                                       InternalFormat read new InternalFormat($1903);
+    public static property RGB:                                           InternalFormat read new InternalFormat($1907);
+    public static property RGBA:                                          InternalFormat read new InternalFormat($1908);
+    public static property R3_G3_B2:                                      InternalFormat read new InternalFormat($2A10);
+    public static property ALPHA4:                                        InternalFormat read new InternalFormat($803B);
+    public static property ALPHA4_EXT:                                    InternalFormat read new InternalFormat($803B);
+    public static property ALPHA8:                                        InternalFormat read new InternalFormat($803C);
+    public static property ALPHA8_EXT:                                    InternalFormat read new InternalFormat($803C);
+    public static property ALPHA8_OES:                                    InternalFormat read new InternalFormat($803C);
+    public static property ALPHA12:                                       InternalFormat read new InternalFormat($803D);
+    public static property ALPHA12_EXT:                                   InternalFormat read new InternalFormat($803D);
+    public static property ALPHA16:                                       InternalFormat read new InternalFormat($803E);
+    public static property ALPHA16_EXT:                                   InternalFormat read new InternalFormat($803E);
+    public static property LUMINANCE4:                                    InternalFormat read new InternalFormat($803F);
+    public static property LUMINANCE4_EXT:                                InternalFormat read new InternalFormat($803F);
+    public static property LUMINANCE8:                                    InternalFormat read new InternalFormat($8040);
+    public static property LUMINANCE8_EXT:                                InternalFormat read new InternalFormat($8040);
+    public static property LUMINANCE8_OES:                                InternalFormat read new InternalFormat($8040);
+    public static property LUMINANCE12:                                   InternalFormat read new InternalFormat($8041);
+    public static property LUMINANCE12_EXT:                               InternalFormat read new InternalFormat($8041);
+    public static property LUMINANCE16:                                   InternalFormat read new InternalFormat($8042);
+    public static property LUMINANCE16_EXT:                               InternalFormat read new InternalFormat($8042);
+    public static property LUMINANCE4_ALPHA4:                             InternalFormat read new InternalFormat($8043);
+    public static property LUMINANCE4_ALPHA4_EXT:                         InternalFormat read new InternalFormat($8043);
+    public static property LUMINANCE4_ALPHA4_OES:                         InternalFormat read new InternalFormat($8043);
+    public static property LUMINANCE6_ALPHA2:                             InternalFormat read new InternalFormat($8044);
+    public static property LUMINANCE6_ALPHA2_EXT:                         InternalFormat read new InternalFormat($8044);
+    public static property LUMINANCE8_ALPHA8:                             InternalFormat read new InternalFormat($8045);
+    public static property LUMINANCE8_ALPHA8_EXT:                         InternalFormat read new InternalFormat($8045);
+    public static property LUMINANCE8_ALPHA8_OES:                         InternalFormat read new InternalFormat($8045);
+    public static property LUMINANCE12_ALPHA4:                            InternalFormat read new InternalFormat($8046);
+    public static property LUMINANCE12_ALPHA4_EXT:                        InternalFormat read new InternalFormat($8046);
+    public static property LUMINANCE12_ALPHA12:                           InternalFormat read new InternalFormat($8047);
+    public static property LUMINANCE12_ALPHA12_EXT:                       InternalFormat read new InternalFormat($8047);
+    public static property LUMINANCE16_ALPHA16:                           InternalFormat read new InternalFormat($8048);
+    public static property LUMINANCE16_ALPHA16_EXT:                       InternalFormat read new InternalFormat($8048);
+    public static property INTENSITY:                                     InternalFormat read new InternalFormat($8049);
+    public static property INTENSITY4:                                    InternalFormat read new InternalFormat($804A);
+    public static property INTENSITY4_EXT:                                InternalFormat read new InternalFormat($804A);
+    public static property INTENSITY8:                                    InternalFormat read new InternalFormat($804B);
+    public static property INTENSITY8_EXT:                                InternalFormat read new InternalFormat($804B);
+    public static property INTENSITY12:                                   InternalFormat read new InternalFormat($804C);
+    public static property INTENSITY12_EXT:                               InternalFormat read new InternalFormat($804C);
+    public static property INTENSITY16:                                   InternalFormat read new InternalFormat($804D);
+    public static property INTENSITY16_EXT:                               InternalFormat read new InternalFormat($804D);
+    public static property RGB2_EXT:                                      InternalFormat read new InternalFormat($804E);
+    public static property RGB4:                                          InternalFormat read new InternalFormat($804F);
+    public static property RGB4_EXT:                                      InternalFormat read new InternalFormat($804F);
+    public static property RGB5:                                          InternalFormat read new InternalFormat($8050);
+    public static property RGB5_EXT:                                      InternalFormat read new InternalFormat($8050);
+    public static property RGB8:                                          InternalFormat read new InternalFormat($8051);
+    public static property RGB8_EXT:                                      InternalFormat read new InternalFormat($8051);
+    public static property RGB8_OES:                                      InternalFormat read new InternalFormat($8051);
+    public static property RGB10:                                         InternalFormat read new InternalFormat($8052);
+    public static property RGB10_EXT:                                     InternalFormat read new InternalFormat($8052);
+    public static property RGB12:                                         InternalFormat read new InternalFormat($8053);
+    public static property RGB12_EXT:                                     InternalFormat read new InternalFormat($8053);
+    public static property RGB16:                                         InternalFormat read new InternalFormat($8054);
+    public static property RGB16_EXT:                                     InternalFormat read new InternalFormat($8054);
+    public static property RGBA2:                                         InternalFormat read new InternalFormat($8055);
+    public static property RGBA2_EXT:                                     InternalFormat read new InternalFormat($8055);
+    public static property RGBA4:                                         InternalFormat read new InternalFormat($8056);
+    public static property RGBA4_EXT:                                     InternalFormat read new InternalFormat($8056);
+    public static property RGBA4_OES:                                     InternalFormat read new InternalFormat($8056);
+    public static property RGB5_A1:                                       InternalFormat read new InternalFormat($8057);
+    public static property RGB5_A1_EXT:                                   InternalFormat read new InternalFormat($8057);
+    public static property RGB5_A1_OES:                                   InternalFormat read new InternalFormat($8057);
+    public static property RGBA8:                                         InternalFormat read new InternalFormat($8058);
+    public static property RGBA8_EXT:                                     InternalFormat read new InternalFormat($8058);
+    public static property RGBA8_OES:                                     InternalFormat read new InternalFormat($8058);
+    public static property RGB10_A2:                                      InternalFormat read new InternalFormat($8059);
+    public static property RGB10_A2_EXT:                                  InternalFormat read new InternalFormat($8059);
+    public static property RGBA12:                                        InternalFormat read new InternalFormat($805A);
+    public static property RGBA12_EXT:                                    InternalFormat read new InternalFormat($805A);
+    public static property RGBA16:                                        InternalFormat read new InternalFormat($805B);
+    public static property RGBA16_EXT:                                    InternalFormat read new InternalFormat($805B);
+    public static property DUAL_ALPHA4_SGIS:                              InternalFormat read new InternalFormat($8110);
+    public static property DUAL_ALPHA8_SGIS:                              InternalFormat read new InternalFormat($8111);
+    public static property DUAL_ALPHA12_SGIS:                             InternalFormat read new InternalFormat($8112);
+    public static property DUAL_ALPHA16_SGIS:                             InternalFormat read new InternalFormat($8113);
+    public static property DUAL_LUMINANCE4_SGIS:                          InternalFormat read new InternalFormat($8114);
+    public static property DUAL_LUMINANCE8_SGIS:                          InternalFormat read new InternalFormat($8115);
+    public static property DUAL_LUMINANCE12_SGIS:                         InternalFormat read new InternalFormat($8116);
+    public static property DUAL_LUMINANCE16_SGIS:                         InternalFormat read new InternalFormat($8117);
+    public static property DUAL_INTENSITY4_SGIS:                          InternalFormat read new InternalFormat($8118);
+    public static property DUAL_INTENSITY8_SGIS:                          InternalFormat read new InternalFormat($8119);
+    public static property DUAL_INTENSITY12_SGIS:                         InternalFormat read new InternalFormat($811A);
+    public static property DUAL_INTENSITY16_SGIS:                         InternalFormat read new InternalFormat($811B);
+    public static property DUAL_LUMINANCE_ALPHA4_SGIS:                    InternalFormat read new InternalFormat($811C);
+    public static property DUAL_LUMINANCE_ALPHA8_SGIS:                    InternalFormat read new InternalFormat($811D);
+    public static property QUAD_ALPHA4_SGIS:                              InternalFormat read new InternalFormat($811E);
+    public static property QUAD_ALPHA8_SGIS:                              InternalFormat read new InternalFormat($811F);
+    public static property QUAD_LUMINANCE4_SGIS:                          InternalFormat read new InternalFormat($8120);
+    public static property QUAD_LUMINANCE8_SGIS:                          InternalFormat read new InternalFormat($8121);
+    public static property QUAD_INTENSITY4_SGIS:                          InternalFormat read new InternalFormat($8122);
+    public static property QUAD_INTENSITY8_SGIS:                          InternalFormat read new InternalFormat($8123);
+    public static property DEPTH_COMPONENT16:                             InternalFormat read new InternalFormat($81A5);
+    public static property DEPTH_COMPONENT16_ARB:                         InternalFormat read new InternalFormat($81A5);
+    public static property DEPTH_COMPONENT16_OES:                         InternalFormat read new InternalFormat($81A5);
+    public static property DEPTH_COMPONENT16_SGIX:                        InternalFormat read new InternalFormat($81A5);
+    public static property DEPTH_COMPONENT24:                             InternalFormat read new InternalFormat($81A6);
+    public static property DEPTH_COMPONENT24_ARB:                         InternalFormat read new InternalFormat($81A6);
+    public static property DEPTH_COMPONENT24_OES:                         InternalFormat read new InternalFormat($81A6);
+    public static property DEPTH_COMPONENT24_SGIX:                        InternalFormat read new InternalFormat($81A6);
+    public static property DEPTH_COMPONENT32:                             InternalFormat read new InternalFormat($81A7);
+    public static property DEPTH_COMPONENT32_ARB:                         InternalFormat read new InternalFormat($81A7);
+    public static property DEPTH_COMPONENT32_OES:                         InternalFormat read new InternalFormat($81A7);
+    public static property DEPTH_COMPONENT32_SGIX:                        InternalFormat read new InternalFormat($81A7);
+    public static property COMPRESSED_RED:                                InternalFormat read new InternalFormat($8225);
+    public static property COMPRESSED_RG:                                 InternalFormat read new InternalFormat($8226);
+    public static property RG:                                            InternalFormat read new InternalFormat($8227);
+    public static property R8:                                            InternalFormat read new InternalFormat($8229);
+    public static property R8_EXT:                                        InternalFormat read new InternalFormat($8229);
+    public static property R16:                                           InternalFormat read new InternalFormat($822A);
+    public static property R16_EXT:                                       InternalFormat read new InternalFormat($822A);
+    public static property RG8:                                           InternalFormat read new InternalFormat($822B);
+    public static property RG8_EXT:                                       InternalFormat read new InternalFormat($822B);
+    public static property RG16:                                          InternalFormat read new InternalFormat($822C);
+    public static property RG16_EXT:                                      InternalFormat read new InternalFormat($822C);
+    public static property R16F:                                          InternalFormat read new InternalFormat($822D);
+    public static property R16F_EXT:                                      InternalFormat read new InternalFormat($822D);
+    public static property R32F:                                          InternalFormat read new InternalFormat($822E);
+    public static property R32F_EXT:                                      InternalFormat read new InternalFormat($822E);
+    public static property RG16F:                                         InternalFormat read new InternalFormat($822F);
+    public static property RG16F_EXT:                                     InternalFormat read new InternalFormat($822F);
+    public static property RG32F:                                         InternalFormat read new InternalFormat($8230);
+    public static property RG32F_EXT:                                     InternalFormat read new InternalFormat($8230);
+    public static property R8I:                                           InternalFormat read new InternalFormat($8231);
+    public static property R8UI:                                          InternalFormat read new InternalFormat($8232);
+    public static property R16I:                                          InternalFormat read new InternalFormat($8233);
+    public static property R16UI:                                         InternalFormat read new InternalFormat($8234);
+    public static property R32I:                                          InternalFormat read new InternalFormat($8235);
+    public static property R32UI:                                         InternalFormat read new InternalFormat($8236);
+    public static property RG8I:                                          InternalFormat read new InternalFormat($8237);
+    public static property RG8UI:                                         InternalFormat read new InternalFormat($8238);
+    public static property RG16I:                                         InternalFormat read new InternalFormat($8239);
+    public static property RG16UI:                                        InternalFormat read new InternalFormat($823A);
+    public static property RG32I:                                         InternalFormat read new InternalFormat($823B);
+    public static property RG32UI:                                        InternalFormat read new InternalFormat($823C);
+    public static property COMPRESSED_RGB_S3TC_DXT1_EXT:                  InternalFormat read new InternalFormat($83F0);
+    public static property COMPRESSED_RGBA_S3TC_DXT1_EXT:                 InternalFormat read new InternalFormat($83F1);
+    public static property COMPRESSED_RGBA_S3TC_DXT3_ANGLE:               InternalFormat read new InternalFormat($83F2);
+    public static property COMPRESSED_RGBA_S3TC_DXT3_EXT:                 InternalFormat read new InternalFormat($83F2);
+    public static property COMPRESSED_RGBA_S3TC_DXT5_ANGLE:               InternalFormat read new InternalFormat($83F3);
+    public static property COMPRESSED_RGBA_S3TC_DXT5_EXT:                 InternalFormat read new InternalFormat($83F3);
+    public static property COMPRESSED_RGB:                                InternalFormat read new InternalFormat($84ED);
+    public static property COMPRESSED_RGBA:                               InternalFormat read new InternalFormat($84EE);
+    public static property DEPTH_STENCIL:                                 InternalFormat read new InternalFormat($84F9);
+    public static property DEPTH_STENCIL_EXT:                             InternalFormat read new InternalFormat($84F9);
+    public static property DEPTH_STENCIL_NV:                              InternalFormat read new InternalFormat($84F9);
+    public static property DEPTH_STENCIL_OES:                             InternalFormat read new InternalFormat($84F9);
+    public static property DEPTH_STENCIL_MESA:                            InternalFormat read new InternalFormat($8750);
+    public static property RGBA32F:                                       InternalFormat read new InternalFormat($8814);
+    public static property RGBA32F_ARB:                                   InternalFormat read new InternalFormat($8814);
+    public static property RGBA32F_EXT:                                   InternalFormat read new InternalFormat($8814);
+    public static property RGB32F:                                        InternalFormat read new InternalFormat($8815);
+    public static property RGB32F_ARB:                                    InternalFormat read new InternalFormat($8815);
+    public static property RGB32F_EXT:                                    InternalFormat read new InternalFormat($8815);
+    public static property RGBA16F:                                       InternalFormat read new InternalFormat($881A);
+    public static property RGBA16F_ARB:                                   InternalFormat read new InternalFormat($881A);
+    public static property RGBA16F_EXT:                                   InternalFormat read new InternalFormat($881A);
+    public static property RGB16F:                                        InternalFormat read new InternalFormat($881B);
+    public static property RGB16F_ARB:                                    InternalFormat read new InternalFormat($881B);
+    public static property RGB16F_EXT:                                    InternalFormat read new InternalFormat($881B);
+    public static property DEPTH24_STENCIL8:                              InternalFormat read new InternalFormat($88F0);
+    public static property DEPTH24_STENCIL8_EXT:                          InternalFormat read new InternalFormat($88F0);
+    public static property DEPTH24_STENCIL8_OES:                          InternalFormat read new InternalFormat($88F0);
+    public static property R11F_G11F_B10F:                                InternalFormat read new InternalFormat($8C3A);
+    public static property R11F_G11F_B10F_APPLE:                          InternalFormat read new InternalFormat($8C3A);
+    public static property R11F_G11F_B10F_EXT:                            InternalFormat read new InternalFormat($8C3A);
+    public static property RGB9_E5:                                       InternalFormat read new InternalFormat($8C3D);
+    public static property RGB9_E5_APPLE:                                 InternalFormat read new InternalFormat($8C3D);
+    public static property RGB9_E5_EXT:                                   InternalFormat read new InternalFormat($8C3D);
+    public static property SRGB:                                          InternalFormat read new InternalFormat($8C40);
+    public static property SRGB_EXT:                                      InternalFormat read new InternalFormat($8C40);
+    public static property SRGB8:                                         InternalFormat read new InternalFormat($8C41);
+    public static property SRGB8_EXT:                                     InternalFormat read new InternalFormat($8C41);
+    public static property SRGB8_NV:                                      InternalFormat read new InternalFormat($8C41);
+    public static property SRGB_ALPHA:                                    InternalFormat read new InternalFormat($8C42);
+    public static property SRGB_ALPHA_EXT:                                InternalFormat read new InternalFormat($8C42);
+    public static property SRGB8_ALPHA8:                                  InternalFormat read new InternalFormat($8C43);
+    public static property SRGB8_ALPHA8_EXT:                              InternalFormat read new InternalFormat($8C43);
+    public static property COMPRESSED_SRGB:                               InternalFormat read new InternalFormat($8C48);
+    public static property COMPRESSED_SRGB_ALPHA:                         InternalFormat read new InternalFormat($8C49);
+    public static property COMPRESSED_SRGB_S3TC_DXT1_EXT:                 InternalFormat read new InternalFormat($8C4C);
+    public static property COMPRESSED_SRGB_S3TC_DXT1_NV:                  InternalFormat read new InternalFormat($8C4C);
+    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT:           InternalFormat read new InternalFormat($8C4D);
+    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT1_NV:            InternalFormat read new InternalFormat($8C4D);
+    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT:           InternalFormat read new InternalFormat($8C4E);
+    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT3_NV:            InternalFormat read new InternalFormat($8C4E);
+    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:           InternalFormat read new InternalFormat($8C4F);
+    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT5_NV:            InternalFormat read new InternalFormat($8C4F);
+    public static property DEPTH_COMPONENT32F:                            InternalFormat read new InternalFormat($8CAC);
+    public static property DEPTH32F_STENCIL8:                             InternalFormat read new InternalFormat($8CAD);
+    public static property STENCIL_INDEX1:                                InternalFormat read new InternalFormat($8D46);
+    public static property STENCIL_INDEX1_EXT:                            InternalFormat read new InternalFormat($8D46);
+    public static property STENCIL_INDEX1_OES:                            InternalFormat read new InternalFormat($8D46);
+    public static property STENCIL_INDEX4:                                InternalFormat read new InternalFormat($8D47);
+    public static property STENCIL_INDEX4_EXT:                            InternalFormat read new InternalFormat($8D47);
+    public static property STENCIL_INDEX4_OES:                            InternalFormat read new InternalFormat($8D47);
+    public static property STENCIL_INDEX8:                                InternalFormat read new InternalFormat($8D48);
+    public static property STENCIL_INDEX8_EXT:                            InternalFormat read new InternalFormat($8D48);
+    public static property STENCIL_INDEX8_OES:                            InternalFormat read new InternalFormat($8D48);
+    public static property STENCIL_INDEX16:                               InternalFormat read new InternalFormat($8D49);
+    public static property STENCIL_INDEX16_EXT:                           InternalFormat read new InternalFormat($8D49);
+    public static property RGB565:                                        InternalFormat read new InternalFormat($8D62);
+    public static property RGB565_OES:                                    InternalFormat read new InternalFormat($8D62);
+    public static property ETC1_RGB8_OES:                                 InternalFormat read new InternalFormat($8D64);
+    public static property RGBA32UI:                                      InternalFormat read new InternalFormat($8D70);
+    public static property RGBA32UI_EXT:                                  InternalFormat read new InternalFormat($8D70);
+    public static property RGB32UI:                                       InternalFormat read new InternalFormat($8D71);
+    public static property RGB32UI_EXT:                                   InternalFormat read new InternalFormat($8D71);
+    public static property ALPHA32UI_EXT:                                 InternalFormat read new InternalFormat($8D72);
+    public static property INTENSITY32UI_EXT:                             InternalFormat read new InternalFormat($8D73);
+    public static property LUMINANCE32UI_EXT:                             InternalFormat read new InternalFormat($8D74);
+    public static property LUMINANCE_ALPHA32UI_EXT:                       InternalFormat read new InternalFormat($8D75);
+    public static property RGBA16UI:                                      InternalFormat read new InternalFormat($8D76);
+    public static property RGBA16UI_EXT:                                  InternalFormat read new InternalFormat($8D76);
+    public static property RGB16UI:                                       InternalFormat read new InternalFormat($8D77);
+    public static property RGB16UI_EXT:                                   InternalFormat read new InternalFormat($8D77);
+    public static property ALPHA16UI_EXT:                                 InternalFormat read new InternalFormat($8D78);
+    public static property INTENSITY16UI_EXT:                             InternalFormat read new InternalFormat($8D79);
+    public static property LUMINANCE16UI_EXT:                             InternalFormat read new InternalFormat($8D7A);
+    public static property LUMINANCE_ALPHA16UI_EXT:                       InternalFormat read new InternalFormat($8D7B);
+    public static property RGBA8UI:                                       InternalFormat read new InternalFormat($8D7C);
+    public static property RGBA8UI_EXT:                                   InternalFormat read new InternalFormat($8D7C);
+    public static property RGB8UI:                                        InternalFormat read new InternalFormat($8D7D);
+    public static property RGB8UI_EXT:                                    InternalFormat read new InternalFormat($8D7D);
+    public static property ALPHA8UI_EXT:                                  InternalFormat read new InternalFormat($8D7E);
+    public static property INTENSITY8UI_EXT:                              InternalFormat read new InternalFormat($8D7F);
+    public static property LUMINANCE8UI_EXT:                              InternalFormat read new InternalFormat($8D80);
+    public static property LUMINANCE_ALPHA8UI_EXT:                        InternalFormat read new InternalFormat($8D81);
+    public static property RGBA32I:                                       InternalFormat read new InternalFormat($8D82);
+    public static property RGBA32I_EXT:                                   InternalFormat read new InternalFormat($8D82);
+    public static property RGB32I:                                        InternalFormat read new InternalFormat($8D83);
+    public static property RGB32I_EXT:                                    InternalFormat read new InternalFormat($8D83);
+    public static property ALPHA32I_EXT:                                  InternalFormat read new InternalFormat($8D84);
+    public static property INTENSITY32I_EXT:                              InternalFormat read new InternalFormat($8D85);
+    public static property LUMINANCE32I_EXT:                              InternalFormat read new InternalFormat($8D86);
+    public static property LUMINANCE_ALPHA32I_EXT:                        InternalFormat read new InternalFormat($8D87);
+    public static property RGBA16I:                                       InternalFormat read new InternalFormat($8D88);
+    public static property RGBA16I_EXT:                                   InternalFormat read new InternalFormat($8D88);
+    public static property RGB16I:                                        InternalFormat read new InternalFormat($8D89);
+    public static property RGB16I_EXT:                                    InternalFormat read new InternalFormat($8D89);
+    public static property ALPHA16I_EXT:                                  InternalFormat read new InternalFormat($8D8A);
+    public static property INTENSITY16I_EXT:                              InternalFormat read new InternalFormat($8D8B);
+    public static property LUMINANCE16I_EXT:                              InternalFormat read new InternalFormat($8D8C);
+    public static property LUMINANCE_ALPHA16I_EXT:                        InternalFormat read new InternalFormat($8D8D);
+    public static property RGBA8I:                                        InternalFormat read new InternalFormat($8D8E);
+    public static property RGBA8I_EXT:                                    InternalFormat read new InternalFormat($8D8E);
+    public static property RGB8I:                                         InternalFormat read new InternalFormat($8D8F);
+    public static property RGB8I_EXT:                                     InternalFormat read new InternalFormat($8D8F);
+    public static property ALPHA8I_EXT:                                   InternalFormat read new InternalFormat($8D90);
+    public static property INTENSITY8I_EXT:                               InternalFormat read new InternalFormat($8D91);
+    public static property LUMINANCE8I_EXT:                               InternalFormat read new InternalFormat($8D92);
+    public static property LUMINANCE_ALPHA8I_EXT:                         InternalFormat read new InternalFormat($8D93);
+    public static property DEPTH_COMPONENT32F_NV:                         InternalFormat read new InternalFormat($8DAB);
+    public static property DEPTH32F_STENCIL8_NV:                          InternalFormat read new InternalFormat($8DAC);
+    public static property COMPRESSED_RED_RGTC1:                          InternalFormat read new InternalFormat($8DBB);
+    public static property COMPRESSED_RED_RGTC1_EXT:                      InternalFormat read new InternalFormat($8DBB);
+    public static property COMPRESSED_SIGNED_RED_RGTC1:                   InternalFormat read new InternalFormat($8DBC);
+    public static property COMPRESSED_SIGNED_RED_RGTC1_EXT:               InternalFormat read new InternalFormat($8DBC);
+    public static property COMPRESSED_RED_GREEN_RGTC2_EXT:                InternalFormat read new InternalFormat($8DBD);
+    public static property COMPRESSED_RG_RGTC2:                           InternalFormat read new InternalFormat($8DBD);
+    public static property COMPRESSED_SIGNED_RED_GREEN_RGTC2_EXT:         InternalFormat read new InternalFormat($8DBE);
+    public static property COMPRESSED_SIGNED_RG_RGTC2:                    InternalFormat read new InternalFormat($8DBE);
+    public static property COMPRESSED_RGBA_BPTC_UNORM:                    InternalFormat read new InternalFormat($8E8C);
+    public static property COMPRESSED_RGBA_BPTC_UNORM_ARB:                InternalFormat read new InternalFormat($8E8C);
+    public static property COMPRESSED_RGBA_BPTC_UNORM_EXT:                InternalFormat read new InternalFormat($8E8C);
+    public static property COMPRESSED_SRGB_ALPHA_BPTC_UNORM:              InternalFormat read new InternalFormat($8E8D);
+    public static property COMPRESSED_SRGB_ALPHA_BPTC_UNORM_ARB:          InternalFormat read new InternalFormat($8E8D);
+    public static property COMPRESSED_SRGB_ALPHA_BPTC_UNORM_EXT:          InternalFormat read new InternalFormat($8E8D);
+    public static property COMPRESSED_RGB_BPTC_SIGNED_FLOAT:              InternalFormat read new InternalFormat($8E8E);
+    public static property COMPRESSED_RGB_BPTC_SIGNED_FLOAT_ARB:          InternalFormat read new InternalFormat($8E8E);
+    public static property COMPRESSED_RGB_BPTC_SIGNED_FLOAT_EXT:          InternalFormat read new InternalFormat($8E8E);
+    public static property COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT:            InternalFormat read new InternalFormat($8E8F);
+    public static property COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_ARB:        InternalFormat read new InternalFormat($8E8F);
+    public static property COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_EXT:        InternalFormat read new InternalFormat($8E8F);
+    public static property R8_SNORM:                                      InternalFormat read new InternalFormat($8F94);
+    public static property RG8_SNORM:                                     InternalFormat read new InternalFormat($8F95);
+    public static property RGB8_SNORM:                                    InternalFormat read new InternalFormat($8F96);
+    public static property RGBA8_SNORM:                                   InternalFormat read new InternalFormat($8F97);
+    public static property R16_SNORM:                                     InternalFormat read new InternalFormat($8F98);
+    public static property R16_SNORM_EXT:                                 InternalFormat read new InternalFormat($8F98);
+    public static property RG16_SNORM:                                    InternalFormat read new InternalFormat($8F99);
+    public static property RG16_SNORM_EXT:                                InternalFormat read new InternalFormat($8F99);
+    public static property RGB16_SNORM:                                   InternalFormat read new InternalFormat($8F9A);
+    public static property RGB16_SNORM_EXT:                               InternalFormat read new InternalFormat($8F9A);
+    public static property RGBA16_SNORM:                                  InternalFormat read new InternalFormat($8F9B);
+    public static property RGBA16_SNORM_EXT:                              InternalFormat read new InternalFormat($8F9B);
+    public static property SR8_EXT:                                       InternalFormat read new InternalFormat($8FBD);
+    public static property SRG8_EXT:                                      InternalFormat read new InternalFormat($8FBE);
+    public static property RGB10_A2UI:                                    InternalFormat read new InternalFormat($906F);
+    public static property COMPRESSED_R11_EAC:                            InternalFormat read new InternalFormat($9270);
+    public static property COMPRESSED_R11_EAC_OES:                        InternalFormat read new InternalFormat($9270);
+    public static property COMPRESSED_SIGNED_R11_EAC:                     InternalFormat read new InternalFormat($9271);
+    public static property COMPRESSED_SIGNED_R11_EAC_OES:                 InternalFormat read new InternalFormat($9271);
+    public static property COMPRESSED_RG11_EAC:                           InternalFormat read new InternalFormat($9272);
+    public static property COMPRESSED_RG11_EAC_OES:                       InternalFormat read new InternalFormat($9272);
+    public static property COMPRESSED_SIGNED_RG11_EAC:                    InternalFormat read new InternalFormat($9273);
+    public static property COMPRESSED_SIGNED_RG11_EAC_OES:                InternalFormat read new InternalFormat($9273);
+    public static property COMPRESSED_RGB8_ETC2:                          InternalFormat read new InternalFormat($9274);
+    public static property COMPRESSED_RGB8_ETC2_OES:                      InternalFormat read new InternalFormat($9274);
+    public static property COMPRESSED_SRGB8_ETC2:                         InternalFormat read new InternalFormat($9275);
+    public static property COMPRESSED_SRGB8_ETC2_OES:                     InternalFormat read new InternalFormat($9275);
+    public static property COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2:      InternalFormat read new InternalFormat($9276);
+    public static property COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2_OES:  InternalFormat read new InternalFormat($9276);
+    public static property COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2:     InternalFormat read new InternalFormat($9277);
+    public static property COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2_OES: InternalFormat read new InternalFormat($9277);
+    public static property COMPRESSED_RGBA8_ETC2_EAC:                     InternalFormat read new InternalFormat($9278);
+    public static property COMPRESSED_RGBA8_ETC2_EAC_OES:                 InternalFormat read new InternalFormat($9278);
+    public static property COMPRESSED_SRGB8_ALPHA8_ETC2_EAC:              InternalFormat read new InternalFormat($9279);
+    public static property COMPRESSED_SRGB8_ALPHA8_ETC2_EAC_OES:          InternalFormat read new InternalFormat($9279);
+    public static property COMPRESSED_RGBA_ASTC_4x4:                      InternalFormat read new InternalFormat($93B0);
+    public static property COMPRESSED_RGBA_ASTC_4x4_KHR:                  InternalFormat read new InternalFormat($93B0);
+    public static property COMPRESSED_RGBA_ASTC_5x4:                      InternalFormat read new InternalFormat($93B1);
+    public static property COMPRESSED_RGBA_ASTC_5x4_KHR:                  InternalFormat read new InternalFormat($93B1);
+    public static property COMPRESSED_RGBA_ASTC_5x5:                      InternalFormat read new InternalFormat($93B2);
+    public static property COMPRESSED_RGBA_ASTC_5x5_KHR:                  InternalFormat read new InternalFormat($93B2);
+    public static property COMPRESSED_RGBA_ASTC_6x5:                      InternalFormat read new InternalFormat($93B3);
+    public static property COMPRESSED_RGBA_ASTC_6x5_KHR:                  InternalFormat read new InternalFormat($93B3);
+    public static property COMPRESSED_RGBA_ASTC_6x6:                      InternalFormat read new InternalFormat($93B4);
+    public static property COMPRESSED_RGBA_ASTC_6x6_KHR:                  InternalFormat read new InternalFormat($93B4);
+    public static property COMPRESSED_RGBA_ASTC_8x5:                      InternalFormat read new InternalFormat($93B5);
+    public static property COMPRESSED_RGBA_ASTC_8x5_KHR:                  InternalFormat read new InternalFormat($93B5);
+    public static property COMPRESSED_RGBA_ASTC_8x6:                      InternalFormat read new InternalFormat($93B6);
+    public static property COMPRESSED_RGBA_ASTC_8x6_KHR:                  InternalFormat read new InternalFormat($93B6);
+    public static property COMPRESSED_RGBA_ASTC_8x8:                      InternalFormat read new InternalFormat($93B7);
+    public static property COMPRESSED_RGBA_ASTC_8x8_KHR:                  InternalFormat read new InternalFormat($93B7);
+    public static property COMPRESSED_RGBA_ASTC_10x5:                     InternalFormat read new InternalFormat($93B8);
+    public static property COMPRESSED_RGBA_ASTC_10x5_KHR:                 InternalFormat read new InternalFormat($93B8);
+    public static property COMPRESSED_RGBA_ASTC_10x6:                     InternalFormat read new InternalFormat($93B9);
+    public static property COMPRESSED_RGBA_ASTC_10x6_KHR:                 InternalFormat read new InternalFormat($93B9);
+    public static property COMPRESSED_RGBA_ASTC_10x8:                     InternalFormat read new InternalFormat($93BA);
+    public static property COMPRESSED_RGBA_ASTC_10x8_KHR:                 InternalFormat read new InternalFormat($93BA);
+    public static property COMPRESSED_RGBA_ASTC_10x10:                    InternalFormat read new InternalFormat($93BB);
+    public static property COMPRESSED_RGBA_ASTC_10x10_KHR:                InternalFormat read new InternalFormat($93BB);
+    public static property COMPRESSED_RGBA_ASTC_12x10:                    InternalFormat read new InternalFormat($93BC);
+    public static property COMPRESSED_RGBA_ASTC_12x10_KHR:                InternalFormat read new InternalFormat($93BC);
+    public static property COMPRESSED_RGBA_ASTC_12x12:                    InternalFormat read new InternalFormat($93BD);
+    public static property COMPRESSED_RGBA_ASTC_12x12_KHR:                InternalFormat read new InternalFormat($93BD);
+    public static property COMPRESSED_RGBA_ASTC_3x3x3_OES:                InternalFormat read new InternalFormat($93C0);
+    public static property COMPRESSED_RGBA_ASTC_4x3x3_OES:                InternalFormat read new InternalFormat($93C1);
+    public static property COMPRESSED_RGBA_ASTC_4x4x3_OES:                InternalFormat read new InternalFormat($93C2);
+    public static property COMPRESSED_RGBA_ASTC_4x4x4_OES:                InternalFormat read new InternalFormat($93C3);
+    public static property COMPRESSED_RGBA_ASTC_5x4x4_OES:                InternalFormat read new InternalFormat($93C4);
+    public static property COMPRESSED_RGBA_ASTC_5x5x4_OES:                InternalFormat read new InternalFormat($93C5);
+    public static property COMPRESSED_RGBA_ASTC_5x5x5_OES:                InternalFormat read new InternalFormat($93C6);
+    public static property COMPRESSED_RGBA_ASTC_6x5x5_OES:                InternalFormat read new InternalFormat($93C7);
+    public static property COMPRESSED_RGBA_ASTC_6x6x5_OES:                InternalFormat read new InternalFormat($93C8);
+    public static property COMPRESSED_RGBA_ASTC_6x6x6_OES:                InternalFormat read new InternalFormat($93C9);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x4:              InternalFormat read new InternalFormat($93D0);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x4_KHR:          InternalFormat read new InternalFormat($93D0);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x4:              InternalFormat read new InternalFormat($93D1);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x4_KHR:          InternalFormat read new InternalFormat($93D1);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x5:              InternalFormat read new InternalFormat($93D2);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x5_KHR:          InternalFormat read new InternalFormat($93D2);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x5:              InternalFormat read new InternalFormat($93D3);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x5_KHR:          InternalFormat read new InternalFormat($93D3);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x6:              InternalFormat read new InternalFormat($93D4);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x6_KHR:          InternalFormat read new InternalFormat($93D4);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x5:              InternalFormat read new InternalFormat($93D5);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x5_KHR:          InternalFormat read new InternalFormat($93D5);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x6:              InternalFormat read new InternalFormat($93D6);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x6_KHR:          InternalFormat read new InternalFormat($93D6);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x8:              InternalFormat read new InternalFormat($93D7);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x8_KHR:          InternalFormat read new InternalFormat($93D7);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x5:             InternalFormat read new InternalFormat($93D8);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x5_KHR:         InternalFormat read new InternalFormat($93D8);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x6:             InternalFormat read new InternalFormat($93D9);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x6_KHR:         InternalFormat read new InternalFormat($93D9);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x8:             InternalFormat read new InternalFormat($93DA);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x8_KHR:         InternalFormat read new InternalFormat($93DA);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x10:            InternalFormat read new InternalFormat($93DB);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x10_KHR:        InternalFormat read new InternalFormat($93DB);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_12x10:            InternalFormat read new InternalFormat($93DC);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_12x10_KHR:        InternalFormat read new InternalFormat($93DC);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_12x12:            InternalFormat read new InternalFormat($93DD);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_12x12_KHR:        InternalFormat read new InternalFormat($93DD);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_3x3x3_OES:        InternalFormat read new InternalFormat($93E0);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x3x3_OES:        InternalFormat read new InternalFormat($93E1);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x4x3_OES:        InternalFormat read new InternalFormat($93E2);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x4x4_OES:        InternalFormat read new InternalFormat($93E3);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x4x4_OES:        InternalFormat read new InternalFormat($93E4);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x5x4_OES:        InternalFormat read new InternalFormat($93E5);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x5x5_OES:        InternalFormat read new InternalFormat($93E6);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x5x5_OES:        InternalFormat read new InternalFormat($93E7);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x6x5_OES:        InternalFormat read new InternalFormat($93E8);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x6x6_OES:        InternalFormat read new InternalFormat($93E9);
     
     public function ToString: string; override;
     begin
@@ -4563,24 +4664,46 @@ type
       if self.val = UInt32($1908) then Result := 'RGBA' else
       if self.val = UInt32($2A10) then Result := 'R3_G3_B2' else
       if self.val = UInt32($803B) then Result := 'ALPHA4' else
+      if self.val = UInt32($803B) then Result := 'ALPHA4_EXT' else
       if self.val = UInt32($803C) then Result := 'ALPHA8' else
+      if self.val = UInt32($803C) then Result := 'ALPHA8_EXT' else
+      if self.val = UInt32($803C) then Result := 'ALPHA8_OES' else
       if self.val = UInt32($803D) then Result := 'ALPHA12' else
+      if self.val = UInt32($803D) then Result := 'ALPHA12_EXT' else
       if self.val = UInt32($803E) then Result := 'ALPHA16' else
+      if self.val = UInt32($803E) then Result := 'ALPHA16_EXT' else
       if self.val = UInt32($803F) then Result := 'LUMINANCE4' else
+      if self.val = UInt32($803F) then Result := 'LUMINANCE4_EXT' else
       if self.val = UInt32($8040) then Result := 'LUMINANCE8' else
+      if self.val = UInt32($8040) then Result := 'LUMINANCE8_EXT' else
+      if self.val = UInt32($8040) then Result := 'LUMINANCE8_OES' else
       if self.val = UInt32($8041) then Result := 'LUMINANCE12' else
+      if self.val = UInt32($8041) then Result := 'LUMINANCE12_EXT' else
       if self.val = UInt32($8042) then Result := 'LUMINANCE16' else
+      if self.val = UInt32($8042) then Result := 'LUMINANCE16_EXT' else
       if self.val = UInt32($8043) then Result := 'LUMINANCE4_ALPHA4' else
+      if self.val = UInt32($8043) then Result := 'LUMINANCE4_ALPHA4_EXT' else
+      if self.val = UInt32($8043) then Result := 'LUMINANCE4_ALPHA4_OES' else
       if self.val = UInt32($8044) then Result := 'LUMINANCE6_ALPHA2' else
+      if self.val = UInt32($8044) then Result := 'LUMINANCE6_ALPHA2_EXT' else
       if self.val = UInt32($8045) then Result := 'LUMINANCE8_ALPHA8' else
+      if self.val = UInt32($8045) then Result := 'LUMINANCE8_ALPHA8_EXT' else
+      if self.val = UInt32($8045) then Result := 'LUMINANCE8_ALPHA8_OES' else
       if self.val = UInt32($8046) then Result := 'LUMINANCE12_ALPHA4' else
+      if self.val = UInt32($8046) then Result := 'LUMINANCE12_ALPHA4_EXT' else
       if self.val = UInt32($8047) then Result := 'LUMINANCE12_ALPHA12' else
+      if self.val = UInt32($8047) then Result := 'LUMINANCE12_ALPHA12_EXT' else
       if self.val = UInt32($8048) then Result := 'LUMINANCE16_ALPHA16' else
+      if self.val = UInt32($8048) then Result := 'LUMINANCE16_ALPHA16_EXT' else
       if self.val = UInt32($8049) then Result := 'INTENSITY' else
       if self.val = UInt32($804A) then Result := 'INTENSITY4' else
+      if self.val = UInt32($804A) then Result := 'INTENSITY4_EXT' else
       if self.val = UInt32($804B) then Result := 'INTENSITY8' else
+      if self.val = UInt32($804B) then Result := 'INTENSITY8_EXT' else
       if self.val = UInt32($804C) then Result := 'INTENSITY12' else
+      if self.val = UInt32($804C) then Result := 'INTENSITY12_EXT' else
       if self.val = UInt32($804D) then Result := 'INTENSITY16' else
+      if self.val = UInt32($804D) then Result := 'INTENSITY16_EXT' else
       if self.val = UInt32($804E) then Result := 'RGB2_EXT' else
       if self.val = UInt32($804F) then Result := 'RGB4' else
       if self.val = UInt32($804F) then Result := 'RGB4_EXT' else
@@ -4595,6 +4718,8 @@ type
       if self.val = UInt32($8053) then Result := 'RGB12_EXT' else
       if self.val = UInt32($8054) then Result := 'RGB16' else
       if self.val = UInt32($8054) then Result := 'RGB16_EXT' else
+      if self.val = UInt32($8055) then Result := 'RGBA2' else
+      if self.val = UInt32($8055) then Result := 'RGBA2_EXT' else
       if self.val = UInt32($8056) then Result := 'RGBA4' else
       if self.val = UInt32($8056) then Result := 'RGBA4_EXT' else
       if self.val = UInt32($8056) then Result := 'RGBA4_OES' else
@@ -4634,9 +4759,11 @@ type
       if self.val = UInt32($81A5) then Result := 'DEPTH_COMPONENT16_ARB' else
       if self.val = UInt32($81A5) then Result := 'DEPTH_COMPONENT16_OES' else
       if self.val = UInt32($81A5) then Result := 'DEPTH_COMPONENT16_SGIX' else
+      if self.val = UInt32($81A6) then Result := 'DEPTH_COMPONENT24' else
       if self.val = UInt32($81A6) then Result := 'DEPTH_COMPONENT24_ARB' else
       if self.val = UInt32($81A6) then Result := 'DEPTH_COMPONENT24_OES' else
       if self.val = UInt32($81A6) then Result := 'DEPTH_COMPONENT24_SGIX' else
+      if self.val = UInt32($81A7) then Result := 'DEPTH_COMPONENT32' else
       if self.val = UInt32($81A7) then Result := 'DEPTH_COMPONENT32_ARB' else
       if self.val = UInt32($81A7) then Result := 'DEPTH_COMPONENT32_OES' else
       if self.val = UInt32($81A7) then Result := 'DEPTH_COMPONENT32_SGIX' else
@@ -4673,7 +4800,9 @@ type
       if self.val = UInt32($823C) then Result := 'RG32UI' else
       if self.val = UInt32($83F0) then Result := 'COMPRESSED_RGB_S3TC_DXT1_EXT' else
       if self.val = UInt32($83F1) then Result := 'COMPRESSED_RGBA_S3TC_DXT1_EXT' else
+      if self.val = UInt32($83F2) then Result := 'COMPRESSED_RGBA_S3TC_DXT3_ANGLE' else
       if self.val = UInt32($83F2) then Result := 'COMPRESSED_RGBA_S3TC_DXT3_EXT' else
+      if self.val = UInt32($83F3) then Result := 'COMPRESSED_RGBA_S3TC_DXT5_ANGLE' else
       if self.val = UInt32($83F3) then Result := 'COMPRESSED_RGBA_S3TC_DXT5_EXT' else
       if self.val = UInt32($84ED) then Result := 'COMPRESSED_RGB' else
       if self.val = UInt32($84EE) then Result := 'COMPRESSED_RGBA' else
@@ -4686,6 +4815,8 @@ type
       if self.val = UInt32($8814) then Result := 'RGBA32F_ARB' else
       if self.val = UInt32($8814) then Result := 'RGBA32F_EXT' else
       if self.val = UInt32($8815) then Result := 'RGB32F' else
+      if self.val = UInt32($8815) then Result := 'RGB32F_ARB' else
+      if self.val = UInt32($8815) then Result := 'RGB32F_EXT' else
       if self.val = UInt32($881A) then Result := 'RGBA16F' else
       if self.val = UInt32($881A) then Result := 'RGBA16F_ARB' else
       if self.val = UInt32($881A) then Result := 'RGBA16F_EXT' else
@@ -4713,9 +4844,13 @@ type
       if self.val = UInt32($8C48) then Result := 'COMPRESSED_SRGB' else
       if self.val = UInt32($8C49) then Result := 'COMPRESSED_SRGB_ALPHA' else
       if self.val = UInt32($8C4C) then Result := 'COMPRESSED_SRGB_S3TC_DXT1_EXT' else
+      if self.val = UInt32($8C4C) then Result := 'COMPRESSED_SRGB_S3TC_DXT1_NV' else
       if self.val = UInt32($8C4D) then Result := 'COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT' else
+      if self.val = UInt32($8C4D) then Result := 'COMPRESSED_SRGB_ALPHA_S3TC_DXT1_NV' else
       if self.val = UInt32($8C4E) then Result := 'COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT' else
+      if self.val = UInt32($8C4E) then Result := 'COMPRESSED_SRGB_ALPHA_S3TC_DXT3_NV' else
       if self.val = UInt32($8C4F) then Result := 'COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT' else
+      if self.val = UInt32($8C4F) then Result := 'COMPRESSED_SRGB_ALPHA_S3TC_DXT5_NV' else
       if self.val = UInt32($8CAC) then Result := 'DEPTH_COMPONENT32F' else
       if self.val = UInt32($8CAD) then Result := 'DEPTH32F_STENCIL8' else
       if self.val = UInt32($8D46) then Result := 'STENCIL_INDEX1' else
@@ -4729,30 +4864,79 @@ type
       if self.val = UInt32($8D48) then Result := 'STENCIL_INDEX8_OES' else
       if self.val = UInt32($8D49) then Result := 'STENCIL_INDEX16' else
       if self.val = UInt32($8D49) then Result := 'STENCIL_INDEX16_EXT' else
+      if self.val = UInt32($8D62) then Result := 'RGB565' else
+      if self.val = UInt32($8D62) then Result := 'RGB565_OES' else
+      if self.val = UInt32($8D64) then Result := 'ETC1_RGB8_OES' else
       if self.val = UInt32($8D70) then Result := 'RGBA32UI' else
+      if self.val = UInt32($8D70) then Result := 'RGBA32UI_EXT' else
       if self.val = UInt32($8D71) then Result := 'RGB32UI' else
+      if self.val = UInt32($8D71) then Result := 'RGB32UI_EXT' else
+      if self.val = UInt32($8D72) then Result := 'ALPHA32UI_EXT' else
+      if self.val = UInt32($8D73) then Result := 'INTENSITY32UI_EXT' else
+      if self.val = UInt32($8D74) then Result := 'LUMINANCE32UI_EXT' else
+      if self.val = UInt32($8D75) then Result := 'LUMINANCE_ALPHA32UI_EXT' else
       if self.val = UInt32($8D76) then Result := 'RGBA16UI' else
+      if self.val = UInt32($8D76) then Result := 'RGBA16UI_EXT' else
       if self.val = UInt32($8D77) then Result := 'RGB16UI' else
+      if self.val = UInt32($8D77) then Result := 'RGB16UI_EXT' else
+      if self.val = UInt32($8D78) then Result := 'ALPHA16UI_EXT' else
+      if self.val = UInt32($8D79) then Result := 'INTENSITY16UI_EXT' else
+      if self.val = UInt32($8D7A) then Result := 'LUMINANCE16UI_EXT' else
+      if self.val = UInt32($8D7B) then Result := 'LUMINANCE_ALPHA16UI_EXT' else
       if self.val = UInt32($8D7C) then Result := 'RGBA8UI' else
+      if self.val = UInt32($8D7C) then Result := 'RGBA8UI_EXT' else
       if self.val = UInt32($8D7D) then Result := 'RGB8UI' else
+      if self.val = UInt32($8D7D) then Result := 'RGB8UI_EXT' else
+      if self.val = UInt32($8D7E) then Result := 'ALPHA8UI_EXT' else
+      if self.val = UInt32($8D7F) then Result := 'INTENSITY8UI_EXT' else
+      if self.val = UInt32($8D80) then Result := 'LUMINANCE8UI_EXT' else
+      if self.val = UInt32($8D81) then Result := 'LUMINANCE_ALPHA8UI_EXT' else
       if self.val = UInt32($8D82) then Result := 'RGBA32I' else
+      if self.val = UInt32($8D82) then Result := 'RGBA32I_EXT' else
       if self.val = UInt32($8D83) then Result := 'RGB32I' else
+      if self.val = UInt32($8D83) then Result := 'RGB32I_EXT' else
+      if self.val = UInt32($8D84) then Result := 'ALPHA32I_EXT' else
+      if self.val = UInt32($8D85) then Result := 'INTENSITY32I_EXT' else
+      if self.val = UInt32($8D86) then Result := 'LUMINANCE32I_EXT' else
+      if self.val = UInt32($8D87) then Result := 'LUMINANCE_ALPHA32I_EXT' else
       if self.val = UInt32($8D88) then Result := 'RGBA16I' else
+      if self.val = UInt32($8D88) then Result := 'RGBA16I_EXT' else
       if self.val = UInt32($8D89) then Result := 'RGB16I' else
+      if self.val = UInt32($8D89) then Result := 'RGB16I_EXT' else
+      if self.val = UInt32($8D8A) then Result := 'ALPHA16I_EXT' else
+      if self.val = UInt32($8D8B) then Result := 'INTENSITY16I_EXT' else
+      if self.val = UInt32($8D8C) then Result := 'LUMINANCE16I_EXT' else
+      if self.val = UInt32($8D8D) then Result := 'LUMINANCE_ALPHA16I_EXT' else
       if self.val = UInt32($8D8E) then Result := 'RGBA8I' else
+      if self.val = UInt32($8D8E) then Result := 'RGBA8I_EXT' else
       if self.val = UInt32($8D8F) then Result := 'RGB8I' else
+      if self.val = UInt32($8D8F) then Result := 'RGB8I_EXT' else
+      if self.val = UInt32($8D90) then Result := 'ALPHA8I_EXT' else
+      if self.val = UInt32($8D91) then Result := 'INTENSITY8I_EXT' else
+      if self.val = UInt32($8D92) then Result := 'LUMINANCE8I_EXT' else
+      if self.val = UInt32($8D93) then Result := 'LUMINANCE_ALPHA8I_EXT' else
       if self.val = UInt32($8DAB) then Result := 'DEPTH_COMPONENT32F_NV' else
       if self.val = UInt32($8DAC) then Result := 'DEPTH32F_STENCIL8_NV' else
       if self.val = UInt32($8DBB) then Result := 'COMPRESSED_RED_RGTC1' else
       if self.val = UInt32($8DBB) then Result := 'COMPRESSED_RED_RGTC1_EXT' else
       if self.val = UInt32($8DBC) then Result := 'COMPRESSED_SIGNED_RED_RGTC1' else
       if self.val = UInt32($8DBC) then Result := 'COMPRESSED_SIGNED_RED_RGTC1_EXT' else
+      if self.val = UInt32($8DBD) then Result := 'COMPRESSED_RED_GREEN_RGTC2_EXT' else
       if self.val = UInt32($8DBD) then Result := 'COMPRESSED_RG_RGTC2' else
+      if self.val = UInt32($8DBE) then Result := 'COMPRESSED_SIGNED_RED_GREEN_RGTC2_EXT' else
       if self.val = UInt32($8DBE) then Result := 'COMPRESSED_SIGNED_RG_RGTC2' else
       if self.val = UInt32($8E8C) then Result := 'COMPRESSED_RGBA_BPTC_UNORM' else
+      if self.val = UInt32($8E8C) then Result := 'COMPRESSED_RGBA_BPTC_UNORM_ARB' else
+      if self.val = UInt32($8E8C) then Result := 'COMPRESSED_RGBA_BPTC_UNORM_EXT' else
       if self.val = UInt32($8E8D) then Result := 'COMPRESSED_SRGB_ALPHA_BPTC_UNORM' else
+      if self.val = UInt32($8E8D) then Result := 'COMPRESSED_SRGB_ALPHA_BPTC_UNORM_ARB' else
+      if self.val = UInt32($8E8D) then Result := 'COMPRESSED_SRGB_ALPHA_BPTC_UNORM_EXT' else
       if self.val = UInt32($8E8E) then Result := 'COMPRESSED_RGB_BPTC_SIGNED_FLOAT' else
+      if self.val = UInt32($8E8E) then Result := 'COMPRESSED_RGB_BPTC_SIGNED_FLOAT_ARB' else
+      if self.val = UInt32($8E8E) then Result := 'COMPRESSED_RGB_BPTC_SIGNED_FLOAT_EXT' else
       if self.val = UInt32($8E8F) then Result := 'COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT' else
+      if self.val = UInt32($8E8F) then Result := 'COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_ARB' else
+      if self.val = UInt32($8E8F) then Result := 'COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_EXT' else
       if self.val = UInt32($8F94) then Result := 'R8_SNORM' else
       if self.val = UInt32($8F95) then Result := 'RG8_SNORM' else
       if self.val = UInt32($8F96) then Result := 'RGB8_SNORM' else
@@ -4763,19 +4947,31 @@ type
       if self.val = UInt32($8F99) then Result := 'RG16_SNORM_EXT' else
       if self.val = UInt32($8F9A) then Result := 'RGB16_SNORM' else
       if self.val = UInt32($8F9A) then Result := 'RGB16_SNORM_EXT' else
+      if self.val = UInt32($8F9B) then Result := 'RGBA16_SNORM' else
+      if self.val = UInt32($8F9B) then Result := 'RGBA16_SNORM_EXT' else
       if self.val = UInt32($8FBD) then Result := 'SR8_EXT' else
       if self.val = UInt32($8FBE) then Result := 'SRG8_EXT' else
       if self.val = UInt32($906F) then Result := 'RGB10_A2UI' else
       if self.val = UInt32($9270) then Result := 'COMPRESSED_R11_EAC' else
+      if self.val = UInt32($9270) then Result := 'COMPRESSED_R11_EAC_OES' else
       if self.val = UInt32($9271) then Result := 'COMPRESSED_SIGNED_R11_EAC' else
+      if self.val = UInt32($9271) then Result := 'COMPRESSED_SIGNED_R11_EAC_OES' else
       if self.val = UInt32($9272) then Result := 'COMPRESSED_RG11_EAC' else
+      if self.val = UInt32($9272) then Result := 'COMPRESSED_RG11_EAC_OES' else
       if self.val = UInt32($9273) then Result := 'COMPRESSED_SIGNED_RG11_EAC' else
+      if self.val = UInt32($9273) then Result := 'COMPRESSED_SIGNED_RG11_EAC_OES' else
       if self.val = UInt32($9274) then Result := 'COMPRESSED_RGB8_ETC2' else
+      if self.val = UInt32($9274) then Result := 'COMPRESSED_RGB8_ETC2_OES' else
       if self.val = UInt32($9275) then Result := 'COMPRESSED_SRGB8_ETC2' else
+      if self.val = UInt32($9275) then Result := 'COMPRESSED_SRGB8_ETC2_OES' else
       if self.val = UInt32($9276) then Result := 'COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2' else
+      if self.val = UInt32($9276) then Result := 'COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2_OES' else
       if self.val = UInt32($9277) then Result := 'COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2' else
+      if self.val = UInt32($9277) then Result := 'COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2_OES' else
       if self.val = UInt32($9278) then Result := 'COMPRESSED_RGBA8_ETC2_EAC' else
+      if self.val = UInt32($9278) then Result := 'COMPRESSED_RGBA8_ETC2_EAC_OES' else
       if self.val = UInt32($9279) then Result := 'COMPRESSED_SRGB8_ALPHA8_ETC2_EAC' else
+      if self.val = UInt32($9279) then Result := 'COMPRESSED_SRGB8_ALPHA8_ETC2_EAC_OES' else
       if self.val = UInt32($93B0) then Result := 'COMPRESSED_RGBA_ASTC_4x4' else
       if self.val = UInt32($93B0) then Result := 'COMPRESSED_RGBA_ASTC_4x4_KHR' else
       if self.val = UInt32($93B1) then Result := 'COMPRESSED_RGBA_ASTC_5x4' else
@@ -7564,6 +7760,712 @@ type
     
   end;
   
+  SizedInternalFormat = record
+    public val: UInt32;
+    public constructor(val: UInt32) := self.val := val;
+    
+    public static property R3_G3_B2:                                      SizedInternalFormat read new SizedInternalFormat($2A10);
+    public static property ALPHA4:                                        SizedInternalFormat read new SizedInternalFormat($803B);
+    public static property ALPHA4_EXT:                                    SizedInternalFormat read new SizedInternalFormat($803B);
+    public static property ALPHA8:                                        SizedInternalFormat read new SizedInternalFormat($803C);
+    public static property ALPHA8_EXT:                                    SizedInternalFormat read new SizedInternalFormat($803C);
+    public static property ALPHA8_OES:                                    SizedInternalFormat read new SizedInternalFormat($803C);
+    public static property ALPHA12:                                       SizedInternalFormat read new SizedInternalFormat($803D);
+    public static property ALPHA12_EXT:                                   SizedInternalFormat read new SizedInternalFormat($803D);
+    public static property ALPHA16:                                       SizedInternalFormat read new SizedInternalFormat($803E);
+    public static property ALPHA16_EXT:                                   SizedInternalFormat read new SizedInternalFormat($803E);
+    public static property LUMINANCE4:                                    SizedInternalFormat read new SizedInternalFormat($803F);
+    public static property LUMINANCE4_EXT:                                SizedInternalFormat read new SizedInternalFormat($803F);
+    public static property LUMINANCE8:                                    SizedInternalFormat read new SizedInternalFormat($8040);
+    public static property LUMINANCE8_EXT:                                SizedInternalFormat read new SizedInternalFormat($8040);
+    public static property LUMINANCE8_OES:                                SizedInternalFormat read new SizedInternalFormat($8040);
+    public static property LUMINANCE12:                                   SizedInternalFormat read new SizedInternalFormat($8041);
+    public static property LUMINANCE12_EXT:                               SizedInternalFormat read new SizedInternalFormat($8041);
+    public static property LUMINANCE16:                                   SizedInternalFormat read new SizedInternalFormat($8042);
+    public static property LUMINANCE16_EXT:                               SizedInternalFormat read new SizedInternalFormat($8042);
+    public static property LUMINANCE4_ALPHA4:                             SizedInternalFormat read new SizedInternalFormat($8043);
+    public static property LUMINANCE4_ALPHA4_EXT:                         SizedInternalFormat read new SizedInternalFormat($8043);
+    public static property LUMINANCE4_ALPHA4_OES:                         SizedInternalFormat read new SizedInternalFormat($8043);
+    public static property LUMINANCE6_ALPHA2:                             SizedInternalFormat read new SizedInternalFormat($8044);
+    public static property LUMINANCE6_ALPHA2_EXT:                         SizedInternalFormat read new SizedInternalFormat($8044);
+    public static property LUMINANCE8_ALPHA8:                             SizedInternalFormat read new SizedInternalFormat($8045);
+    public static property LUMINANCE8_ALPHA8_EXT:                         SizedInternalFormat read new SizedInternalFormat($8045);
+    public static property LUMINANCE8_ALPHA8_OES:                         SizedInternalFormat read new SizedInternalFormat($8045);
+    public static property LUMINANCE12_ALPHA4:                            SizedInternalFormat read new SizedInternalFormat($8046);
+    public static property LUMINANCE12_ALPHA4_EXT:                        SizedInternalFormat read new SizedInternalFormat($8046);
+    public static property LUMINANCE12_ALPHA12:                           SizedInternalFormat read new SizedInternalFormat($8047);
+    public static property LUMINANCE12_ALPHA12_EXT:                       SizedInternalFormat read new SizedInternalFormat($8047);
+    public static property LUMINANCE16_ALPHA16:                           SizedInternalFormat read new SizedInternalFormat($8048);
+    public static property LUMINANCE16_ALPHA16_EXT:                       SizedInternalFormat read new SizedInternalFormat($8048);
+    public static property INTENSITY4:                                    SizedInternalFormat read new SizedInternalFormat($804A);
+    public static property INTENSITY4_EXT:                                SizedInternalFormat read new SizedInternalFormat($804A);
+    public static property INTENSITY8:                                    SizedInternalFormat read new SizedInternalFormat($804B);
+    public static property INTENSITY8_EXT:                                SizedInternalFormat read new SizedInternalFormat($804B);
+    public static property INTENSITY12:                                   SizedInternalFormat read new SizedInternalFormat($804C);
+    public static property INTENSITY12_EXT:                               SizedInternalFormat read new SizedInternalFormat($804C);
+    public static property INTENSITY16:                                   SizedInternalFormat read new SizedInternalFormat($804D);
+    public static property INTENSITY16_EXT:                               SizedInternalFormat read new SizedInternalFormat($804D);
+    public static property RGB2_EXT:                                      SizedInternalFormat read new SizedInternalFormat($804E);
+    public static property RGB4:                                          SizedInternalFormat read new SizedInternalFormat($804F);
+    public static property RGB4_EXT:                                      SizedInternalFormat read new SizedInternalFormat($804F);
+    public static property RGB5:                                          SizedInternalFormat read new SizedInternalFormat($8050);
+    public static property RGB5_EXT:                                      SizedInternalFormat read new SizedInternalFormat($8050);
+    public static property RGB8:                                          SizedInternalFormat read new SizedInternalFormat($8051);
+    public static property RGB8_EXT:                                      SizedInternalFormat read new SizedInternalFormat($8051);
+    public static property RGB8_OES:                                      SizedInternalFormat read new SizedInternalFormat($8051);
+    public static property RGB10:                                         SizedInternalFormat read new SizedInternalFormat($8052);
+    public static property RGB10_EXT:                                     SizedInternalFormat read new SizedInternalFormat($8052);
+    public static property RGB12:                                         SizedInternalFormat read new SizedInternalFormat($8053);
+    public static property RGB12_EXT:                                     SizedInternalFormat read new SizedInternalFormat($8053);
+    public static property RGB16:                                         SizedInternalFormat read new SizedInternalFormat($8054);
+    public static property RGB16_EXT:                                     SizedInternalFormat read new SizedInternalFormat($8054);
+    public static property RGBA2:                                         SizedInternalFormat read new SizedInternalFormat($8055);
+    public static property RGBA2_EXT:                                     SizedInternalFormat read new SizedInternalFormat($8055);
+    public static property RGBA4:                                         SizedInternalFormat read new SizedInternalFormat($8056);
+    public static property RGBA4_EXT:                                     SizedInternalFormat read new SizedInternalFormat($8056);
+    public static property RGBA4_OES:                                     SizedInternalFormat read new SizedInternalFormat($8056);
+    public static property RGB5_A1:                                       SizedInternalFormat read new SizedInternalFormat($8057);
+    public static property RGB5_A1_EXT:                                   SizedInternalFormat read new SizedInternalFormat($8057);
+    public static property RGB5_A1_OES:                                   SizedInternalFormat read new SizedInternalFormat($8057);
+    public static property RGBA8:                                         SizedInternalFormat read new SizedInternalFormat($8058);
+    public static property RGBA8_EXT:                                     SizedInternalFormat read new SizedInternalFormat($8058);
+    public static property RGBA8_OES:                                     SizedInternalFormat read new SizedInternalFormat($8058);
+    public static property RGB10_A2:                                      SizedInternalFormat read new SizedInternalFormat($8059);
+    public static property RGB10_A2_EXT:                                  SizedInternalFormat read new SizedInternalFormat($8059);
+    public static property RGBA12:                                        SizedInternalFormat read new SizedInternalFormat($805A);
+    public static property RGBA12_EXT:                                    SizedInternalFormat read new SizedInternalFormat($805A);
+    public static property RGBA16:                                        SizedInternalFormat read new SizedInternalFormat($805B);
+    public static property RGBA16_EXT:                                    SizedInternalFormat read new SizedInternalFormat($805B);
+    public static property DEPTH_COMPONENT16:                             SizedInternalFormat read new SizedInternalFormat($81A5);
+    public static property DEPTH_COMPONENT16_ARB:                         SizedInternalFormat read new SizedInternalFormat($81A5);
+    public static property DEPTH_COMPONENT16_OES:                         SizedInternalFormat read new SizedInternalFormat($81A5);
+    public static property DEPTH_COMPONENT16_SGIX:                        SizedInternalFormat read new SizedInternalFormat($81A5);
+    public static property DEPTH_COMPONENT24:                             SizedInternalFormat read new SizedInternalFormat($81A6);
+    public static property DEPTH_COMPONENT24_ARB:                         SizedInternalFormat read new SizedInternalFormat($81A6);
+    public static property DEPTH_COMPONENT24_OES:                         SizedInternalFormat read new SizedInternalFormat($81A6);
+    public static property DEPTH_COMPONENT24_SGIX:                        SizedInternalFormat read new SizedInternalFormat($81A6);
+    public static property DEPTH_COMPONENT32:                             SizedInternalFormat read new SizedInternalFormat($81A7);
+    public static property DEPTH_COMPONENT32_ARB:                         SizedInternalFormat read new SizedInternalFormat($81A7);
+    public static property DEPTH_COMPONENT32_OES:                         SizedInternalFormat read new SizedInternalFormat($81A7);
+    public static property DEPTH_COMPONENT32_SGIX:                        SizedInternalFormat read new SizedInternalFormat($81A7);
+    public static property R8:                                            SizedInternalFormat read new SizedInternalFormat($8229);
+    public static property R8_EXT:                                        SizedInternalFormat read new SizedInternalFormat($8229);
+    public static property R16:                                           SizedInternalFormat read new SizedInternalFormat($822A);
+    public static property R16_EXT:                                       SizedInternalFormat read new SizedInternalFormat($822A);
+    public static property RG8:                                           SizedInternalFormat read new SizedInternalFormat($822B);
+    public static property RG8_EXT:                                       SizedInternalFormat read new SizedInternalFormat($822B);
+    public static property RG16:                                          SizedInternalFormat read new SizedInternalFormat($822C);
+    public static property RG16_EXT:                                      SizedInternalFormat read new SizedInternalFormat($822C);
+    public static property R16F:                                          SizedInternalFormat read new SizedInternalFormat($822D);
+    public static property R16F_EXT:                                      SizedInternalFormat read new SizedInternalFormat($822D);
+    public static property R32F:                                          SizedInternalFormat read new SizedInternalFormat($822E);
+    public static property R32F_EXT:                                      SizedInternalFormat read new SizedInternalFormat($822E);
+    public static property RG16F:                                         SizedInternalFormat read new SizedInternalFormat($822F);
+    public static property RG16F_EXT:                                     SizedInternalFormat read new SizedInternalFormat($822F);
+    public static property RG32F:                                         SizedInternalFormat read new SizedInternalFormat($8230);
+    public static property RG32F_EXT:                                     SizedInternalFormat read new SizedInternalFormat($8230);
+    public static property R8I:                                           SizedInternalFormat read new SizedInternalFormat($8231);
+    public static property R8UI:                                          SizedInternalFormat read new SizedInternalFormat($8232);
+    public static property R16I:                                          SizedInternalFormat read new SizedInternalFormat($8233);
+    public static property R16UI:                                         SizedInternalFormat read new SizedInternalFormat($8234);
+    public static property R32I:                                          SizedInternalFormat read new SizedInternalFormat($8235);
+    public static property R32UI:                                         SizedInternalFormat read new SizedInternalFormat($8236);
+    public static property RG8I:                                          SizedInternalFormat read new SizedInternalFormat($8237);
+    public static property RG8UI:                                         SizedInternalFormat read new SizedInternalFormat($8238);
+    public static property RG16I:                                         SizedInternalFormat read new SizedInternalFormat($8239);
+    public static property RG16UI:                                        SizedInternalFormat read new SizedInternalFormat($823A);
+    public static property RG32I:                                         SizedInternalFormat read new SizedInternalFormat($823B);
+    public static property RG32UI:                                        SizedInternalFormat read new SizedInternalFormat($823C);
+    public static property COMPRESSED_RGB_S3TC_DXT1_EXT:                  SizedInternalFormat read new SizedInternalFormat($83F0);
+    public static property COMPRESSED_RGBA_S3TC_DXT1_EXT:                 SizedInternalFormat read new SizedInternalFormat($83F1);
+    public static property COMPRESSED_RGBA_S3TC_DXT3_ANGLE:               SizedInternalFormat read new SizedInternalFormat($83F2);
+    public static property COMPRESSED_RGBA_S3TC_DXT3_EXT:                 SizedInternalFormat read new SizedInternalFormat($83F2);
+    public static property COMPRESSED_RGBA_S3TC_DXT5_ANGLE:               SizedInternalFormat read new SizedInternalFormat($83F3);
+    public static property COMPRESSED_RGBA_S3TC_DXT5_EXT:                 SizedInternalFormat read new SizedInternalFormat($83F3);
+    public static property RGBA32F:                                       SizedInternalFormat read new SizedInternalFormat($8814);
+    public static property RGBA32F_ARB:                                   SizedInternalFormat read new SizedInternalFormat($8814);
+    public static property RGBA32F_EXT:                                   SizedInternalFormat read new SizedInternalFormat($8814);
+    public static property RGB32F:                                        SizedInternalFormat read new SizedInternalFormat($8815);
+    public static property RGB32F_ARB:                                    SizedInternalFormat read new SizedInternalFormat($8815);
+    public static property RGB32F_EXT:                                    SizedInternalFormat read new SizedInternalFormat($8815);
+    public static property RGBA16F:                                       SizedInternalFormat read new SizedInternalFormat($881A);
+    public static property RGBA16F_ARB:                                   SizedInternalFormat read new SizedInternalFormat($881A);
+    public static property RGBA16F_EXT:                                   SizedInternalFormat read new SizedInternalFormat($881A);
+    public static property RGB16F:                                        SizedInternalFormat read new SizedInternalFormat($881B);
+    public static property RGB16F_ARB:                                    SizedInternalFormat read new SizedInternalFormat($881B);
+    public static property RGB16F_EXT:                                    SizedInternalFormat read new SizedInternalFormat($881B);
+    public static property DEPTH24_STENCIL8:                              SizedInternalFormat read new SizedInternalFormat($88F0);
+    public static property DEPTH24_STENCIL8_EXT:                          SizedInternalFormat read new SizedInternalFormat($88F0);
+    public static property DEPTH24_STENCIL8_OES:                          SizedInternalFormat read new SizedInternalFormat($88F0);
+    public static property R11F_G11F_B10F:                                SizedInternalFormat read new SizedInternalFormat($8C3A);
+    public static property R11F_G11F_B10F_APPLE:                          SizedInternalFormat read new SizedInternalFormat($8C3A);
+    public static property R11F_G11F_B10F_EXT:                            SizedInternalFormat read new SizedInternalFormat($8C3A);
+    public static property RGB9_E5:                                       SizedInternalFormat read new SizedInternalFormat($8C3D);
+    public static property RGB9_E5_APPLE:                                 SizedInternalFormat read new SizedInternalFormat($8C3D);
+    public static property RGB9_E5_EXT:                                   SizedInternalFormat read new SizedInternalFormat($8C3D);
+    public static property SRGB8:                                         SizedInternalFormat read new SizedInternalFormat($8C41);
+    public static property SRGB8_EXT:                                     SizedInternalFormat read new SizedInternalFormat($8C41);
+    public static property SRGB8_NV:                                      SizedInternalFormat read new SizedInternalFormat($8C41);
+    public static property SRGB8_ALPHA8:                                  SizedInternalFormat read new SizedInternalFormat($8C43);
+    public static property SRGB8_ALPHA8_EXT:                              SizedInternalFormat read new SizedInternalFormat($8C43);
+    public static property COMPRESSED_SRGB_S3TC_DXT1_EXT:                 SizedInternalFormat read new SizedInternalFormat($8C4C);
+    public static property COMPRESSED_SRGB_S3TC_DXT1_NV:                  SizedInternalFormat read new SizedInternalFormat($8C4C);
+    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT:           SizedInternalFormat read new SizedInternalFormat($8C4D);
+    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT1_NV:            SizedInternalFormat read new SizedInternalFormat($8C4D);
+    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT:           SizedInternalFormat read new SizedInternalFormat($8C4E);
+    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT3_NV:            SizedInternalFormat read new SizedInternalFormat($8C4E);
+    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:           SizedInternalFormat read new SizedInternalFormat($8C4F);
+    public static property COMPRESSED_SRGB_ALPHA_S3TC_DXT5_NV:            SizedInternalFormat read new SizedInternalFormat($8C4F);
+    public static property DEPTH_COMPONENT32F:                            SizedInternalFormat read new SizedInternalFormat($8CAC);
+    public static property DEPTH32F_STENCIL8:                             SizedInternalFormat read new SizedInternalFormat($8CAD);
+    public static property STENCIL_INDEX1:                                SizedInternalFormat read new SizedInternalFormat($8D46);
+    public static property STENCIL_INDEX1_EXT:                            SizedInternalFormat read new SizedInternalFormat($8D46);
+    public static property STENCIL_INDEX1_OES:                            SizedInternalFormat read new SizedInternalFormat($8D46);
+    public static property STENCIL_INDEX4:                                SizedInternalFormat read new SizedInternalFormat($8D47);
+    public static property STENCIL_INDEX4_EXT:                            SizedInternalFormat read new SizedInternalFormat($8D47);
+    public static property STENCIL_INDEX4_OES:                            SizedInternalFormat read new SizedInternalFormat($8D47);
+    public static property STENCIL_INDEX8:                                SizedInternalFormat read new SizedInternalFormat($8D48);
+    public static property STENCIL_INDEX8_EXT:                            SizedInternalFormat read new SizedInternalFormat($8D48);
+    public static property STENCIL_INDEX8_OES:                            SizedInternalFormat read new SizedInternalFormat($8D48);
+    public static property STENCIL_INDEX16:                               SizedInternalFormat read new SizedInternalFormat($8D49);
+    public static property STENCIL_INDEX16_EXT:                           SizedInternalFormat read new SizedInternalFormat($8D49);
+    public static property RGB565:                                        SizedInternalFormat read new SizedInternalFormat($8D62);
+    public static property RGB565_OES:                                    SizedInternalFormat read new SizedInternalFormat($8D62);
+    public static property ETC1_RGB8_OES:                                 SizedInternalFormat read new SizedInternalFormat($8D64);
+    public static property RGBA32UI:                                      SizedInternalFormat read new SizedInternalFormat($8D70);
+    public static property RGBA32UI_EXT:                                  SizedInternalFormat read new SizedInternalFormat($8D70);
+    public static property RGB32UI:                                       SizedInternalFormat read new SizedInternalFormat($8D71);
+    public static property RGB32UI_EXT:                                   SizedInternalFormat read new SizedInternalFormat($8D71);
+    public static property ALPHA32UI_EXT:                                 SizedInternalFormat read new SizedInternalFormat($8D72);
+    public static property INTENSITY32UI_EXT:                             SizedInternalFormat read new SizedInternalFormat($8D73);
+    public static property LUMINANCE32UI_EXT:                             SizedInternalFormat read new SizedInternalFormat($8D74);
+    public static property LUMINANCE_ALPHA32UI_EXT:                       SizedInternalFormat read new SizedInternalFormat($8D75);
+    public static property RGBA16UI:                                      SizedInternalFormat read new SizedInternalFormat($8D76);
+    public static property RGBA16UI_EXT:                                  SizedInternalFormat read new SizedInternalFormat($8D76);
+    public static property RGB16UI:                                       SizedInternalFormat read new SizedInternalFormat($8D77);
+    public static property RGB16UI_EXT:                                   SizedInternalFormat read new SizedInternalFormat($8D77);
+    public static property ALPHA16UI_EXT:                                 SizedInternalFormat read new SizedInternalFormat($8D78);
+    public static property INTENSITY16UI_EXT:                             SizedInternalFormat read new SizedInternalFormat($8D79);
+    public static property LUMINANCE16UI_EXT:                             SizedInternalFormat read new SizedInternalFormat($8D7A);
+    public static property LUMINANCE_ALPHA16UI_EXT:                       SizedInternalFormat read new SizedInternalFormat($8D7B);
+    public static property RGBA8UI:                                       SizedInternalFormat read new SizedInternalFormat($8D7C);
+    public static property RGBA8UI_EXT:                                   SizedInternalFormat read new SizedInternalFormat($8D7C);
+    public static property RGB8UI:                                        SizedInternalFormat read new SizedInternalFormat($8D7D);
+    public static property RGB8UI_EXT:                                    SizedInternalFormat read new SizedInternalFormat($8D7D);
+    public static property ALPHA8UI_EXT:                                  SizedInternalFormat read new SizedInternalFormat($8D7E);
+    public static property INTENSITY8UI_EXT:                              SizedInternalFormat read new SizedInternalFormat($8D7F);
+    public static property LUMINANCE8UI_EXT:                              SizedInternalFormat read new SizedInternalFormat($8D80);
+    public static property LUMINANCE_ALPHA8UI_EXT:                        SizedInternalFormat read new SizedInternalFormat($8D81);
+    public static property RGBA32I:                                       SizedInternalFormat read new SizedInternalFormat($8D82);
+    public static property RGBA32I_EXT:                                   SizedInternalFormat read new SizedInternalFormat($8D82);
+    public static property RGB32I:                                        SizedInternalFormat read new SizedInternalFormat($8D83);
+    public static property RGB32I_EXT:                                    SizedInternalFormat read new SizedInternalFormat($8D83);
+    public static property ALPHA32I_EXT:                                  SizedInternalFormat read new SizedInternalFormat($8D84);
+    public static property INTENSITY32I_EXT:                              SizedInternalFormat read new SizedInternalFormat($8D85);
+    public static property LUMINANCE32I_EXT:                              SizedInternalFormat read new SizedInternalFormat($8D86);
+    public static property LUMINANCE_ALPHA32I_EXT:                        SizedInternalFormat read new SizedInternalFormat($8D87);
+    public static property RGBA16I:                                       SizedInternalFormat read new SizedInternalFormat($8D88);
+    public static property RGBA16I_EXT:                                   SizedInternalFormat read new SizedInternalFormat($8D88);
+    public static property RGB16I:                                        SizedInternalFormat read new SizedInternalFormat($8D89);
+    public static property RGB16I_EXT:                                    SizedInternalFormat read new SizedInternalFormat($8D89);
+    public static property ALPHA16I_EXT:                                  SizedInternalFormat read new SizedInternalFormat($8D8A);
+    public static property INTENSITY16I_EXT:                              SizedInternalFormat read new SizedInternalFormat($8D8B);
+    public static property LUMINANCE16I_EXT:                              SizedInternalFormat read new SizedInternalFormat($8D8C);
+    public static property LUMINANCE_ALPHA16I_EXT:                        SizedInternalFormat read new SizedInternalFormat($8D8D);
+    public static property RGBA8I:                                        SizedInternalFormat read new SizedInternalFormat($8D8E);
+    public static property RGBA8I_EXT:                                    SizedInternalFormat read new SizedInternalFormat($8D8E);
+    public static property RGB8I:                                         SizedInternalFormat read new SizedInternalFormat($8D8F);
+    public static property RGB8I_EXT:                                     SizedInternalFormat read new SizedInternalFormat($8D8F);
+    public static property ALPHA8I_EXT:                                   SizedInternalFormat read new SizedInternalFormat($8D90);
+    public static property INTENSITY8I_EXT:                               SizedInternalFormat read new SizedInternalFormat($8D91);
+    public static property LUMINANCE8I_EXT:                               SizedInternalFormat read new SizedInternalFormat($8D92);
+    public static property LUMINANCE_ALPHA8I_EXT:                         SizedInternalFormat read new SizedInternalFormat($8D93);
+    public static property DEPTH_COMPONENT32F_NV:                         SizedInternalFormat read new SizedInternalFormat($8DAB);
+    public static property DEPTH32F_STENCIL8_NV:                          SizedInternalFormat read new SizedInternalFormat($8DAC);
+    public static property COMPRESSED_RED_RGTC1:                          SizedInternalFormat read new SizedInternalFormat($8DBB);
+    public static property COMPRESSED_RED_RGTC1_EXT:                      SizedInternalFormat read new SizedInternalFormat($8DBB);
+    public static property COMPRESSED_SIGNED_RED_RGTC1:                   SizedInternalFormat read new SizedInternalFormat($8DBC);
+    public static property COMPRESSED_SIGNED_RED_RGTC1_EXT:               SizedInternalFormat read new SizedInternalFormat($8DBC);
+    public static property COMPRESSED_RED_GREEN_RGTC2_EXT:                SizedInternalFormat read new SizedInternalFormat($8DBD);
+    public static property COMPRESSED_RG_RGTC2:                           SizedInternalFormat read new SizedInternalFormat($8DBD);
+    public static property COMPRESSED_SIGNED_RED_GREEN_RGTC2_EXT:         SizedInternalFormat read new SizedInternalFormat($8DBE);
+    public static property COMPRESSED_SIGNED_RG_RGTC2:                    SizedInternalFormat read new SizedInternalFormat($8DBE);
+    public static property COMPRESSED_RGBA_BPTC_UNORM:                    SizedInternalFormat read new SizedInternalFormat($8E8C);
+    public static property COMPRESSED_RGBA_BPTC_UNORM_ARB:                SizedInternalFormat read new SizedInternalFormat($8E8C);
+    public static property COMPRESSED_RGBA_BPTC_UNORM_EXT:                SizedInternalFormat read new SizedInternalFormat($8E8C);
+    public static property COMPRESSED_SRGB_ALPHA_BPTC_UNORM:              SizedInternalFormat read new SizedInternalFormat($8E8D);
+    public static property COMPRESSED_SRGB_ALPHA_BPTC_UNORM_ARB:          SizedInternalFormat read new SizedInternalFormat($8E8D);
+    public static property COMPRESSED_SRGB_ALPHA_BPTC_UNORM_EXT:          SizedInternalFormat read new SizedInternalFormat($8E8D);
+    public static property COMPRESSED_RGB_BPTC_SIGNED_FLOAT:              SizedInternalFormat read new SizedInternalFormat($8E8E);
+    public static property COMPRESSED_RGB_BPTC_SIGNED_FLOAT_ARB:          SizedInternalFormat read new SizedInternalFormat($8E8E);
+    public static property COMPRESSED_RGB_BPTC_SIGNED_FLOAT_EXT:          SizedInternalFormat read new SizedInternalFormat($8E8E);
+    public static property COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT:            SizedInternalFormat read new SizedInternalFormat($8E8F);
+    public static property COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_ARB:        SizedInternalFormat read new SizedInternalFormat($8E8F);
+    public static property COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_EXT:        SizedInternalFormat read new SizedInternalFormat($8E8F);
+    public static property R8_SNORM:                                      SizedInternalFormat read new SizedInternalFormat($8F94);
+    public static property RG8_SNORM:                                     SizedInternalFormat read new SizedInternalFormat($8F95);
+    public static property RGB8_SNORM:                                    SizedInternalFormat read new SizedInternalFormat($8F96);
+    public static property RGBA8_SNORM:                                   SizedInternalFormat read new SizedInternalFormat($8F97);
+    public static property R16_SNORM:                                     SizedInternalFormat read new SizedInternalFormat($8F98);
+    public static property R16_SNORM_EXT:                                 SizedInternalFormat read new SizedInternalFormat($8F98);
+    public static property RG16_SNORM:                                    SizedInternalFormat read new SizedInternalFormat($8F99);
+    public static property RG16_SNORM_EXT:                                SizedInternalFormat read new SizedInternalFormat($8F99);
+    public static property RGB16_SNORM:                                   SizedInternalFormat read new SizedInternalFormat($8F9A);
+    public static property RGB16_SNORM_EXT:                               SizedInternalFormat read new SizedInternalFormat($8F9A);
+    public static property RGBA16_SNORM:                                  SizedInternalFormat read new SizedInternalFormat($8F9B);
+    public static property RGBA16_SNORM_EXT:                              SizedInternalFormat read new SizedInternalFormat($8F9B);
+    public static property RGB10_A2UI:                                    SizedInternalFormat read new SizedInternalFormat($906F);
+    public static property COMPRESSED_R11_EAC:                            SizedInternalFormat read new SizedInternalFormat($9270);
+    public static property COMPRESSED_R11_EAC_OES:                        SizedInternalFormat read new SizedInternalFormat($9270);
+    public static property COMPRESSED_SIGNED_R11_EAC:                     SizedInternalFormat read new SizedInternalFormat($9271);
+    public static property COMPRESSED_SIGNED_R11_EAC_OES:                 SizedInternalFormat read new SizedInternalFormat($9271);
+    public static property COMPRESSED_RG11_EAC:                           SizedInternalFormat read new SizedInternalFormat($9272);
+    public static property COMPRESSED_RG11_EAC_OES:                       SizedInternalFormat read new SizedInternalFormat($9272);
+    public static property COMPRESSED_SIGNED_RG11_EAC:                    SizedInternalFormat read new SizedInternalFormat($9273);
+    public static property COMPRESSED_SIGNED_RG11_EAC_OES:                SizedInternalFormat read new SizedInternalFormat($9273);
+    public static property COMPRESSED_RGB8_ETC2:                          SizedInternalFormat read new SizedInternalFormat($9274);
+    public static property COMPRESSED_RGB8_ETC2_OES:                      SizedInternalFormat read new SizedInternalFormat($9274);
+    public static property COMPRESSED_SRGB8_ETC2:                         SizedInternalFormat read new SizedInternalFormat($9275);
+    public static property COMPRESSED_SRGB8_ETC2_OES:                     SizedInternalFormat read new SizedInternalFormat($9275);
+    public static property COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2:      SizedInternalFormat read new SizedInternalFormat($9276);
+    public static property COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2_OES:  SizedInternalFormat read new SizedInternalFormat($9276);
+    public static property COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2:     SizedInternalFormat read new SizedInternalFormat($9277);
+    public static property COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2_OES: SizedInternalFormat read new SizedInternalFormat($9277);
+    public static property COMPRESSED_RGBA8_ETC2_EAC:                     SizedInternalFormat read new SizedInternalFormat($9278);
+    public static property COMPRESSED_RGBA8_ETC2_EAC_OES:                 SizedInternalFormat read new SizedInternalFormat($9278);
+    public static property COMPRESSED_SRGB8_ALPHA8_ETC2_EAC:              SizedInternalFormat read new SizedInternalFormat($9279);
+    public static property COMPRESSED_SRGB8_ALPHA8_ETC2_EAC_OES:          SizedInternalFormat read new SizedInternalFormat($9279);
+    public static property COMPRESSED_RGBA_ASTC_4x4:                      SizedInternalFormat read new SizedInternalFormat($93B0);
+    public static property COMPRESSED_RGBA_ASTC_4x4_KHR:                  SizedInternalFormat read new SizedInternalFormat($93B0);
+    public static property COMPRESSED_RGBA_ASTC_5x4:                      SizedInternalFormat read new SizedInternalFormat($93B1);
+    public static property COMPRESSED_RGBA_ASTC_5x4_KHR:                  SizedInternalFormat read new SizedInternalFormat($93B1);
+    public static property COMPRESSED_RGBA_ASTC_5x5:                      SizedInternalFormat read new SizedInternalFormat($93B2);
+    public static property COMPRESSED_RGBA_ASTC_5x5_KHR:                  SizedInternalFormat read new SizedInternalFormat($93B2);
+    public static property COMPRESSED_RGBA_ASTC_6x5:                      SizedInternalFormat read new SizedInternalFormat($93B3);
+    public static property COMPRESSED_RGBA_ASTC_6x5_KHR:                  SizedInternalFormat read new SizedInternalFormat($93B3);
+    public static property COMPRESSED_RGBA_ASTC_6x6:                      SizedInternalFormat read new SizedInternalFormat($93B4);
+    public static property COMPRESSED_RGBA_ASTC_6x6_KHR:                  SizedInternalFormat read new SizedInternalFormat($93B4);
+    public static property COMPRESSED_RGBA_ASTC_8x5:                      SizedInternalFormat read new SizedInternalFormat($93B5);
+    public static property COMPRESSED_RGBA_ASTC_8x5_KHR:                  SizedInternalFormat read new SizedInternalFormat($93B5);
+    public static property COMPRESSED_RGBA_ASTC_8x6:                      SizedInternalFormat read new SizedInternalFormat($93B6);
+    public static property COMPRESSED_RGBA_ASTC_8x6_KHR:                  SizedInternalFormat read new SizedInternalFormat($93B6);
+    public static property COMPRESSED_RGBA_ASTC_8x8:                      SizedInternalFormat read new SizedInternalFormat($93B7);
+    public static property COMPRESSED_RGBA_ASTC_8x8_KHR:                  SizedInternalFormat read new SizedInternalFormat($93B7);
+    public static property COMPRESSED_RGBA_ASTC_10x5:                     SizedInternalFormat read new SizedInternalFormat($93B8);
+    public static property COMPRESSED_RGBA_ASTC_10x5_KHR:                 SizedInternalFormat read new SizedInternalFormat($93B8);
+    public static property COMPRESSED_RGBA_ASTC_10x6:                     SizedInternalFormat read new SizedInternalFormat($93B9);
+    public static property COMPRESSED_RGBA_ASTC_10x6_KHR:                 SizedInternalFormat read new SizedInternalFormat($93B9);
+    public static property COMPRESSED_RGBA_ASTC_10x8:                     SizedInternalFormat read new SizedInternalFormat($93BA);
+    public static property COMPRESSED_RGBA_ASTC_10x8_KHR:                 SizedInternalFormat read new SizedInternalFormat($93BA);
+    public static property COMPRESSED_RGBA_ASTC_10x10:                    SizedInternalFormat read new SizedInternalFormat($93BB);
+    public static property COMPRESSED_RGBA_ASTC_10x10_KHR:                SizedInternalFormat read new SizedInternalFormat($93BB);
+    public static property COMPRESSED_RGBA_ASTC_12x10:                    SizedInternalFormat read new SizedInternalFormat($93BC);
+    public static property COMPRESSED_RGBA_ASTC_12x10_KHR:                SizedInternalFormat read new SizedInternalFormat($93BC);
+    public static property COMPRESSED_RGBA_ASTC_12x12:                    SizedInternalFormat read new SizedInternalFormat($93BD);
+    public static property COMPRESSED_RGBA_ASTC_12x12_KHR:                SizedInternalFormat read new SizedInternalFormat($93BD);
+    public static property COMPRESSED_RGBA_ASTC_3x3x3_OES:                SizedInternalFormat read new SizedInternalFormat($93C0);
+    public static property COMPRESSED_RGBA_ASTC_4x3x3_OES:                SizedInternalFormat read new SizedInternalFormat($93C1);
+    public static property COMPRESSED_RGBA_ASTC_4x4x3_OES:                SizedInternalFormat read new SizedInternalFormat($93C2);
+    public static property COMPRESSED_RGBA_ASTC_4x4x4_OES:                SizedInternalFormat read new SizedInternalFormat($93C3);
+    public static property COMPRESSED_RGBA_ASTC_5x4x4_OES:                SizedInternalFormat read new SizedInternalFormat($93C4);
+    public static property COMPRESSED_RGBA_ASTC_5x5x4_OES:                SizedInternalFormat read new SizedInternalFormat($93C5);
+    public static property COMPRESSED_RGBA_ASTC_5x5x5_OES:                SizedInternalFormat read new SizedInternalFormat($93C6);
+    public static property COMPRESSED_RGBA_ASTC_6x5x5_OES:                SizedInternalFormat read new SizedInternalFormat($93C7);
+    public static property COMPRESSED_RGBA_ASTC_6x6x5_OES:                SizedInternalFormat read new SizedInternalFormat($93C8);
+    public static property COMPRESSED_RGBA_ASTC_6x6x6_OES:                SizedInternalFormat read new SizedInternalFormat($93C9);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x4:              SizedInternalFormat read new SizedInternalFormat($93D0);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x4_KHR:          SizedInternalFormat read new SizedInternalFormat($93D0);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x4:              SizedInternalFormat read new SizedInternalFormat($93D1);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x4_KHR:          SizedInternalFormat read new SizedInternalFormat($93D1);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x5:              SizedInternalFormat read new SizedInternalFormat($93D2);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x5_KHR:          SizedInternalFormat read new SizedInternalFormat($93D2);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x5:              SizedInternalFormat read new SizedInternalFormat($93D3);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x5_KHR:          SizedInternalFormat read new SizedInternalFormat($93D3);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x6:              SizedInternalFormat read new SizedInternalFormat($93D4);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x6_KHR:          SizedInternalFormat read new SizedInternalFormat($93D4);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x5:              SizedInternalFormat read new SizedInternalFormat($93D5);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x5_KHR:          SizedInternalFormat read new SizedInternalFormat($93D5);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x6:              SizedInternalFormat read new SizedInternalFormat($93D6);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x6_KHR:          SizedInternalFormat read new SizedInternalFormat($93D6);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x8:              SizedInternalFormat read new SizedInternalFormat($93D7);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_8x8_KHR:          SizedInternalFormat read new SizedInternalFormat($93D7);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x5:             SizedInternalFormat read new SizedInternalFormat($93D8);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x5_KHR:         SizedInternalFormat read new SizedInternalFormat($93D8);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x6:             SizedInternalFormat read new SizedInternalFormat($93D9);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x6_KHR:         SizedInternalFormat read new SizedInternalFormat($93D9);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x8:             SizedInternalFormat read new SizedInternalFormat($93DA);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x8_KHR:         SizedInternalFormat read new SizedInternalFormat($93DA);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x10:            SizedInternalFormat read new SizedInternalFormat($93DB);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_10x10_KHR:        SizedInternalFormat read new SizedInternalFormat($93DB);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_12x10:            SizedInternalFormat read new SizedInternalFormat($93DC);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_12x10_KHR:        SizedInternalFormat read new SizedInternalFormat($93DC);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_12x12:            SizedInternalFormat read new SizedInternalFormat($93DD);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_12x12_KHR:        SizedInternalFormat read new SizedInternalFormat($93DD);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_3x3x3_OES:        SizedInternalFormat read new SizedInternalFormat($93E0);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x3x3_OES:        SizedInternalFormat read new SizedInternalFormat($93E1);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x4x3_OES:        SizedInternalFormat read new SizedInternalFormat($93E2);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_4x4x4_OES:        SizedInternalFormat read new SizedInternalFormat($93E3);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x4x4_OES:        SizedInternalFormat read new SizedInternalFormat($93E4);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x5x4_OES:        SizedInternalFormat read new SizedInternalFormat($93E5);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_5x5x5_OES:        SizedInternalFormat read new SizedInternalFormat($93E6);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x5x5_OES:        SizedInternalFormat read new SizedInternalFormat($93E7);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x6x5_OES:        SizedInternalFormat read new SizedInternalFormat($93E8);
+    public static property COMPRESSED_SRGB8_ALPHA8_ASTC_6x6x6_OES:        SizedInternalFormat read new SizedInternalFormat($93E9);
+    
+    public function ToString: string; override;
+    begin
+      if self.val = UInt32($2A10) then Result := 'R3_G3_B2' else
+      if self.val = UInt32($803B) then Result := 'ALPHA4' else
+      if self.val = UInt32($803B) then Result := 'ALPHA4_EXT' else
+      if self.val = UInt32($803C) then Result := 'ALPHA8' else
+      if self.val = UInt32($803C) then Result := 'ALPHA8_EXT' else
+      if self.val = UInt32($803C) then Result := 'ALPHA8_OES' else
+      if self.val = UInt32($803D) then Result := 'ALPHA12' else
+      if self.val = UInt32($803D) then Result := 'ALPHA12_EXT' else
+      if self.val = UInt32($803E) then Result := 'ALPHA16' else
+      if self.val = UInt32($803E) then Result := 'ALPHA16_EXT' else
+      if self.val = UInt32($803F) then Result := 'LUMINANCE4' else
+      if self.val = UInt32($803F) then Result := 'LUMINANCE4_EXT' else
+      if self.val = UInt32($8040) then Result := 'LUMINANCE8' else
+      if self.val = UInt32($8040) then Result := 'LUMINANCE8_EXT' else
+      if self.val = UInt32($8040) then Result := 'LUMINANCE8_OES' else
+      if self.val = UInt32($8041) then Result := 'LUMINANCE12' else
+      if self.val = UInt32($8041) then Result := 'LUMINANCE12_EXT' else
+      if self.val = UInt32($8042) then Result := 'LUMINANCE16' else
+      if self.val = UInt32($8042) then Result := 'LUMINANCE16_EXT' else
+      if self.val = UInt32($8043) then Result := 'LUMINANCE4_ALPHA4' else
+      if self.val = UInt32($8043) then Result := 'LUMINANCE4_ALPHA4_EXT' else
+      if self.val = UInt32($8043) then Result := 'LUMINANCE4_ALPHA4_OES' else
+      if self.val = UInt32($8044) then Result := 'LUMINANCE6_ALPHA2' else
+      if self.val = UInt32($8044) then Result := 'LUMINANCE6_ALPHA2_EXT' else
+      if self.val = UInt32($8045) then Result := 'LUMINANCE8_ALPHA8' else
+      if self.val = UInt32($8045) then Result := 'LUMINANCE8_ALPHA8_EXT' else
+      if self.val = UInt32($8045) then Result := 'LUMINANCE8_ALPHA8_OES' else
+      if self.val = UInt32($8046) then Result := 'LUMINANCE12_ALPHA4' else
+      if self.val = UInt32($8046) then Result := 'LUMINANCE12_ALPHA4_EXT' else
+      if self.val = UInt32($8047) then Result := 'LUMINANCE12_ALPHA12' else
+      if self.val = UInt32($8047) then Result := 'LUMINANCE12_ALPHA12_EXT' else
+      if self.val = UInt32($8048) then Result := 'LUMINANCE16_ALPHA16' else
+      if self.val = UInt32($8048) then Result := 'LUMINANCE16_ALPHA16_EXT' else
+      if self.val = UInt32($804A) then Result := 'INTENSITY4' else
+      if self.val = UInt32($804A) then Result := 'INTENSITY4_EXT' else
+      if self.val = UInt32($804B) then Result := 'INTENSITY8' else
+      if self.val = UInt32($804B) then Result := 'INTENSITY8_EXT' else
+      if self.val = UInt32($804C) then Result := 'INTENSITY12' else
+      if self.val = UInt32($804C) then Result := 'INTENSITY12_EXT' else
+      if self.val = UInt32($804D) then Result := 'INTENSITY16' else
+      if self.val = UInt32($804D) then Result := 'INTENSITY16_EXT' else
+      if self.val = UInt32($804E) then Result := 'RGB2_EXT' else
+      if self.val = UInt32($804F) then Result := 'RGB4' else
+      if self.val = UInt32($804F) then Result := 'RGB4_EXT' else
+      if self.val = UInt32($8050) then Result := 'RGB5' else
+      if self.val = UInt32($8050) then Result := 'RGB5_EXT' else
+      if self.val = UInt32($8051) then Result := 'RGB8' else
+      if self.val = UInt32($8051) then Result := 'RGB8_EXT' else
+      if self.val = UInt32($8051) then Result := 'RGB8_OES' else
+      if self.val = UInt32($8052) then Result := 'RGB10' else
+      if self.val = UInt32($8052) then Result := 'RGB10_EXT' else
+      if self.val = UInt32($8053) then Result := 'RGB12' else
+      if self.val = UInt32($8053) then Result := 'RGB12_EXT' else
+      if self.val = UInt32($8054) then Result := 'RGB16' else
+      if self.val = UInt32($8054) then Result := 'RGB16_EXT' else
+      if self.val = UInt32($8055) then Result := 'RGBA2' else
+      if self.val = UInt32($8055) then Result := 'RGBA2_EXT' else
+      if self.val = UInt32($8056) then Result := 'RGBA4' else
+      if self.val = UInt32($8056) then Result := 'RGBA4_EXT' else
+      if self.val = UInt32($8056) then Result := 'RGBA4_OES' else
+      if self.val = UInt32($8057) then Result := 'RGB5_A1' else
+      if self.val = UInt32($8057) then Result := 'RGB5_A1_EXT' else
+      if self.val = UInt32($8057) then Result := 'RGB5_A1_OES' else
+      if self.val = UInt32($8058) then Result := 'RGBA8' else
+      if self.val = UInt32($8058) then Result := 'RGBA8_EXT' else
+      if self.val = UInt32($8058) then Result := 'RGBA8_OES' else
+      if self.val = UInt32($8059) then Result := 'RGB10_A2' else
+      if self.val = UInt32($8059) then Result := 'RGB10_A2_EXT' else
+      if self.val = UInt32($805A) then Result := 'RGBA12' else
+      if self.val = UInt32($805A) then Result := 'RGBA12_EXT' else
+      if self.val = UInt32($805B) then Result := 'RGBA16' else
+      if self.val = UInt32($805B) then Result := 'RGBA16_EXT' else
+      if self.val = UInt32($81A5) then Result := 'DEPTH_COMPONENT16' else
+      if self.val = UInt32($81A5) then Result := 'DEPTH_COMPONENT16_ARB' else
+      if self.val = UInt32($81A5) then Result := 'DEPTH_COMPONENT16_OES' else
+      if self.val = UInt32($81A5) then Result := 'DEPTH_COMPONENT16_SGIX' else
+      if self.val = UInt32($81A6) then Result := 'DEPTH_COMPONENT24' else
+      if self.val = UInt32($81A6) then Result := 'DEPTH_COMPONENT24_ARB' else
+      if self.val = UInt32($81A6) then Result := 'DEPTH_COMPONENT24_OES' else
+      if self.val = UInt32($81A6) then Result := 'DEPTH_COMPONENT24_SGIX' else
+      if self.val = UInt32($81A7) then Result := 'DEPTH_COMPONENT32' else
+      if self.val = UInt32($81A7) then Result := 'DEPTH_COMPONENT32_ARB' else
+      if self.val = UInt32($81A7) then Result := 'DEPTH_COMPONENT32_OES' else
+      if self.val = UInt32($81A7) then Result := 'DEPTH_COMPONENT32_SGIX' else
+      if self.val = UInt32($8229) then Result := 'R8' else
+      if self.val = UInt32($8229) then Result := 'R8_EXT' else
+      if self.val = UInt32($822A) then Result := 'R16' else
+      if self.val = UInt32($822A) then Result := 'R16_EXT' else
+      if self.val = UInt32($822B) then Result := 'RG8' else
+      if self.val = UInt32($822B) then Result := 'RG8_EXT' else
+      if self.val = UInt32($822C) then Result := 'RG16' else
+      if self.val = UInt32($822C) then Result := 'RG16_EXT' else
+      if self.val = UInt32($822D) then Result := 'R16F' else
+      if self.val = UInt32($822D) then Result := 'R16F_EXT' else
+      if self.val = UInt32($822E) then Result := 'R32F' else
+      if self.val = UInt32($822E) then Result := 'R32F_EXT' else
+      if self.val = UInt32($822F) then Result := 'RG16F' else
+      if self.val = UInt32($822F) then Result := 'RG16F_EXT' else
+      if self.val = UInt32($8230) then Result := 'RG32F' else
+      if self.val = UInt32($8230) then Result := 'RG32F_EXT' else
+      if self.val = UInt32($8231) then Result := 'R8I' else
+      if self.val = UInt32($8232) then Result := 'R8UI' else
+      if self.val = UInt32($8233) then Result := 'R16I' else
+      if self.val = UInt32($8234) then Result := 'R16UI' else
+      if self.val = UInt32($8235) then Result := 'R32I' else
+      if self.val = UInt32($8236) then Result := 'R32UI' else
+      if self.val = UInt32($8237) then Result := 'RG8I' else
+      if self.val = UInt32($8238) then Result := 'RG8UI' else
+      if self.val = UInt32($8239) then Result := 'RG16I' else
+      if self.val = UInt32($823A) then Result := 'RG16UI' else
+      if self.val = UInt32($823B) then Result := 'RG32I' else
+      if self.val = UInt32($823C) then Result := 'RG32UI' else
+      if self.val = UInt32($83F0) then Result := 'COMPRESSED_RGB_S3TC_DXT1_EXT' else
+      if self.val = UInt32($83F1) then Result := 'COMPRESSED_RGBA_S3TC_DXT1_EXT' else
+      if self.val = UInt32($83F2) then Result := 'COMPRESSED_RGBA_S3TC_DXT3_ANGLE' else
+      if self.val = UInt32($83F2) then Result := 'COMPRESSED_RGBA_S3TC_DXT3_EXT' else
+      if self.val = UInt32($83F3) then Result := 'COMPRESSED_RGBA_S3TC_DXT5_ANGLE' else
+      if self.val = UInt32($83F3) then Result := 'COMPRESSED_RGBA_S3TC_DXT5_EXT' else
+      if self.val = UInt32($8814) then Result := 'RGBA32F' else
+      if self.val = UInt32($8814) then Result := 'RGBA32F_ARB' else
+      if self.val = UInt32($8814) then Result := 'RGBA32F_EXT' else
+      if self.val = UInt32($8815) then Result := 'RGB32F' else
+      if self.val = UInt32($8815) then Result := 'RGB32F_ARB' else
+      if self.val = UInt32($8815) then Result := 'RGB32F_EXT' else
+      if self.val = UInt32($881A) then Result := 'RGBA16F' else
+      if self.val = UInt32($881A) then Result := 'RGBA16F_ARB' else
+      if self.val = UInt32($881A) then Result := 'RGBA16F_EXT' else
+      if self.val = UInt32($881B) then Result := 'RGB16F' else
+      if self.val = UInt32($881B) then Result := 'RGB16F_ARB' else
+      if self.val = UInt32($881B) then Result := 'RGB16F_EXT' else
+      if self.val = UInt32($88F0) then Result := 'DEPTH24_STENCIL8' else
+      if self.val = UInt32($88F0) then Result := 'DEPTH24_STENCIL8_EXT' else
+      if self.val = UInt32($88F0) then Result := 'DEPTH24_STENCIL8_OES' else
+      if self.val = UInt32($8C3A) then Result := 'R11F_G11F_B10F' else
+      if self.val = UInt32($8C3A) then Result := 'R11F_G11F_B10F_APPLE' else
+      if self.val = UInt32($8C3A) then Result := 'R11F_G11F_B10F_EXT' else
+      if self.val = UInt32($8C3D) then Result := 'RGB9_E5' else
+      if self.val = UInt32($8C3D) then Result := 'RGB9_E5_APPLE' else
+      if self.val = UInt32($8C3D) then Result := 'RGB9_E5_EXT' else
+      if self.val = UInt32($8C41) then Result := 'SRGB8' else
+      if self.val = UInt32($8C41) then Result := 'SRGB8_EXT' else
+      if self.val = UInt32($8C41) then Result := 'SRGB8_NV' else
+      if self.val = UInt32($8C43) then Result := 'SRGB8_ALPHA8' else
+      if self.val = UInt32($8C43) then Result := 'SRGB8_ALPHA8_EXT' else
+      if self.val = UInt32($8C4C) then Result := 'COMPRESSED_SRGB_S3TC_DXT1_EXT' else
+      if self.val = UInt32($8C4C) then Result := 'COMPRESSED_SRGB_S3TC_DXT1_NV' else
+      if self.val = UInt32($8C4D) then Result := 'COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT' else
+      if self.val = UInt32($8C4D) then Result := 'COMPRESSED_SRGB_ALPHA_S3TC_DXT1_NV' else
+      if self.val = UInt32($8C4E) then Result := 'COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT' else
+      if self.val = UInt32($8C4E) then Result := 'COMPRESSED_SRGB_ALPHA_S3TC_DXT3_NV' else
+      if self.val = UInt32($8C4F) then Result := 'COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT' else
+      if self.val = UInt32($8C4F) then Result := 'COMPRESSED_SRGB_ALPHA_S3TC_DXT5_NV' else
+      if self.val = UInt32($8CAC) then Result := 'DEPTH_COMPONENT32F' else
+      if self.val = UInt32($8CAD) then Result := 'DEPTH32F_STENCIL8' else
+      if self.val = UInt32($8D46) then Result := 'STENCIL_INDEX1' else
+      if self.val = UInt32($8D46) then Result := 'STENCIL_INDEX1_EXT' else
+      if self.val = UInt32($8D46) then Result := 'STENCIL_INDEX1_OES' else
+      if self.val = UInt32($8D47) then Result := 'STENCIL_INDEX4' else
+      if self.val = UInt32($8D47) then Result := 'STENCIL_INDEX4_EXT' else
+      if self.val = UInt32($8D47) then Result := 'STENCIL_INDEX4_OES' else
+      if self.val = UInt32($8D48) then Result := 'STENCIL_INDEX8' else
+      if self.val = UInt32($8D48) then Result := 'STENCIL_INDEX8_EXT' else
+      if self.val = UInt32($8D48) then Result := 'STENCIL_INDEX8_OES' else
+      if self.val = UInt32($8D49) then Result := 'STENCIL_INDEX16' else
+      if self.val = UInt32($8D49) then Result := 'STENCIL_INDEX16_EXT' else
+      if self.val = UInt32($8D62) then Result := 'RGB565' else
+      if self.val = UInt32($8D62) then Result := 'RGB565_OES' else
+      if self.val = UInt32($8D64) then Result := 'ETC1_RGB8_OES' else
+      if self.val = UInt32($8D70) then Result := 'RGBA32UI' else
+      if self.val = UInt32($8D70) then Result := 'RGBA32UI_EXT' else
+      if self.val = UInt32($8D71) then Result := 'RGB32UI' else
+      if self.val = UInt32($8D71) then Result := 'RGB32UI_EXT' else
+      if self.val = UInt32($8D72) then Result := 'ALPHA32UI_EXT' else
+      if self.val = UInt32($8D73) then Result := 'INTENSITY32UI_EXT' else
+      if self.val = UInt32($8D74) then Result := 'LUMINANCE32UI_EXT' else
+      if self.val = UInt32($8D75) then Result := 'LUMINANCE_ALPHA32UI_EXT' else
+      if self.val = UInt32($8D76) then Result := 'RGBA16UI' else
+      if self.val = UInt32($8D76) then Result := 'RGBA16UI_EXT' else
+      if self.val = UInt32($8D77) then Result := 'RGB16UI' else
+      if self.val = UInt32($8D77) then Result := 'RGB16UI_EXT' else
+      if self.val = UInt32($8D78) then Result := 'ALPHA16UI_EXT' else
+      if self.val = UInt32($8D79) then Result := 'INTENSITY16UI_EXT' else
+      if self.val = UInt32($8D7A) then Result := 'LUMINANCE16UI_EXT' else
+      if self.val = UInt32($8D7B) then Result := 'LUMINANCE_ALPHA16UI_EXT' else
+      if self.val = UInt32($8D7C) then Result := 'RGBA8UI' else
+      if self.val = UInt32($8D7C) then Result := 'RGBA8UI_EXT' else
+      if self.val = UInt32($8D7D) then Result := 'RGB8UI' else
+      if self.val = UInt32($8D7D) then Result := 'RGB8UI_EXT' else
+      if self.val = UInt32($8D7E) then Result := 'ALPHA8UI_EXT' else
+      if self.val = UInt32($8D7F) then Result := 'INTENSITY8UI_EXT' else
+      if self.val = UInt32($8D80) then Result := 'LUMINANCE8UI_EXT' else
+      if self.val = UInt32($8D81) then Result := 'LUMINANCE_ALPHA8UI_EXT' else
+      if self.val = UInt32($8D82) then Result := 'RGBA32I' else
+      if self.val = UInt32($8D82) then Result := 'RGBA32I_EXT' else
+      if self.val = UInt32($8D83) then Result := 'RGB32I' else
+      if self.val = UInt32($8D83) then Result := 'RGB32I_EXT' else
+      if self.val = UInt32($8D84) then Result := 'ALPHA32I_EXT' else
+      if self.val = UInt32($8D85) then Result := 'INTENSITY32I_EXT' else
+      if self.val = UInt32($8D86) then Result := 'LUMINANCE32I_EXT' else
+      if self.val = UInt32($8D87) then Result := 'LUMINANCE_ALPHA32I_EXT' else
+      if self.val = UInt32($8D88) then Result := 'RGBA16I' else
+      if self.val = UInt32($8D88) then Result := 'RGBA16I_EXT' else
+      if self.val = UInt32($8D89) then Result := 'RGB16I' else
+      if self.val = UInt32($8D89) then Result := 'RGB16I_EXT' else
+      if self.val = UInt32($8D8A) then Result := 'ALPHA16I_EXT' else
+      if self.val = UInt32($8D8B) then Result := 'INTENSITY16I_EXT' else
+      if self.val = UInt32($8D8C) then Result := 'LUMINANCE16I_EXT' else
+      if self.val = UInt32($8D8D) then Result := 'LUMINANCE_ALPHA16I_EXT' else
+      if self.val = UInt32($8D8E) then Result := 'RGBA8I' else
+      if self.val = UInt32($8D8E) then Result := 'RGBA8I_EXT' else
+      if self.val = UInt32($8D8F) then Result := 'RGB8I' else
+      if self.val = UInt32($8D8F) then Result := 'RGB8I_EXT' else
+      if self.val = UInt32($8D90) then Result := 'ALPHA8I_EXT' else
+      if self.val = UInt32($8D91) then Result := 'INTENSITY8I_EXT' else
+      if self.val = UInt32($8D92) then Result := 'LUMINANCE8I_EXT' else
+      if self.val = UInt32($8D93) then Result := 'LUMINANCE_ALPHA8I_EXT' else
+      if self.val = UInt32($8DAB) then Result := 'DEPTH_COMPONENT32F_NV' else
+      if self.val = UInt32($8DAC) then Result := 'DEPTH32F_STENCIL8_NV' else
+      if self.val = UInt32($8DBB) then Result := 'COMPRESSED_RED_RGTC1' else
+      if self.val = UInt32($8DBB) then Result := 'COMPRESSED_RED_RGTC1_EXT' else
+      if self.val = UInt32($8DBC) then Result := 'COMPRESSED_SIGNED_RED_RGTC1' else
+      if self.val = UInt32($8DBC) then Result := 'COMPRESSED_SIGNED_RED_RGTC1_EXT' else
+      if self.val = UInt32($8DBD) then Result := 'COMPRESSED_RED_GREEN_RGTC2_EXT' else
+      if self.val = UInt32($8DBD) then Result := 'COMPRESSED_RG_RGTC2' else
+      if self.val = UInt32($8DBE) then Result := 'COMPRESSED_SIGNED_RED_GREEN_RGTC2_EXT' else
+      if self.val = UInt32($8DBE) then Result := 'COMPRESSED_SIGNED_RG_RGTC2' else
+      if self.val = UInt32($8E8C) then Result := 'COMPRESSED_RGBA_BPTC_UNORM' else
+      if self.val = UInt32($8E8C) then Result := 'COMPRESSED_RGBA_BPTC_UNORM_ARB' else
+      if self.val = UInt32($8E8C) then Result := 'COMPRESSED_RGBA_BPTC_UNORM_EXT' else
+      if self.val = UInt32($8E8D) then Result := 'COMPRESSED_SRGB_ALPHA_BPTC_UNORM' else
+      if self.val = UInt32($8E8D) then Result := 'COMPRESSED_SRGB_ALPHA_BPTC_UNORM_ARB' else
+      if self.val = UInt32($8E8D) then Result := 'COMPRESSED_SRGB_ALPHA_BPTC_UNORM_EXT' else
+      if self.val = UInt32($8E8E) then Result := 'COMPRESSED_RGB_BPTC_SIGNED_FLOAT' else
+      if self.val = UInt32($8E8E) then Result := 'COMPRESSED_RGB_BPTC_SIGNED_FLOAT_ARB' else
+      if self.val = UInt32($8E8E) then Result := 'COMPRESSED_RGB_BPTC_SIGNED_FLOAT_EXT' else
+      if self.val = UInt32($8E8F) then Result := 'COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT' else
+      if self.val = UInt32($8E8F) then Result := 'COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_ARB' else
+      if self.val = UInt32($8E8F) then Result := 'COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT_EXT' else
+      if self.val = UInt32($8F94) then Result := 'R8_SNORM' else
+      if self.val = UInt32($8F95) then Result := 'RG8_SNORM' else
+      if self.val = UInt32($8F96) then Result := 'RGB8_SNORM' else
+      if self.val = UInt32($8F97) then Result := 'RGBA8_SNORM' else
+      if self.val = UInt32($8F98) then Result := 'R16_SNORM' else
+      if self.val = UInt32($8F98) then Result := 'R16_SNORM_EXT' else
+      if self.val = UInt32($8F99) then Result := 'RG16_SNORM' else
+      if self.val = UInt32($8F99) then Result := 'RG16_SNORM_EXT' else
+      if self.val = UInt32($8F9A) then Result := 'RGB16_SNORM' else
+      if self.val = UInt32($8F9A) then Result := 'RGB16_SNORM_EXT' else
+      if self.val = UInt32($8F9B) then Result := 'RGBA16_SNORM' else
+      if self.val = UInt32($8F9B) then Result := 'RGBA16_SNORM_EXT' else
+      if self.val = UInt32($906F) then Result := 'RGB10_A2UI' else
+      if self.val = UInt32($9270) then Result := 'COMPRESSED_R11_EAC' else
+      if self.val = UInt32($9270) then Result := 'COMPRESSED_R11_EAC_OES' else
+      if self.val = UInt32($9271) then Result := 'COMPRESSED_SIGNED_R11_EAC' else
+      if self.val = UInt32($9271) then Result := 'COMPRESSED_SIGNED_R11_EAC_OES' else
+      if self.val = UInt32($9272) then Result := 'COMPRESSED_RG11_EAC' else
+      if self.val = UInt32($9272) then Result := 'COMPRESSED_RG11_EAC_OES' else
+      if self.val = UInt32($9273) then Result := 'COMPRESSED_SIGNED_RG11_EAC' else
+      if self.val = UInt32($9273) then Result := 'COMPRESSED_SIGNED_RG11_EAC_OES' else
+      if self.val = UInt32($9274) then Result := 'COMPRESSED_RGB8_ETC2' else
+      if self.val = UInt32($9274) then Result := 'COMPRESSED_RGB8_ETC2_OES' else
+      if self.val = UInt32($9275) then Result := 'COMPRESSED_SRGB8_ETC2' else
+      if self.val = UInt32($9275) then Result := 'COMPRESSED_SRGB8_ETC2_OES' else
+      if self.val = UInt32($9276) then Result := 'COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2' else
+      if self.val = UInt32($9276) then Result := 'COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2_OES' else
+      if self.val = UInt32($9277) then Result := 'COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2' else
+      if self.val = UInt32($9277) then Result := 'COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2_OES' else
+      if self.val = UInt32($9278) then Result := 'COMPRESSED_RGBA8_ETC2_EAC' else
+      if self.val = UInt32($9278) then Result := 'COMPRESSED_RGBA8_ETC2_EAC_OES' else
+      if self.val = UInt32($9279) then Result := 'COMPRESSED_SRGB8_ALPHA8_ETC2_EAC' else
+      if self.val = UInt32($9279) then Result := 'COMPRESSED_SRGB8_ALPHA8_ETC2_EAC_OES' else
+      if self.val = UInt32($93B0) then Result := 'COMPRESSED_RGBA_ASTC_4x4' else
+      if self.val = UInt32($93B0) then Result := 'COMPRESSED_RGBA_ASTC_4x4_KHR' else
+      if self.val = UInt32($93B1) then Result := 'COMPRESSED_RGBA_ASTC_5x4' else
+      if self.val = UInt32($93B1) then Result := 'COMPRESSED_RGBA_ASTC_5x4_KHR' else
+      if self.val = UInt32($93B2) then Result := 'COMPRESSED_RGBA_ASTC_5x5' else
+      if self.val = UInt32($93B2) then Result := 'COMPRESSED_RGBA_ASTC_5x5_KHR' else
+      if self.val = UInt32($93B3) then Result := 'COMPRESSED_RGBA_ASTC_6x5' else
+      if self.val = UInt32($93B3) then Result := 'COMPRESSED_RGBA_ASTC_6x5_KHR' else
+      if self.val = UInt32($93B4) then Result := 'COMPRESSED_RGBA_ASTC_6x6' else
+      if self.val = UInt32($93B4) then Result := 'COMPRESSED_RGBA_ASTC_6x6_KHR' else
+      if self.val = UInt32($93B5) then Result := 'COMPRESSED_RGBA_ASTC_8x5' else
+      if self.val = UInt32($93B5) then Result := 'COMPRESSED_RGBA_ASTC_8x5_KHR' else
+      if self.val = UInt32($93B6) then Result := 'COMPRESSED_RGBA_ASTC_8x6' else
+      if self.val = UInt32($93B6) then Result := 'COMPRESSED_RGBA_ASTC_8x6_KHR' else
+      if self.val = UInt32($93B7) then Result := 'COMPRESSED_RGBA_ASTC_8x8' else
+      if self.val = UInt32($93B7) then Result := 'COMPRESSED_RGBA_ASTC_8x8_KHR' else
+      if self.val = UInt32($93B8) then Result := 'COMPRESSED_RGBA_ASTC_10x5' else
+      if self.val = UInt32($93B8) then Result := 'COMPRESSED_RGBA_ASTC_10x5_KHR' else
+      if self.val = UInt32($93B9) then Result := 'COMPRESSED_RGBA_ASTC_10x6' else
+      if self.val = UInt32($93B9) then Result := 'COMPRESSED_RGBA_ASTC_10x6_KHR' else
+      if self.val = UInt32($93BA) then Result := 'COMPRESSED_RGBA_ASTC_10x8' else
+      if self.val = UInt32($93BA) then Result := 'COMPRESSED_RGBA_ASTC_10x8_KHR' else
+      if self.val = UInt32($93BB) then Result := 'COMPRESSED_RGBA_ASTC_10x10' else
+      if self.val = UInt32($93BB) then Result := 'COMPRESSED_RGBA_ASTC_10x10_KHR' else
+      if self.val = UInt32($93BC) then Result := 'COMPRESSED_RGBA_ASTC_12x10' else
+      if self.val = UInt32($93BC) then Result := 'COMPRESSED_RGBA_ASTC_12x10_KHR' else
+      if self.val = UInt32($93BD) then Result := 'COMPRESSED_RGBA_ASTC_12x12' else
+      if self.val = UInt32($93BD) then Result := 'COMPRESSED_RGBA_ASTC_12x12_KHR' else
+      if self.val = UInt32($93C0) then Result := 'COMPRESSED_RGBA_ASTC_3x3x3_OES' else
+      if self.val = UInt32($93C1) then Result := 'COMPRESSED_RGBA_ASTC_4x3x3_OES' else
+      if self.val = UInt32($93C2) then Result := 'COMPRESSED_RGBA_ASTC_4x4x3_OES' else
+      if self.val = UInt32($93C3) then Result := 'COMPRESSED_RGBA_ASTC_4x4x4_OES' else
+      if self.val = UInt32($93C4) then Result := 'COMPRESSED_RGBA_ASTC_5x4x4_OES' else
+      if self.val = UInt32($93C5) then Result := 'COMPRESSED_RGBA_ASTC_5x5x4_OES' else
+      if self.val = UInt32($93C6) then Result := 'COMPRESSED_RGBA_ASTC_5x5x5_OES' else
+      if self.val = UInt32($93C7) then Result := 'COMPRESSED_RGBA_ASTC_6x5x5_OES' else
+      if self.val = UInt32($93C8) then Result := 'COMPRESSED_RGBA_ASTC_6x6x5_OES' else
+      if self.val = UInt32($93C9) then Result := 'COMPRESSED_RGBA_ASTC_6x6x6_OES' else
+      if self.val = UInt32($93D0) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_4x4' else
+      if self.val = UInt32($93D0) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_4x4_KHR' else
+      if self.val = UInt32($93D1) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_5x4' else
+      if self.val = UInt32($93D1) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_5x4_KHR' else
+      if self.val = UInt32($93D2) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_5x5' else
+      if self.val = UInt32($93D2) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_5x5_KHR' else
+      if self.val = UInt32($93D3) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_6x5' else
+      if self.val = UInt32($93D3) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_6x5_KHR' else
+      if self.val = UInt32($93D4) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_6x6' else
+      if self.val = UInt32($93D4) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_6x6_KHR' else
+      if self.val = UInt32($93D5) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_8x5' else
+      if self.val = UInt32($93D5) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_8x5_KHR' else
+      if self.val = UInt32($93D6) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_8x6' else
+      if self.val = UInt32($93D6) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_8x6_KHR' else
+      if self.val = UInt32($93D7) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_8x8' else
+      if self.val = UInt32($93D7) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_8x8_KHR' else
+      if self.val = UInt32($93D8) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_10x5' else
+      if self.val = UInt32($93D8) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_10x5_KHR' else
+      if self.val = UInt32($93D9) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_10x6' else
+      if self.val = UInt32($93D9) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_10x6_KHR' else
+      if self.val = UInt32($93DA) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_10x8' else
+      if self.val = UInt32($93DA) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_10x8_KHR' else
+      if self.val = UInt32($93DB) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_10x10' else
+      if self.val = UInt32($93DB) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_10x10_KHR' else
+      if self.val = UInt32($93DC) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_12x10' else
+      if self.val = UInt32($93DC) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_12x10_KHR' else
+      if self.val = UInt32($93DD) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_12x12' else
+      if self.val = UInt32($93DD) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_12x12_KHR' else
+      if self.val = UInt32($93E0) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_3x3x3_OES' else
+      if self.val = UInt32($93E1) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_4x3x3_OES' else
+      if self.val = UInt32($93E2) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_4x4x3_OES' else
+      if self.val = UInt32($93E3) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_4x4x4_OES' else
+      if self.val = UInt32($93E4) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_5x4x4_OES' else
+      if self.val = UInt32($93E5) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_5x5x4_OES' else
+      if self.val = UInt32($93E6) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_5x5x5_OES' else
+      if self.val = UInt32($93E7) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_6x5x5_OES' else
+      if self.val = UInt32($93E8) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_6x6x5_OES' else
+      if self.val = UInt32($93E9) then Result := 'COMPRESSED_SRGB8_ALPHA8_ASTC_6x6x6_OES' else
+        Result := $'SizedInternalFormat[{self.val}]';
+    end;
+    
+  end;
+  
   StencilFaceDirection = record
     public val: UInt32;
     public constructor(val: UInt32) := self.val := val;
@@ -8087,6 +8989,7 @@ type
     public static property PROXY_TEXTURE_2D_ARRAY:             TextureTarget read new TextureTarget($8C1B);
     public static property PROXY_TEXTURE_2D_ARRAY_EXT:         TextureTarget read new TextureTarget($8C1B);
     public static property TEXTURE_BUFFER:                     TextureTarget read new TextureTarget($8C2A);
+    public static property RENDERBUFFER:                       TextureTarget read new TextureTarget($8D41);
     public static property TEXTURE_CUBE_MAP_ARRAY:             TextureTarget read new TextureTarget($9009);
     public static property TEXTURE_CUBE_MAP_ARRAY_ARB:         TextureTarget read new TextureTarget($9009);
     public static property TEXTURE_CUBE_MAP_ARRAY_EXT:         TextureTarget read new TextureTarget($9009);
@@ -8135,6 +9038,7 @@ type
       if self.val = UInt32($8C1B) then Result := 'PROXY_TEXTURE_2D_ARRAY' else
       if self.val = UInt32($8C1B) then Result := 'PROXY_TEXTURE_2D_ARRAY_EXT' else
       if self.val = UInt32($8C2A) then Result := 'TEXTURE_BUFFER' else
+      if self.val = UInt32($8D41) then Result := 'RENDERBUFFER' else
       if self.val = UInt32($9009) then Result := 'TEXTURE_CUBE_MAP_ARRAY' else
       if self.val = UInt32($9009) then Result := 'TEXTURE_CUBE_MAP_ARRAY_ARB' else
       if self.val = UInt32($9009) then Result := 'TEXTURE_CUBE_MAP_ARRAY_EXT' else
@@ -11148,6 +12052,13 @@ type
     
     public function SqrLength := val0*val0;
     
+    public static function Random(min, max: SByte): Vec1b;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+    end;
+    
     public static function Read(prompt: string := nil): Vec1b;
     begin
       if prompt <> nil then prompt.Print;
@@ -11196,6 +12107,13 @@ type
     public static function operator implicit(v: Vec1ub): Vec1b := new Vec1b(v.val0);
     
     public function SqrLength := val0*val0;
+    
+    public static function Random(min, max: Byte): Vec1ub;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec1ub;
     begin
@@ -11249,6 +12167,13 @@ type
     public static function operator implicit(v: Vec1s): Vec1ub := new Vec1ub(v.val0);
     
     public function SqrLength := val0*val0;
+    
+    public static function Random(min, max: Int16): Vec1s;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec1s;
     begin
@@ -11304,6 +12229,13 @@ type
     public static function operator implicit(v: Vec1us): Vec1s := new Vec1s(v.val0);
     
     public function SqrLength := val0*val0;
+    
+    public static function Random(min, max: UInt16): Vec1us;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec1us;
     begin
@@ -11363,6 +12295,13 @@ type
     public static function operator implicit(v: Vec1i): Vec1us := new Vec1us(v.val0);
     
     public function SqrLength := val0*val0;
+    
+    public static function Random(min, max: Int32): Vec1i;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec1i;
     begin
@@ -11424,6 +12363,13 @@ type
     public static function operator implicit(v: Vec1ui): Vec1i := new Vec1i(v.val0);
     
     public function SqrLength := val0*val0;
+    
+    public static function Random(min, max: UInt32): Vec1ui;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec1ui;
     begin
@@ -11489,6 +12435,13 @@ type
     public static function operator implicit(v: Vec1i64): Vec1ui := new Vec1ui(v.val0);
     
     public function SqrLength := val0*val0;
+    
+    public static function Random(min, max: Int64): Vec1i64;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec1i64;
     begin
@@ -11556,6 +12509,13 @@ type
     public static function operator implicit(v: Vec1ui64): Vec1i64 := new Vec1i64(v.val0);
     
     public function SqrLength := val0*val0;
+    
+    public static function Random(min, max: UInt64): Vec1ui64;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec1ui64;
     begin
@@ -11629,6 +12589,13 @@ type
     public function SqrLength := val0*val0;
     
     public function Normalized := self / single(Sqrt(self.SqrLength));
+    
+    public static function Random(min, max: single): Vec1f;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec1f;
     begin
@@ -11707,6 +12674,13 @@ type
     public function SqrLength := val0*val0;
     
     public function Normalized := self / self.SqrLength.Sqrt;
+    
+    public static function Random(min, max: double): Vec1d;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec1d;
     begin
@@ -11793,6 +12767,14 @@ type
     
     public function SqrLength := val0*val0 + val1*val1;
     
+    public static function Random(min, max: SByte): Vec2b;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+    end;
+    
     public static function Read(prompt: string := nil): Vec2b;
     begin
       if prompt <> nil then prompt.Print;
@@ -11875,6 +12857,14 @@ type
     public static function operator implicit(v: Vec2ub): Vec2b := new Vec2b(v.val0, v.val1);
     
     public function SqrLength := val0*val0 + val1*val1;
+    
+    public static function Random(min, max: Byte): Vec2ub;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec2ub;
     begin
@@ -11962,6 +12952,14 @@ type
     public static function operator implicit(v: Vec2s): Vec2ub := new Vec2ub(v.val0, v.val1);
     
     public function SqrLength := val0*val0 + val1*val1;
+    
+    public static function Random(min, max: Int16): Vec2s;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec2s;
     begin
@@ -12051,6 +13049,14 @@ type
     public static function operator implicit(v: Vec2us): Vec2s := new Vec2s(v.val0, v.val1);
     
     public function SqrLength := val0*val0 + val1*val1;
+    
+    public static function Random(min, max: UInt16): Vec2us;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec2us;
     begin
@@ -12144,6 +13150,14 @@ type
     public static function operator implicit(v: Vec2i): Vec2us := new Vec2us(v.val0, v.val1);
     
     public function SqrLength := val0*val0 + val1*val1;
+    
+    public static function Random(min, max: Int32): Vec2i;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec2i;
     begin
@@ -12239,6 +13253,14 @@ type
     public static function operator implicit(v: Vec2ui): Vec2i := new Vec2i(v.val0, v.val1);
     
     public function SqrLength := val0*val0 + val1*val1;
+    
+    public static function Random(min, max: UInt32): Vec2ui;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec2ui;
     begin
@@ -12338,6 +13360,14 @@ type
     public static function operator implicit(v: Vec2i64): Vec2ui := new Vec2ui(v.val0, v.val1);
     
     public function SqrLength := val0*val0 + val1*val1;
+    
+    public static function Random(min, max: Int64): Vec2i64;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec2i64;
     begin
@@ -12439,6 +13469,14 @@ type
     public static function operator implicit(v: Vec2ui64): Vec2i64 := new Vec2i64(v.val0, v.val1);
     
     public function SqrLength := val0*val0 + val1*val1;
+    
+    public static function Random(min, max: UInt64): Vec2ui64;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec2ui64;
     begin
@@ -12546,6 +13584,14 @@ type
     public function SqrLength := val0*val0 + val1*val1;
     
     public function Normalized := self / single(Sqrt(self.SqrLength));
+    
+    public static function Random(min, max: single): Vec2f;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec2f;
     begin
@@ -12658,6 +13704,14 @@ type
     public function SqrLength := val0*val0 + val1*val1;
     
     public function Normalized := self / self.SqrLength.Sqrt;
+    
+    public static function Random(min, max: double): Vec2d;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec2d;
     begin
@@ -12782,6 +13836,15 @@ type
     new Vec3b(v1.val1*v2.val2 - v2.val1*v1.val2, v1.val2*v2.val0 - v2.val2*v1.val0, v1.val0*v2.val1 - v2.val0*v1.val1);
     public static function CrossCCW(v1,v2: Vec3b) := CrossCW(v2,v1);
     
+    public static function Random(min, max: SByte): Vec3b;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+    end;
+    
     public static function Read(prompt: string := nil): Vec3b;
     begin
       if prompt <> nil then prompt.Print;
@@ -12898,6 +13961,15 @@ type
     public static function operator implicit(v: Vec3ub): Vec3b := new Vec3b(v.val0, v.val1, v.val2);
     
     public function SqrLength := val0*val0 + val1*val1 + val2*val2;
+    
+    public static function Random(min, max: Byte): Vec3ub;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec3ub;
     begin
@@ -13024,6 +14096,15 @@ type
     new Vec3s(v1.val1*v2.val2 - v2.val1*v1.val2, v1.val2*v2.val0 - v2.val2*v1.val0, v1.val0*v2.val1 - v2.val0*v1.val1);
     public static function CrossCCW(v1,v2: Vec3s) := CrossCW(v2,v1);
     
+    public static function Random(min, max: Int16): Vec3s;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+    end;
+    
     public static function Read(prompt: string := nil): Vec3s;
     begin
       if prompt <> nil then prompt.Print;
@@ -13146,6 +14227,15 @@ type
     public static function operator implicit(v: Vec3us): Vec3s := new Vec3s(v.val0, v.val1, v.val2);
     
     public function SqrLength := val0*val0 + val1*val1 + val2*val2;
+    
+    public static function Random(min, max: UInt16): Vec3us;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec3us;
     begin
@@ -13278,6 +14368,15 @@ type
     new Vec3i(v1.val1*v2.val2 - v2.val1*v1.val2, v1.val2*v2.val0 - v2.val2*v1.val0, v1.val0*v2.val1 - v2.val0*v1.val1);
     public static function CrossCCW(v1,v2: Vec3i) := CrossCW(v2,v1);
     
+    public static function Random(min, max: Int32): Vec3i;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+    end;
+    
     public static function Read(prompt: string := nil): Vec3i;
     begin
       if prompt <> nil then prompt.Print;
@@ -13406,6 +14505,15 @@ type
     public static function operator implicit(v: Vec3ui): Vec3i := new Vec3i(v.val0, v.val1, v.val2);
     
     public function SqrLength := val0*val0 + val1*val1 + val2*val2;
+    
+    public static function Random(min, max: UInt32): Vec3ui;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec3ui;
     begin
@@ -13544,6 +14652,15 @@ type
     new Vec3i64(v1.val1*v2.val2 - v2.val1*v1.val2, v1.val2*v2.val0 - v2.val2*v1.val0, v1.val0*v2.val1 - v2.val0*v1.val1);
     public static function CrossCCW(v1,v2: Vec3i64) := CrossCW(v2,v1);
     
+    public static function Random(min, max: Int64): Vec3i64;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+    end;
+    
     public static function Read(prompt: string := nil): Vec3i64;
     begin
       if prompt <> nil then prompt.Print;
@@ -13678,6 +14795,15 @@ type
     public static function operator implicit(v: Vec3ui64): Vec3i64 := new Vec3i64(v.val0, v.val1, v.val2);
     
     public function SqrLength := val0*val0 + val1*val1 + val2*val2;
+    
+    public static function Random(min, max: UInt64): Vec3ui64;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec3ui64;
     begin
@@ -13823,6 +14949,15 @@ type
     public static function CrossCW(v1,v2: Vec3f) :=
     new Vec3f(v1.val1*v2.val2 - v2.val1*v1.val2, v1.val2*v2.val0 - v2.val2*v1.val0, v1.val0*v2.val1 - v2.val0*v1.val1);
     public static function CrossCCW(v1,v2: Vec3f) := CrossCW(v2,v1);
+    
+    public static function Random(min, max: single): Vec3f;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec3f;
     begin
@@ -13973,6 +15108,15 @@ type
     public static function CrossCW(v1,v2: Vec3d) :=
     new Vec3d(v1.val1*v2.val2 - v2.val1*v1.val2, v1.val2*v2.val0 - v2.val2*v1.val0, v1.val0*v2.val1 - v2.val0*v1.val1);
     public static function CrossCCW(v1,v2: Vec3d) := CrossCW(v2,v1);
+    
+    public static function Random(min, max: double): Vec3d;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec3d;
     begin
@@ -14127,6 +15271,16 @@ type
     
     public function SqrLength := val0*val0 + val1*val1 + val2*val2 + val3*val3;
     
+    public static function Random(min, max: SByte): Vec4b;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+      Result.val3 := min + PABCSystem.Random(r);
+    end;
+    
     public static function Read(prompt: string := nil): Vec4b;
     begin
       if prompt <> nil then prompt.Print;
@@ -14277,6 +15431,16 @@ type
     public static function operator implicit(v: Vec4ub): Vec4b := new Vec4b(v.val0, v.val1, v.val2, v.val3);
     
     public function SqrLength := val0*val0 + val1*val1 + val2*val2 + val3*val3;
+    
+    public static function Random(min, max: Byte): Vec4ub;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+      Result.val3 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec4ub;
     begin
@@ -14432,6 +15596,16 @@ type
     public static function operator implicit(v: Vec4s): Vec4ub := new Vec4ub(v.val0, v.val1, v.val2, v.val3);
     
     public function SqrLength := val0*val0 + val1*val1 + val2*val2 + val3*val3;
+    
+    public static function Random(min, max: Int16): Vec4s;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+      Result.val3 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec4s;
     begin
@@ -14589,6 +15763,16 @@ type
     public static function operator implicit(v: Vec4us): Vec4s := new Vec4s(v.val0, v.val1, v.val2, v.val3);
     
     public function SqrLength := val0*val0 + val1*val1 + val2*val2 + val3*val3;
+    
+    public static function Random(min, max: UInt16): Vec4us;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+      Result.val3 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec4us;
     begin
@@ -14750,6 +15934,16 @@ type
     public static function operator implicit(v: Vec4i): Vec4us := new Vec4us(v.val0, v.val1, v.val2, v.val3);
     
     public function SqrLength := val0*val0 + val1*val1 + val2*val2 + val3*val3;
+    
+    public static function Random(min, max: Int32): Vec4i;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+      Result.val3 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec4i;
     begin
@@ -14913,6 +16107,16 @@ type
     public static function operator implicit(v: Vec4ui): Vec4i := new Vec4i(v.val0, v.val1, v.val2, v.val3);
     
     public function SqrLength := val0*val0 + val1*val1 + val2*val2 + val3*val3;
+    
+    public static function Random(min, max: UInt32): Vec4ui;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+      Result.val3 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec4ui;
     begin
@@ -15080,6 +16284,16 @@ type
     public static function operator implicit(v: Vec4i64): Vec4ui := new Vec4ui(v.val0, v.val1, v.val2, v.val3);
     
     public function SqrLength := val0*val0 + val1*val1 + val2*val2 + val3*val3;
+    
+    public static function Random(min, max: Int64): Vec4i64;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+      Result.val3 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec4i64;
     begin
@@ -15249,6 +16463,16 @@ type
     public static function operator implicit(v: Vec4ui64): Vec4i64 := new Vec4i64(v.val0, v.val1, v.val2, v.val3);
     
     public function SqrLength := val0*val0 + val1*val1 + val2*val2 + val3*val3;
+    
+    public static function Random(min, max: UInt64): Vec4ui64;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+      Result.val3 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec4ui64;
     begin
@@ -15424,6 +16648,16 @@ type
     public function SqrLength := val0*val0 + val1*val1 + val2*val2 + val3*val3;
     
     public function Normalized := self / single(Sqrt(self.SqrLength));
+    
+    public static function Random(min, max: single): Vec4f;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+      Result.val3 := min + PABCSystem.Random(r);
+    end;
     
     public static function Read(prompt: string := nil): Vec4f;
     begin
@@ -15605,6 +16839,16 @@ type
     
     public function Normalized := self / self.SqrLength.Sqrt;
     
+    public static function Random(min, max: double): Vec4d;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val0 := min + PABCSystem.Random(r);
+      Result.val1 := min + PABCSystem.Random(r);
+      Result.val2 := min + PABCSystem.Random(r);
+      Result.val3 := min + PABCSystem.Random(r);
+    end;
+    
     public static function Read(prompt: string := nil): Vec4d;
     begin
       if prompt <> nil then prompt.Print;
@@ -15709,8 +16953,18 @@ type
       );
     end;
     
-    public function Det: single :=
-    val00*val11 - val10*val01;
+    public function Det: single;
+    begin
+      Result := val00 * val11 - val01 * val10;
+    end;
+    
+    public static function Random(min, max: single): Mtr2x2f;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r);
+    end;
     
     public static function ReadRows(prompt: string := nil): Mtr2x2f;
     begin
@@ -15721,9 +16975,9 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr2x2f;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11);
     end;
     public static function ReadCols(prompt: string := nil): Mtr2x2f;
@@ -15735,9 +16989,9 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr2x2f;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11);
     end;
     
@@ -15940,8 +17194,22 @@ type
       
     end;
     
-    public function Det: single :=
-    val00 * (val11*val22 - val21*val12) - val01 * (val10*val22 - val20*val12) + val02 * (val10*val21 - val20*val11);
+    public function Det: single;
+    begin
+      var det2_01 := val10 * val21 - val11 * val20;
+      var det2_02 := val10 * val22 - val12 * val20;
+      var det2_12 := val11 * val22 - val12 * val21;
+      Result := val00 * det2_12 - val01 * det2_02 + val02 * det2_01;
+    end;
+    
+    public static function Random(min, max: single): Mtr3x3f;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r); Result.val02 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r); Result.val12 := min + PABCSystem.Random(r);
+      Result.val20 := min + PABCSystem.Random(r); Result.val21 := min + PABCSystem.Random(r); Result.val22 := min + PABCSystem.Random(r);
+    end;
     
     public static function ReadRows(prompt: string := nil): Mtr3x3f;
     begin
@@ -15953,11 +17221,11 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr3x3f;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01, Result.val02);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11, Result.val12);
-      row_prompt(2).Print;
+      if row_prompt <> nil then row_prompt(2).Print;
       PABCSystem.Readln(Result.val20, Result.val21, Result.val22);
     end;
     public static function ReadCols(prompt: string := nil): Mtr3x3f;
@@ -15970,11 +17238,11 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr3x3f;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10, Result.val20);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11, Result.val21);
-      col_prompt(2).Print;
+      if col_prompt <> nil then col_prompt(2).Print;
       PABCSystem.Readln(Result.val02, Result.val12, Result.val22);
     end;
     
@@ -16221,8 +17489,30 @@ type
       Result.val33 := 1;
     end;
     
-    public function Det: single :=
-    val00 * (val11 * (val21*val32 - val31*val22) - val12 * (val22*val33 - val32*val23) + val13 * (val21*val33 - val31*val23)) - val01 * (val10 * (val22*val33 - val32*val23) - val12 * (val20*val32 - val30*val22) + val13 * (val20*val33 - val30*val23)) + val02 * (val10 * (val21*val33 - val31*val23) - val11 * (val20*val33 - val30*val23) + val13 * (val20*val31 - val30*val21)) - val03 * (val10 * (val21*val32 - val31*val22) - val11 * (val20*val32 - val30*val22) + val12 * (val20*val31 - val30*val21));
+    public function Det: single;
+    begin
+      var det2_01 := val20 * val31 - val21 * val30;
+      var det2_02 := val20 * val32 - val22 * val30;
+      var det2_03 := val20 * val33 - val23 * val30;
+      var det2_12 := val21 * val32 - val22 * val31;
+      var det2_13 := val21 * val33 - val23 * val31;
+      var det2_23 := val22 * val33 - val23 * val32;
+      var det3_012 := val10 * det2_12 - val11 * det2_02 + val12 * det2_01;
+      var det3_013 := val10 * det2_13 - val11 * det2_03 + val13 * det2_01;
+      var det3_023 := val10 * det2_23 - val12 * det2_03 + val13 * det2_02;
+      var det3_123 := val11 * det2_23 - val12 * det2_13 + val13 * det2_12;
+      Result := val00 * det3_123 - val01 * det3_023 + val02 * det3_013 - val03 * det3_012;
+    end;
+    
+    public static function Random(min, max: single): Mtr4x4f;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r); Result.val02 := min + PABCSystem.Random(r); Result.val03 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r); Result.val12 := min + PABCSystem.Random(r); Result.val13 := min + PABCSystem.Random(r);
+      Result.val20 := min + PABCSystem.Random(r); Result.val21 := min + PABCSystem.Random(r); Result.val22 := min + PABCSystem.Random(r); Result.val23 := min + PABCSystem.Random(r);
+      Result.val30 := min + PABCSystem.Random(r); Result.val31 := min + PABCSystem.Random(r); Result.val32 := min + PABCSystem.Random(r); Result.val33 := min + PABCSystem.Random(r);
+    end;
     
     public static function ReadRows(prompt: string := nil): Mtr4x4f;
     begin
@@ -16235,13 +17525,13 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr4x4f;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01, Result.val02, Result.val03);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11, Result.val12, Result.val13);
-      row_prompt(2).Print;
+      if row_prompt <> nil then row_prompt(2).Print;
       PABCSystem.Readln(Result.val20, Result.val21, Result.val22, Result.val23);
-      row_prompt(3).Print;
+      if row_prompt <> nil then row_prompt(3).Print;
       PABCSystem.Readln(Result.val30, Result.val31, Result.val32, Result.val33);
     end;
     public static function ReadCols(prompt: string := nil): Mtr4x4f;
@@ -16255,13 +17545,13 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr4x4f;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10, Result.val20, Result.val30);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11, Result.val21, Result.val31);
-      col_prompt(2).Print;
+      if col_prompt <> nil then col_prompt(2).Print;
       PABCSystem.Readln(Result.val02, Result.val12, Result.val22, Result.val32);
-      col_prompt(3).Print;
+      if col_prompt <> nil then col_prompt(3).Print;
       PABCSystem.Readln(Result.val03, Result.val13, Result.val23, Result.val33);
     end;
     
@@ -16426,6 +17716,14 @@ type
       );
     end;
     
+    public static function Random(min, max: single): Mtr2x3f;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r); Result.val02 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r); Result.val12 := min + PABCSystem.Random(r);
+    end;
+    
     public static function ReadRows(prompt: string := nil): Mtr2x3f;
     begin
       if prompt <> nil then prompt.Print;
@@ -16435,9 +17733,9 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr2x3f;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01, Result.val02);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11, Result.val12);
     end;
     public static function ReadCols(prompt: string := nil): Mtr2x3f;
@@ -16450,11 +17748,11 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr2x3f;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11);
-      col_prompt(2).Print;
+      if col_prompt <> nil then col_prompt(2).Print;
       PABCSystem.Readln(Result.val02, Result.val12);
     end;
     
@@ -16583,6 +17881,15 @@ type
       );
     end;
     
+    public static function Random(min, max: single): Mtr3x2f;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r);
+      Result.val20 := min + PABCSystem.Random(r); Result.val21 := min + PABCSystem.Random(r);
+    end;
+    
     public static function ReadRows(prompt: string := nil): Mtr3x2f;
     begin
       if prompt <> nil then prompt.Print;
@@ -16593,11 +17900,11 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr3x2f;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11);
-      row_prompt(2).Print;
+      if row_prompt <> nil then row_prompt(2).Print;
       PABCSystem.Readln(Result.val20, Result.val21);
     end;
     public static function ReadCols(prompt: string := nil): Mtr3x2f;
@@ -16609,9 +17916,9 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr3x2f;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10, Result.val20);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11, Result.val21);
     end;
     
@@ -16761,6 +18068,14 @@ type
       );
     end;
     
+    public static function Random(min, max: single): Mtr2x4f;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r); Result.val02 := min + PABCSystem.Random(r); Result.val03 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r); Result.val12 := min + PABCSystem.Random(r); Result.val13 := min + PABCSystem.Random(r);
+    end;
+    
     public static function ReadRows(prompt: string := nil): Mtr2x4f;
     begin
       if prompt <> nil then prompt.Print;
@@ -16770,9 +18085,9 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr2x4f;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01, Result.val02, Result.val03);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11, Result.val12, Result.val13);
     end;
     public static function ReadCols(prompt: string := nil): Mtr2x4f;
@@ -16786,13 +18101,13 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr2x4f;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11);
-      col_prompt(2).Print;
+      if col_prompt <> nil then col_prompt(2).Print;
       PABCSystem.Readln(Result.val02, Result.val12);
-      col_prompt(3).Print;
+      if col_prompt <> nil then col_prompt(3).Print;
       PABCSystem.Readln(Result.val03, Result.val13);
     end;
     
@@ -16938,6 +18253,16 @@ type
       );
     end;
     
+    public static function Random(min, max: single): Mtr4x2f;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r);
+      Result.val20 := min + PABCSystem.Random(r); Result.val21 := min + PABCSystem.Random(r);
+      Result.val30 := min + PABCSystem.Random(r); Result.val31 := min + PABCSystem.Random(r);
+    end;
+    
     public static function ReadRows(prompt: string := nil): Mtr4x2f;
     begin
       if prompt <> nil then prompt.Print;
@@ -16949,13 +18274,13 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr4x2f;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11);
-      row_prompt(2).Print;
+      if row_prompt <> nil then row_prompt(2).Print;
       PABCSystem.Readln(Result.val20, Result.val21);
-      row_prompt(3).Print;
+      if row_prompt <> nil then row_prompt(3).Print;
       PABCSystem.Readln(Result.val30, Result.val31);
     end;
     public static function ReadCols(prompt: string := nil): Mtr4x2f;
@@ -16967,9 +18292,9 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr4x2f;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10, Result.val20, Result.val30);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11, Result.val21, Result.val31);
     end;
     
@@ -17215,6 +18540,15 @@ type
       
     end;
     
+    public static function Random(min, max: single): Mtr3x4f;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r); Result.val02 := min + PABCSystem.Random(r); Result.val03 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r); Result.val12 := min + PABCSystem.Random(r); Result.val13 := min + PABCSystem.Random(r);
+      Result.val20 := min + PABCSystem.Random(r); Result.val21 := min + PABCSystem.Random(r); Result.val22 := min + PABCSystem.Random(r); Result.val23 := min + PABCSystem.Random(r);
+    end;
+    
     public static function ReadRows(prompt: string := nil): Mtr3x4f;
     begin
       if prompt <> nil then prompt.Print;
@@ -17225,11 +18559,11 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr3x4f;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01, Result.val02, Result.val03);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11, Result.val12, Result.val13);
-      row_prompt(2).Print;
+      if row_prompt <> nil then row_prompt(2).Print;
       PABCSystem.Readln(Result.val20, Result.val21, Result.val22, Result.val23);
     end;
     public static function ReadCols(prompt: string := nil): Mtr3x4f;
@@ -17243,13 +18577,13 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr3x4f;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10, Result.val20);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11, Result.val21);
-      col_prompt(2).Print;
+      if col_prompt <> nil then col_prompt(2).Print;
       PABCSystem.Readln(Result.val02, Result.val12, Result.val22);
-      col_prompt(3).Print;
+      if col_prompt <> nil then col_prompt(3).Print;
       PABCSystem.Readln(Result.val03, Result.val13, Result.val23);
     end;
     
@@ -17507,6 +18841,16 @@ type
       
     end;
     
+    public static function Random(min, max: single): Mtr4x3f;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r); Result.val02 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r); Result.val12 := min + PABCSystem.Random(r);
+      Result.val20 := min + PABCSystem.Random(r); Result.val21 := min + PABCSystem.Random(r); Result.val22 := min + PABCSystem.Random(r);
+      Result.val30 := min + PABCSystem.Random(r); Result.val31 := min + PABCSystem.Random(r); Result.val32 := min + PABCSystem.Random(r);
+    end;
+    
     public static function ReadRows(prompt: string := nil): Mtr4x3f;
     begin
       if prompt <> nil then prompt.Print;
@@ -17518,13 +18862,13 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr4x3f;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01, Result.val02);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11, Result.val12);
-      row_prompt(2).Print;
+      if row_prompt <> nil then row_prompt(2).Print;
       PABCSystem.Readln(Result.val20, Result.val21, Result.val22);
-      row_prompt(3).Print;
+      if row_prompt <> nil then row_prompt(3).Print;
       PABCSystem.Readln(Result.val30, Result.val31, Result.val32);
     end;
     public static function ReadCols(prompt: string := nil): Mtr4x3f;
@@ -17537,11 +18881,11 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr4x3f;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10, Result.val20, Result.val30);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11, Result.val21, Result.val31);
-      col_prompt(2).Print;
+      if col_prompt <> nil then col_prompt(2).Print;
       PABCSystem.Readln(Result.val02, Result.val12, Result.val22, Result.val32);
     end;
     
@@ -17700,8 +19044,18 @@ type
       );
     end;
     
-    public function Det: double :=
-    val00*val11 - val10*val01;
+    public function Det: double;
+    begin
+      Result := val00 * val11 - val01 * val10;
+    end;
+    
+    public static function Random(min, max: double): Mtr2x2d;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r);
+    end;
     
     public static function ReadRows(prompt: string := nil): Mtr2x2d;
     begin
@@ -17712,9 +19066,9 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr2x2d;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11);
     end;
     public static function ReadCols(prompt: string := nil): Mtr2x2d;
@@ -17726,9 +19080,9 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr2x2d;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11);
     end;
     
@@ -17958,8 +19312,22 @@ type
       
     end;
     
-    public function Det: double :=
-    val00 * (val11*val22 - val21*val12) - val01 * (val10*val22 - val20*val12) + val02 * (val10*val21 - val20*val11);
+    public function Det: double;
+    begin
+      var det2_01 := val10 * val21 - val11 * val20;
+      var det2_02 := val10 * val22 - val12 * val20;
+      var det2_12 := val11 * val22 - val12 * val21;
+      Result := val00 * det2_12 - val01 * det2_02 + val02 * det2_01;
+    end;
+    
+    public static function Random(min, max: double): Mtr3x3d;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r); Result.val02 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r); Result.val12 := min + PABCSystem.Random(r);
+      Result.val20 := min + PABCSystem.Random(r); Result.val21 := min + PABCSystem.Random(r); Result.val22 := min + PABCSystem.Random(r);
+    end;
     
     public static function ReadRows(prompt: string := nil): Mtr3x3d;
     begin
@@ -17971,11 +19339,11 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr3x3d;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01, Result.val02);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11, Result.val12);
-      row_prompt(2).Print;
+      if row_prompt <> nil then row_prompt(2).Print;
       PABCSystem.Readln(Result.val20, Result.val21, Result.val22);
     end;
     public static function ReadCols(prompt: string := nil): Mtr3x3d;
@@ -17988,11 +19356,11 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr3x3d;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10, Result.val20);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11, Result.val21);
-      col_prompt(2).Print;
+      if col_prompt <> nil then col_prompt(2).Print;
       PABCSystem.Readln(Result.val02, Result.val12, Result.val22);
     end;
     
@@ -18266,8 +19634,30 @@ type
       Result.val33 := 1;
     end;
     
-    public function Det: double :=
-    val00 * (val11 * (val21*val32 - val31*val22) - val12 * (val22*val33 - val32*val23) + val13 * (val21*val33 - val31*val23)) - val01 * (val10 * (val22*val33 - val32*val23) - val12 * (val20*val32 - val30*val22) + val13 * (val20*val33 - val30*val23)) + val02 * (val10 * (val21*val33 - val31*val23) - val11 * (val20*val33 - val30*val23) + val13 * (val20*val31 - val30*val21)) - val03 * (val10 * (val21*val32 - val31*val22) - val11 * (val20*val32 - val30*val22) + val12 * (val20*val31 - val30*val21));
+    public function Det: double;
+    begin
+      var det2_01 := val20 * val31 - val21 * val30;
+      var det2_02 := val20 * val32 - val22 * val30;
+      var det2_03 := val20 * val33 - val23 * val30;
+      var det2_12 := val21 * val32 - val22 * val31;
+      var det2_13 := val21 * val33 - val23 * val31;
+      var det2_23 := val22 * val33 - val23 * val32;
+      var det3_012 := val10 * det2_12 - val11 * det2_02 + val12 * det2_01;
+      var det3_013 := val10 * det2_13 - val11 * det2_03 + val13 * det2_01;
+      var det3_023 := val10 * det2_23 - val12 * det2_03 + val13 * det2_02;
+      var det3_123 := val11 * det2_23 - val12 * det2_13 + val13 * det2_12;
+      Result := val00 * det3_123 - val01 * det3_023 + val02 * det3_013 - val03 * det3_012;
+    end;
+    
+    public static function Random(min, max: double): Mtr4x4d;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r); Result.val02 := min + PABCSystem.Random(r); Result.val03 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r); Result.val12 := min + PABCSystem.Random(r); Result.val13 := min + PABCSystem.Random(r);
+      Result.val20 := min + PABCSystem.Random(r); Result.val21 := min + PABCSystem.Random(r); Result.val22 := min + PABCSystem.Random(r); Result.val23 := min + PABCSystem.Random(r);
+      Result.val30 := min + PABCSystem.Random(r); Result.val31 := min + PABCSystem.Random(r); Result.val32 := min + PABCSystem.Random(r); Result.val33 := min + PABCSystem.Random(r);
+    end;
     
     public static function ReadRows(prompt: string := nil): Mtr4x4d;
     begin
@@ -18280,13 +19670,13 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr4x4d;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01, Result.val02, Result.val03);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11, Result.val12, Result.val13);
-      row_prompt(2).Print;
+      if row_prompt <> nil then row_prompt(2).Print;
       PABCSystem.Readln(Result.val20, Result.val21, Result.val22, Result.val23);
-      row_prompt(3).Print;
+      if row_prompt <> nil then row_prompt(3).Print;
       PABCSystem.Readln(Result.val30, Result.val31, Result.val32, Result.val33);
     end;
     public static function ReadCols(prompt: string := nil): Mtr4x4d;
@@ -18300,13 +19690,13 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr4x4d;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10, Result.val20, Result.val30);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11, Result.val21, Result.val31);
-      col_prompt(2).Print;
+      if col_prompt <> nil then col_prompt(2).Print;
       PABCSystem.Readln(Result.val02, Result.val12, Result.val22, Result.val32);
-      col_prompt(3).Print;
+      if col_prompt <> nil then col_prompt(3).Print;
       PABCSystem.Readln(Result.val03, Result.val13, Result.val23, Result.val33);
     end;
     
@@ -18498,6 +19888,14 @@ type
       );
     end;
     
+    public static function Random(min, max: double): Mtr2x3d;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r); Result.val02 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r); Result.val12 := min + PABCSystem.Random(r);
+    end;
+    
     public static function ReadRows(prompt: string := nil): Mtr2x3d;
     begin
       if prompt <> nil then prompt.Print;
@@ -18507,9 +19905,9 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr2x3d;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01, Result.val02);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11, Result.val12);
     end;
     public static function ReadCols(prompt: string := nil): Mtr2x3d;
@@ -18522,11 +19920,11 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr2x3d;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11);
-      col_prompt(2).Print;
+      if col_prompt <> nil then col_prompt(2).Print;
       PABCSystem.Readln(Result.val02, Result.val12);
     end;
     
@@ -18682,6 +20080,15 @@ type
       );
     end;
     
+    public static function Random(min, max: double): Mtr3x2d;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r);
+      Result.val20 := min + PABCSystem.Random(r); Result.val21 := min + PABCSystem.Random(r);
+    end;
+    
     public static function ReadRows(prompt: string := nil): Mtr3x2d;
     begin
       if prompt <> nil then prompt.Print;
@@ -18692,11 +20099,11 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr3x2d;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11);
-      row_prompt(2).Print;
+      if row_prompt <> nil then row_prompt(2).Print;
       PABCSystem.Readln(Result.val20, Result.val21);
     end;
     public static function ReadCols(prompt: string := nil): Mtr3x2d;
@@ -18708,9 +20115,9 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr3x2d;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10, Result.val20);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11, Result.val21);
     end;
     
@@ -18887,6 +20294,14 @@ type
       );
     end;
     
+    public static function Random(min, max: double): Mtr2x4d;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r); Result.val02 := min + PABCSystem.Random(r); Result.val03 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r); Result.val12 := min + PABCSystem.Random(r); Result.val13 := min + PABCSystem.Random(r);
+    end;
+    
     public static function ReadRows(prompt: string := nil): Mtr2x4d;
     begin
       if prompt <> nil then prompt.Print;
@@ -18896,9 +20311,9 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr2x4d;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01, Result.val02, Result.val03);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11, Result.val12, Result.val13);
     end;
     public static function ReadCols(prompt: string := nil): Mtr2x4d;
@@ -18912,13 +20327,13 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr2x4d;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11);
-      col_prompt(2).Print;
+      if col_prompt <> nil then col_prompt(2).Print;
       PABCSystem.Readln(Result.val02, Result.val12);
-      col_prompt(3).Print;
+      if col_prompt <> nil then col_prompt(3).Print;
       PABCSystem.Readln(Result.val03, Result.val13);
     end;
     
@@ -19091,6 +20506,16 @@ type
       );
     end;
     
+    public static function Random(min, max: double): Mtr4x2d;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r);
+      Result.val20 := min + PABCSystem.Random(r); Result.val21 := min + PABCSystem.Random(r);
+      Result.val30 := min + PABCSystem.Random(r); Result.val31 := min + PABCSystem.Random(r);
+    end;
+    
     public static function ReadRows(prompt: string := nil): Mtr4x2d;
     begin
       if prompt <> nil then prompt.Print;
@@ -19102,13 +20527,13 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr4x2d;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11);
-      row_prompt(2).Print;
+      if row_prompt <> nil then row_prompt(2).Print;
       PABCSystem.Readln(Result.val20, Result.val21);
-      row_prompt(3).Print;
+      if row_prompt <> nil then row_prompt(3).Print;
       PABCSystem.Readln(Result.val30, Result.val31);
     end;
     public static function ReadCols(prompt: string := nil): Mtr4x2d;
@@ -19120,9 +20545,9 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr4x2d;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10, Result.val20, Result.val30);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11, Result.val21, Result.val31);
     end;
     
@@ -19395,6 +20820,15 @@ type
       
     end;
     
+    public static function Random(min, max: double): Mtr3x4d;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r); Result.val02 := min + PABCSystem.Random(r); Result.val03 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r); Result.val12 := min + PABCSystem.Random(r); Result.val13 := min + PABCSystem.Random(r);
+      Result.val20 := min + PABCSystem.Random(r); Result.val21 := min + PABCSystem.Random(r); Result.val22 := min + PABCSystem.Random(r); Result.val23 := min + PABCSystem.Random(r);
+    end;
+    
     public static function ReadRows(prompt: string := nil): Mtr3x4d;
     begin
       if prompt <> nil then prompt.Print;
@@ -19405,11 +20839,11 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr3x4d;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01, Result.val02, Result.val03);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11, Result.val12, Result.val13);
-      row_prompt(2).Print;
+      if row_prompt <> nil then row_prompt(2).Print;
       PABCSystem.Readln(Result.val20, Result.val21, Result.val22, Result.val23);
     end;
     public static function ReadCols(prompt: string := nil): Mtr3x4d;
@@ -19423,13 +20857,13 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr3x4d;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10, Result.val20);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11, Result.val21);
-      col_prompt(2).Print;
+      if col_prompt <> nil then col_prompt(2).Print;
       PABCSystem.Readln(Result.val02, Result.val12, Result.val22);
-      col_prompt(3).Print;
+      if col_prompt <> nil then col_prompt(3).Print;
       PABCSystem.Readln(Result.val03, Result.val13, Result.val23);
     end;
     
@@ -19714,6 +21148,16 @@ type
       
     end;
     
+    public static function Random(min, max: double): Mtr4x3d;
+    begin
+      if min>max then Swap(min,max);
+      var r := max-min;
+      Result.val00 := min + PABCSystem.Random(r); Result.val01 := min + PABCSystem.Random(r); Result.val02 := min + PABCSystem.Random(r);
+      Result.val10 := min + PABCSystem.Random(r); Result.val11 := min + PABCSystem.Random(r); Result.val12 := min + PABCSystem.Random(r);
+      Result.val20 := min + PABCSystem.Random(r); Result.val21 := min + PABCSystem.Random(r); Result.val22 := min + PABCSystem.Random(r);
+      Result.val30 := min + PABCSystem.Random(r); Result.val31 := min + PABCSystem.Random(r); Result.val32 := min + PABCSystem.Random(r);
+    end;
+    
     public static function ReadRows(prompt: string := nil): Mtr4x3d;
     begin
       if prompt <> nil then prompt.Print;
@@ -19725,13 +21169,13 @@ type
     public static function ReadlnRows(prompt: string := nil; row_prompt: integer->string := nil): Mtr4x3d;
     begin
       if prompt <> nil then prompt.Println;
-      row_prompt(0).Print;
+      if row_prompt <> nil then row_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val01, Result.val02);
-      row_prompt(1).Print;
+      if row_prompt <> nil then row_prompt(1).Print;
       PABCSystem.Readln(Result.val10, Result.val11, Result.val12);
-      row_prompt(2).Print;
+      if row_prompt <> nil then row_prompt(2).Print;
       PABCSystem.Readln(Result.val20, Result.val21, Result.val22);
-      row_prompt(3).Print;
+      if row_prompt <> nil then row_prompt(3).Print;
       PABCSystem.Readln(Result.val30, Result.val31, Result.val32);
     end;
     public static function ReadCols(prompt: string := nil): Mtr4x3d;
@@ -19744,11 +21188,11 @@ type
     public static function ReadlnCols(prompt: string := nil; col_prompt: integer->string := nil): Mtr4x3d;
     begin
       if prompt <> nil then prompt.Println;
-      col_prompt(0).Print;
+      if col_prompt <> nil then col_prompt(0).Print;
       PABCSystem.Readln(Result.val00, Result.val10, Result.val20, Result.val30);
-      col_prompt(1).Print;
+      if col_prompt <> nil then col_prompt(1).Print;
       PABCSystem.Readln(Result.val01, Result.val11, Result.val21, Result.val31);
-      col_prompt(2).Print;
+      if col_prompt <> nil then col_prompt(2).Print;
       PABCSystem.Readln(Result.val02, Result.val12, Result.val22, Result.val32);
     end;
     
@@ -22541,9 +23985,9 @@ type
     
     // added in gl4.3
     private z_ClearBufferData_adr := GetFuncAdr('glClearBufferData');
-    private z_ClearBufferData_ovr_0 := GetFuncOrNil&<procedure(target: BufferStorageTarget; _internalformat: InternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearBufferData_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearBufferData(target: BufferStorageTarget; _internalformat: InternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr) :=
-    z_ClearBufferData_ovr_0(target, _internalformat, format, &type, data);
+    private z_ClearBufferData_ovr_0 := GetFuncOrNil&<procedure(target: BufferStorageTarget; internalformat: SizedInternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearBufferData_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearBufferData(target: BufferStorageTarget; internalformat: SizedInternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr) :=
+    z_ClearBufferData_ovr_0(target, internalformat, format, &type, data);
     
     // added in gl3.0
     private z_ClearBufferfi_adr := GetFuncAdr('glClearBufferfi');
@@ -22581,9 +24025,9 @@ type
     
     // added in gl4.3
     private z_ClearBufferSubData_adr := GetFuncAdr('glClearBufferSubData');
-    private z_ClearBufferSubData_ovr_0 := GetFuncOrNil&<procedure(target: BufferTargetARB; _internalformat: InternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearBufferSubData_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearBufferSubData(target: BufferTargetARB; _internalformat: InternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr) :=
-    z_ClearBufferSubData_ovr_0(target, _internalformat, offset, size, format, &type, data);
+    private z_ClearBufferSubData_ovr_0 := GetFuncOrNil&<procedure(target: BufferTargetARB; internalformat: SizedInternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearBufferSubData_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearBufferSubData(target: BufferTargetARB; internalformat: SizedInternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr) :=
+    z_ClearBufferSubData_ovr_0(target, internalformat, offset, size, format, &type, data);
     
     // added in gl3.0
     private z_ClearBufferuiv_adr := GetFuncAdr('glClearBufferuiv');
@@ -22615,15 +24059,15 @@ type
     
     // added in gl4.5
     private z_ClearNamedBufferData_adr := GetFuncAdr('glClearNamedBufferData');
-    private z_ClearNamedBufferData_ovr_0 := GetFuncOrNil&<procedure(buffer: gl_buffer; _internalformat: InternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearNamedBufferData_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearNamedBufferData(buffer: gl_buffer; _internalformat: InternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr) :=
-    z_ClearNamedBufferData_ovr_0(buffer, _internalformat, format, &type, data);
+    private z_ClearNamedBufferData_ovr_0 := GetFuncOrNil&<procedure(buffer: gl_buffer; internalformat: SizedInternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearNamedBufferData_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearNamedBufferData(buffer: gl_buffer; internalformat: SizedInternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr) :=
+    z_ClearNamedBufferData_ovr_0(buffer, internalformat, format, &type, data);
     
     // added in gl4.5
     private z_ClearNamedBufferSubData_adr := GetFuncAdr('glClearNamedBufferSubData');
-    private z_ClearNamedBufferSubData_ovr_0 := GetFuncOrNil&<procedure(buffer: gl_buffer; _internalformat: InternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearNamedBufferSubData_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearNamedBufferSubData(buffer: gl_buffer; _internalformat: InternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr) :=
-    z_ClearNamedBufferSubData_ovr_0(buffer, _internalformat, offset, size, format, &type, data);
+    private z_ClearNamedBufferSubData_ovr_0 := GetFuncOrNil&<procedure(buffer: gl_buffer; internalformat: SizedInternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearNamedBufferSubData_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearNamedBufferSubData(buffer: gl_buffer; internalformat: SizedInternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr) :=
+    z_ClearNamedBufferSubData_ovr_0(buffer, internalformat, offset, size, format, &type, data);
     
     // added in gl4.5
     private z_ClearNamedFramebufferfi_adr := GetFuncAdr('glClearNamedFramebufferfi');
@@ -22767,38 +24211,38 @@ type
     
     // added in gl1.3
     private z_CompressedTexSubImage1D_adr := GetFuncAdr('glCompressedTexSubImage1D');
-    private z_CompressedTexSubImage1D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTexSubImage1D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTexSubImage1D(target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr) :=
+    private z_CompressedTexSubImage1D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTexSubImage1D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTexSubImage1D(target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr) :=
     z_CompressedTexSubImage1D_ovr_0(target, level, xoffset, width, format, imageSize, data);
     
     // added in gl1.3
     private z_CompressedTexSubImage2D_adr := GetFuncAdr('glCompressedTexSubImage2D');
-    private z_CompressedTexSubImage2D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTexSubImage2D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTexSubImage2D(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr) :=
+    private z_CompressedTexSubImage2D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTexSubImage2D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTexSubImage2D(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr) :=
     z_CompressedTexSubImage2D_ovr_0(target, level, xoffset, yoffset, width, height, format, imageSize, data);
     
     // added in gl1.3
     private z_CompressedTexSubImage3D_adr := GetFuncAdr('glCompressedTexSubImage3D');
-    private z_CompressedTexSubImage3D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTexSubImage3D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTexSubImage3D(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr) :=
+    private z_CompressedTexSubImage3D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTexSubImage3D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTexSubImage3D(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr) :=
     z_CompressedTexSubImage3D_ovr_0(target, level, xoffset, yoffset, zoffset, width, height, depth, format, imageSize, data);
     
     // added in gl4.5
     private z_CompressedTextureSubImage1D_adr := GetFuncAdr('glCompressedTextureSubImage1D');
-    private z_CompressedTextureSubImage1D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTextureSubImage1D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage1D(texture: gl_texture; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr) :=
+    private z_CompressedTextureSubImage1D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; level: Int32; xoffset: Int32; width: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTextureSubImage1D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage1D(texture: gl_texture; level: Int32; xoffset: Int32; width: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr) :=
     z_CompressedTextureSubImage1D_ovr_0(texture, level, xoffset, width, format, imageSize, data);
     
     // added in gl4.5
     private z_CompressedTextureSubImage2D_adr := GetFuncAdr('glCompressedTextureSubImage2D');
-    private z_CompressedTextureSubImage2D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTextureSubImage2D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage2D(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr) :=
+    private z_CompressedTextureSubImage2D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTextureSubImage2D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage2D(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr) :=
     z_CompressedTextureSubImage2D_ovr_0(texture, level, xoffset, yoffset, width, height, format, imageSize, data);
     
     // added in gl4.5
     private z_CompressedTextureSubImage3D_adr := GetFuncAdr('glCompressedTextureSubImage3D');
-    private z_CompressedTextureSubImage3D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTextureSubImage3D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage3D(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr) :=
+    private z_CompressedTextureSubImage3D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTextureSubImage3D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage3D(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr) :=
     z_CompressedTextureSubImage3D_ovr_0(texture, level, xoffset, yoffset, zoffset, width, height, depth, format, imageSize, data);
     
     // added in gl3.1
@@ -27437,15 +28881,15 @@ type
     
     // added in gl3.1
     private z_TexBuffer_adr := GetFuncAdr('glTexBuffer');
-    private z_TexBuffer_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer)>(z_TexBuffer_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexBuffer(target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer) :=
-    z_TexBuffer_ovr_0(target, _internalformat, buffer);
+    private z_TexBuffer_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer)>(z_TexBuffer_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexBuffer(target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer) :=
+    z_TexBuffer_ovr_0(target, internalformat, buffer);
     
     // added in gl4.3
     private z_TexBufferRange_adr := GetFuncAdr('glTexBufferRange');
-    private z_TexBufferRange_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr)>(z_TexBufferRange_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexBufferRange(target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr) :=
-    z_TexBufferRange_ovr_0(target, _internalformat, buffer, offset, size);
+    private z_TexBufferRange_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr)>(z_TexBufferRange_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexBufferRange(target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr) :=
+    z_TexBufferRange_ovr_0(target, internalformat, buffer, offset, size);
     
     // added in gl3.3
     private z_TexCoordP1ui_adr := GetFuncAdr('glTexCoordP1ui');
@@ -27591,33 +29035,33 @@ type
     
     // added in gl4.2
     private z_TexStorage1D_adr := GetFuncAdr('glTexStorage1D');
-    private z_TexStorage1D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; _internalformat: InternalFormat; width: Int32)>(z_TexStorage1D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage1D(target: TextureTarget; levels: Int32; _internalformat: InternalFormat; width: Int32) :=
-    z_TexStorage1D_ovr_0(target, levels, _internalformat, width);
+    private z_TexStorage1D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; internalformat: SizedInternalFormat; width: Int32)>(z_TexStorage1D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage1D(target: TextureTarget; levels: Int32; internalformat: SizedInternalFormat; width: Int32) :=
+    z_TexStorage1D_ovr_0(target, levels, internalformat, width);
     
     // added in gl4.2
     private z_TexStorage2D_adr := GetFuncAdr('glTexStorage2D');
-    private z_TexStorage2D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32)>(z_TexStorage2D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage2D(target: TextureTarget; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32) :=
-    z_TexStorage2D_ovr_0(target, levels, _internalformat, width, height);
+    private z_TexStorage2D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32)>(z_TexStorage2D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage2D(target: TextureTarget; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32) :=
+    z_TexStorage2D_ovr_0(target, levels, internalformat, width, height);
     
     // added in gl4.3
     private z_TexStorage2DMultisample_adr := GetFuncAdr('glTexStorage2DMultisample');
-    private z_TexStorage2DMultisample_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean)>(z_TexStorage2DMultisample_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage2DMultisample(target: TextureTarget; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean) :=
-    z_TexStorage2DMultisample_ovr_0(target, samples, _internalformat, width, height, fixedsamplelocations);
+    private z_TexStorage2DMultisample_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean)>(z_TexStorage2DMultisample_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage2DMultisample(target: TextureTarget; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean) :=
+    z_TexStorage2DMultisample_ovr_0(target, samples, internalformat, width, height, fixedsamplelocations);
     
     // added in gl4.2
     private z_TexStorage3D_adr := GetFuncAdr('glTexStorage3D');
-    private z_TexStorage3D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32)>(z_TexStorage3D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage3D(target: TextureTarget; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32) :=
-    z_TexStorage3D_ovr_0(target, levels, _internalformat, width, height, depth);
+    private z_TexStorage3D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32)>(z_TexStorage3D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage3D(target: TextureTarget; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32) :=
+    z_TexStorage3D_ovr_0(target, levels, internalformat, width, height, depth);
     
     // added in gl4.3
     private z_TexStorage3DMultisample_adr := GetFuncAdr('glTexStorage3DMultisample');
-    private z_TexStorage3DMultisample_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean)>(z_TexStorage3DMultisample_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage3DMultisample(target: TextureTarget; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean) :=
-    z_TexStorage3DMultisample_ovr_0(target, samples, _internalformat, width, height, depth, fixedsamplelocations);
+    private z_TexStorage3DMultisample_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean)>(z_TexStorage3DMultisample_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage3DMultisample(target: TextureTarget; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean) :=
+    z_TexStorage3DMultisample_ovr_0(target, samples, internalformat, width, height, depth, fixedsamplelocations);
     
     // added in gl1.1
     public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexSubImage1D(target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; &type: PixelType; pixels: IntPtr) :=
@@ -27641,15 +29085,15 @@ type
     
     // added in gl4.5
     private z_TextureBuffer_adr := GetFuncAdr('glTextureBuffer');
-    private z_TextureBuffer_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; _internalformat: InternalFormat; buffer: gl_buffer)>(z_TextureBuffer_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureBuffer(texture: gl_texture; _internalformat: InternalFormat; buffer: gl_buffer) :=
-    z_TextureBuffer_ovr_0(texture, _internalformat, buffer);
+    private z_TextureBuffer_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; internalformat: SizedInternalFormat; buffer: gl_buffer)>(z_TextureBuffer_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureBuffer(texture: gl_texture; internalformat: SizedInternalFormat; buffer: gl_buffer) :=
+    z_TextureBuffer_ovr_0(texture, internalformat, buffer);
     
     // added in gl4.5
     private z_TextureBufferRange_adr := GetFuncAdr('glTextureBufferRange');
-    private z_TextureBufferRange_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; _internalformat: InternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr)>(z_TextureBufferRange_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureBufferRange(texture: gl_texture; _internalformat: InternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr) :=
-    z_TextureBufferRange_ovr_0(texture, _internalformat, buffer, offset, size);
+    private z_TextureBufferRange_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; internalformat: SizedInternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr)>(z_TextureBufferRange_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureBufferRange(texture: gl_texture; internalformat: SizedInternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr) :=
+    z_TextureBufferRange_ovr_0(texture, internalformat, buffer, offset, size);
     
     // added in gl4.5
     private z_TextureParameterf_adr := GetFuncAdr('glTextureParameterf');
@@ -27721,33 +29165,33 @@ type
     
     // added in gl4.5
     private z_TextureStorage1D_adr := GetFuncAdr('glTextureStorage1D');
-    private z_TextureStorage1D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; _internalformat: InternalFormat; width: Int32)>(z_TextureStorage1D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage1D(texture: gl_texture; levels: Int32; _internalformat: InternalFormat; width: Int32) :=
-    z_TextureStorage1D_ovr_0(texture, levels, _internalformat, width);
+    private z_TextureStorage1D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; internalformat: SizedInternalFormat; width: Int32)>(z_TextureStorage1D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage1D(texture: gl_texture; levels: Int32; internalformat: SizedInternalFormat; width: Int32) :=
+    z_TextureStorage1D_ovr_0(texture, levels, internalformat, width);
     
     // added in gl4.5
     private z_TextureStorage2D_adr := GetFuncAdr('glTextureStorage2D');
-    private z_TextureStorage2D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32)>(z_TextureStorage2D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage2D(texture: gl_texture; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32) :=
-    z_TextureStorage2D_ovr_0(texture, levels, _internalformat, width, height);
+    private z_TextureStorage2D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32)>(z_TextureStorage2D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage2D(texture: gl_texture; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32) :=
+    z_TextureStorage2D_ovr_0(texture, levels, internalformat, width, height);
     
     // added in gl4.5
     private z_TextureStorage2DMultisample_adr := GetFuncAdr('glTextureStorage2DMultisample');
-    private z_TextureStorage2DMultisample_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean)>(z_TextureStorage2DMultisample_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage2DMultisample(texture: gl_texture; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean) :=
-    z_TextureStorage2DMultisample_ovr_0(texture, samples, _internalformat, width, height, fixedsamplelocations);
+    private z_TextureStorage2DMultisample_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean)>(z_TextureStorage2DMultisample_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage2DMultisample(texture: gl_texture; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean) :=
+    z_TextureStorage2DMultisample_ovr_0(texture, samples, internalformat, width, height, fixedsamplelocations);
     
     // added in gl4.5
     private z_TextureStorage3D_adr := GetFuncAdr('glTextureStorage3D');
-    private z_TextureStorage3D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32)>(z_TextureStorage3D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage3D(texture: gl_texture; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32) :=
-    z_TextureStorage3D_ovr_0(texture, levels, _internalformat, width, height, depth);
+    private z_TextureStorage3D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32)>(z_TextureStorage3D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage3D(texture: gl_texture; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32) :=
+    z_TextureStorage3D_ovr_0(texture, levels, internalformat, width, height, depth);
     
     // added in gl4.5
     private z_TextureStorage3DMultisample_adr := GetFuncAdr('glTextureStorage3DMultisample');
-    private z_TextureStorage3DMultisample_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean)>(z_TextureStorage3DMultisample_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage3DMultisample(texture: gl_texture; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean) :=
-    z_TextureStorage3DMultisample_ovr_0(texture, samples, _internalformat, width, height, depth, fixedsamplelocations);
+    private z_TextureStorage3DMultisample_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean)>(z_TextureStorage3DMultisample_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage3DMultisample(texture: gl_texture; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean) :=
+    z_TextureStorage3DMultisample_ovr_0(texture, samples, internalformat, width, height, depth, fixedsamplelocations);
     
     // added in gl4.5
     private z_TextureSubImage1D_adr := GetFuncAdr('glTextureSubImage1D');
@@ -27769,9 +29213,9 @@ type
     
     // added in gl4.3
     private z_TextureView_adr := GetFuncAdr('glTextureView');
-    private z_TextureView_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; origtexture: gl_texture; _internalformat: InternalFormat; minlevel: UInt32; numlevels: UInt32; minlayer: UInt32; numlayers: UInt32)>(z_TextureView_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureView(texture: gl_texture; target: TextureTarget; origtexture: gl_texture; _internalformat: InternalFormat; minlevel: UInt32; numlevels: UInt32; minlayer: UInt32; numlayers: UInt32) :=
-    z_TextureView_ovr_0(texture, target, origtexture, _internalformat, minlevel, numlevels, minlayer, numlayers);
+    private z_TextureView_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; origtexture: gl_texture; internalformat: SizedInternalFormat; minlevel: UInt32; numlevels: UInt32; minlayer: UInt32; numlayers: UInt32)>(z_TextureView_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureView(texture: gl_texture; target: TextureTarget; origtexture: gl_texture; internalformat: SizedInternalFormat; minlevel: UInt32; numlevels: UInt32; minlayer: UInt32; numlayers: UInt32) :=
+    z_TextureView_ovr_0(texture, target, origtexture, internalformat, minlevel, numlevels, minlayer, numlayers);
     
     // added in gl4.5
     private z_TransformFeedbackBufferBase_adr := GetFuncAdr('glTransformFeedbackBufferBase');
@@ -33806,14 +35250,14 @@ type
     public const _ExtStr = 'AMD_sparse_texture';
     
     private z_TexStorageSparseAMD_adr := GetFuncAdr('glTexStorageSparseAMD');
-    private z_TexStorageSparseAMD_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; _internalFormat: InternalFormat; width: Int32; height: Int32; depth: Int32; layers: Int32; flags: TextureStorageMaskAMD)>(z_TexStorageSparseAMD_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorageSparseAMD(target: TextureTarget; _internalFormat: InternalFormat; width: Int32; height: Int32; depth: Int32; layers: Int32; flags: TextureStorageMaskAMD) :=
-    z_TexStorageSparseAMD_ovr_0(target, _internalFormat, width, height, depth, layers, flags);
+    private z_TexStorageSparseAMD_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; internalFormat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; layers: Int32; flags: TextureStorageMaskAMD)>(z_TexStorageSparseAMD_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorageSparseAMD(target: TextureTarget; internalFormat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; layers: Int32; flags: TextureStorageMaskAMD) :=
+    z_TexStorageSparseAMD_ovr_0(target, internalFormat, width, height, depth, layers, flags);
     
     private z_TextureStorageSparseAMD_adr := GetFuncAdr('glTextureStorageSparseAMD');
-    private z_TextureStorageSparseAMD_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: DummyEnum; _internalFormat: InternalFormat; width: Int32; height: Int32; depth: Int32; layers: Int32; flags: TextureStorageMaskAMD)>(z_TextureStorageSparseAMD_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorageSparseAMD(texture: gl_texture; target: DummyEnum; _internalFormat: InternalFormat; width: Int32; height: Int32; depth: Int32; layers: Int32; flags: TextureStorageMaskAMD) :=
-    z_TextureStorageSparseAMD_ovr_0(texture, target, _internalFormat, width, height, depth, layers, flags);
+    private z_TextureStorageSparseAMD_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: DummyEnum; internalFormat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; layers: Int32; flags: TextureStorageMaskAMD)>(z_TextureStorageSparseAMD_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorageSparseAMD(texture: gl_texture; target: DummyEnum; internalFormat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; layers: Int32; flags: TextureStorageMaskAMD) :=
+    z_TextureStorageSparseAMD_ovr_0(texture, target, internalFormat, width, height, depth, layers, flags);
     
   end;
   
@@ -34669,14 +36113,14 @@ type
     public const _ExtStr = 'ARB_clear_buffer_object';
     
     private z_ClearBufferData_adr := GetFuncAdr('glClearBufferData');
-    private z_ClearBufferData_ovr_0 := GetFuncOrNil&<procedure(target: BufferStorageTarget; _internalformat: InternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearBufferData_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearBufferData(target: BufferStorageTarget; _internalformat: InternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr) :=
-    z_ClearBufferData_ovr_0(target, _internalformat, format, &type, data);
+    private z_ClearBufferData_ovr_0 := GetFuncOrNil&<procedure(target: BufferStorageTarget; internalformat: SizedInternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearBufferData_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearBufferData(target: BufferStorageTarget; internalformat: SizedInternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr) :=
+    z_ClearBufferData_ovr_0(target, internalformat, format, &type, data);
     
     private z_ClearBufferSubData_adr := GetFuncAdr('glClearBufferSubData');
-    private z_ClearBufferSubData_ovr_0 := GetFuncOrNil&<procedure(target: BufferTargetARB; _internalformat: InternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearBufferSubData_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearBufferSubData(target: BufferTargetARB; _internalformat: InternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr) :=
-    z_ClearBufferSubData_ovr_0(target, _internalformat, offset, size, format, &type, data);
+    private z_ClearBufferSubData_ovr_0 := GetFuncOrNil&<procedure(target: BufferTargetARB; internalformat: SizedInternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearBufferSubData_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearBufferSubData(target: BufferTargetARB; internalformat: SizedInternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr) :=
+    z_ClearBufferSubData_ovr_0(target, internalformat, offset, size, format, &type, data);
     
   end;
   
@@ -34994,14 +36438,14 @@ type
     z_CopyNamedBufferSubData_ovr_0(readBuffer, writeBuffer, readOffset, writeOffset, size);
     
     private z_ClearNamedBufferData_adr := GetFuncAdr('glClearNamedBufferData');
-    private z_ClearNamedBufferData_ovr_0 := GetFuncOrNil&<procedure(buffer: gl_buffer; _internalformat: InternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearNamedBufferData_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearNamedBufferData(buffer: gl_buffer; _internalformat: InternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr) :=
-    z_ClearNamedBufferData_ovr_0(buffer, _internalformat, format, &type, data);
+    private z_ClearNamedBufferData_ovr_0 := GetFuncOrNil&<procedure(buffer: gl_buffer; internalformat: SizedInternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearNamedBufferData_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearNamedBufferData(buffer: gl_buffer; internalformat: SizedInternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr) :=
+    z_ClearNamedBufferData_ovr_0(buffer, internalformat, format, &type, data);
     
     private z_ClearNamedBufferSubData_adr := GetFuncAdr('glClearNamedBufferSubData');
-    private z_ClearNamedBufferSubData_ovr_0 := GetFuncOrNil&<procedure(buffer: gl_buffer; _internalformat: InternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearNamedBufferSubData_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearNamedBufferSubData(buffer: gl_buffer; _internalformat: InternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr) :=
-    z_ClearNamedBufferSubData_ovr_0(buffer, _internalformat, offset, size, format, &type, data);
+    private z_ClearNamedBufferSubData_ovr_0 := GetFuncOrNil&<procedure(buffer: gl_buffer; internalformat: SizedInternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearNamedBufferSubData_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearNamedBufferSubData(buffer: gl_buffer; internalformat: SizedInternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr) :=
+    z_ClearNamedBufferSubData_ovr_0(buffer, internalformat, offset, size, format, &type, data);
     
     private z_MapNamedBuffer_adr := GetFuncAdr('glMapNamedBuffer');
     private z_MapNamedBuffer_ovr_0 := GetFuncOrNil&<function(buffer: gl_buffer; access: BufferAccessARB): IntPtr>(z_MapNamedBuffer_adr);
@@ -35274,39 +36718,39 @@ type
     z_CreateTextures_ovr_2(target, n, textures);
     
     private z_TextureBuffer_adr := GetFuncAdr('glTextureBuffer');
-    private z_TextureBuffer_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; _internalformat: InternalFormat; buffer: gl_buffer)>(z_TextureBuffer_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureBuffer(texture: gl_texture; _internalformat: InternalFormat; buffer: gl_buffer) :=
-    z_TextureBuffer_ovr_0(texture, _internalformat, buffer);
+    private z_TextureBuffer_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; internalformat: SizedInternalFormat; buffer: gl_buffer)>(z_TextureBuffer_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureBuffer(texture: gl_texture; internalformat: SizedInternalFormat; buffer: gl_buffer) :=
+    z_TextureBuffer_ovr_0(texture, internalformat, buffer);
     
     private z_TextureBufferRange_adr := GetFuncAdr('glTextureBufferRange');
-    private z_TextureBufferRange_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; _internalformat: InternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr)>(z_TextureBufferRange_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureBufferRange(texture: gl_texture; _internalformat: InternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr) :=
-    z_TextureBufferRange_ovr_0(texture, _internalformat, buffer, offset, size);
+    private z_TextureBufferRange_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; internalformat: SizedInternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr)>(z_TextureBufferRange_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureBufferRange(texture: gl_texture; internalformat: SizedInternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr) :=
+    z_TextureBufferRange_ovr_0(texture, internalformat, buffer, offset, size);
     
     private z_TextureStorage1D_adr := GetFuncAdr('glTextureStorage1D');
-    private z_TextureStorage1D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; _internalformat: InternalFormat; width: Int32)>(z_TextureStorage1D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage1D(texture: gl_texture; levels: Int32; _internalformat: InternalFormat; width: Int32) :=
-    z_TextureStorage1D_ovr_0(texture, levels, _internalformat, width);
+    private z_TextureStorage1D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; internalformat: SizedInternalFormat; width: Int32)>(z_TextureStorage1D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage1D(texture: gl_texture; levels: Int32; internalformat: SizedInternalFormat; width: Int32) :=
+    z_TextureStorage1D_ovr_0(texture, levels, internalformat, width);
     
     private z_TextureStorage2D_adr := GetFuncAdr('glTextureStorage2D');
-    private z_TextureStorage2D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32)>(z_TextureStorage2D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage2D(texture: gl_texture; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32) :=
-    z_TextureStorage2D_ovr_0(texture, levels, _internalformat, width, height);
+    private z_TextureStorage2D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32)>(z_TextureStorage2D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage2D(texture: gl_texture; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32) :=
+    z_TextureStorage2D_ovr_0(texture, levels, internalformat, width, height);
     
     private z_TextureStorage3D_adr := GetFuncAdr('glTextureStorage3D');
-    private z_TextureStorage3D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32)>(z_TextureStorage3D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage3D(texture: gl_texture; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32) :=
-    z_TextureStorage3D_ovr_0(texture, levels, _internalformat, width, height, depth);
+    private z_TextureStorage3D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32)>(z_TextureStorage3D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage3D(texture: gl_texture; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32) :=
+    z_TextureStorage3D_ovr_0(texture, levels, internalformat, width, height, depth);
     
     private z_TextureStorage2DMultisample_adr := GetFuncAdr('glTextureStorage2DMultisample');
-    private z_TextureStorage2DMultisample_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean)>(z_TextureStorage2DMultisample_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage2DMultisample(texture: gl_texture; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean) :=
-    z_TextureStorage2DMultisample_ovr_0(texture, samples, _internalformat, width, height, fixedsamplelocations);
+    private z_TextureStorage2DMultisample_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean)>(z_TextureStorage2DMultisample_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage2DMultisample(texture: gl_texture; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean) :=
+    z_TextureStorage2DMultisample_ovr_0(texture, samples, internalformat, width, height, fixedsamplelocations);
     
     private z_TextureStorage3DMultisample_adr := GetFuncAdr('glTextureStorage3DMultisample');
-    private z_TextureStorage3DMultisample_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean)>(z_TextureStorage3DMultisample_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage3DMultisample(texture: gl_texture; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean) :=
-    z_TextureStorage3DMultisample_ovr_0(texture, samples, _internalformat, width, height, depth, fixedsamplelocations);
+    private z_TextureStorage3DMultisample_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean)>(z_TextureStorage3DMultisample_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage3DMultisample(texture: gl_texture; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean) :=
+    z_TextureStorage3DMultisample_ovr_0(texture, samples, internalformat, width, height, depth, fixedsamplelocations);
     
     private z_TextureSubImage1D_adr := GetFuncAdr('glTextureSubImage1D');
     private z_TextureSubImage1D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; &type: PixelType; pixels: IntPtr)>(z_TextureSubImage1D_adr);
@@ -35324,18 +36768,18 @@ type
     z_TextureSubImage3D_ovr_0(texture, level, xoffset, yoffset, zoffset, width, height, depth, format, &type, pixels);
     
     private z_CompressedTextureSubImage1D_adr := GetFuncAdr('glCompressedTextureSubImage1D');
-    private z_CompressedTextureSubImage1D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTextureSubImage1D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage1D(texture: gl_texture; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr) :=
+    private z_CompressedTextureSubImage1D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; level: Int32; xoffset: Int32; width: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTextureSubImage1D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage1D(texture: gl_texture; level: Int32; xoffset: Int32; width: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr) :=
     z_CompressedTextureSubImage1D_ovr_0(texture, level, xoffset, width, format, imageSize, data);
     
     private z_CompressedTextureSubImage2D_adr := GetFuncAdr('glCompressedTextureSubImage2D');
-    private z_CompressedTextureSubImage2D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTextureSubImage2D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage2D(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr) :=
+    private z_CompressedTextureSubImage2D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTextureSubImage2D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage2D(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr) :=
     z_CompressedTextureSubImage2D_ovr_0(texture, level, xoffset, yoffset, width, height, format, imageSize, data);
     
     private z_CompressedTextureSubImage3D_adr := GetFuncAdr('glCompressedTextureSubImage3D');
-    private z_CompressedTextureSubImage3D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTextureSubImage3D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage3D(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr) :=
+    private z_CompressedTextureSubImage3D_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTextureSubImage3D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage3D(texture: gl_texture; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr) :=
     z_CompressedTextureSubImage3D_ovr_0(texture, level, xoffset, yoffset, zoffset, width, height, depth, format, imageSize, data);
     
     private z_CopyTextureSubImage1D_adr := GetFuncAdr('glCopyTextureSubImage1D');
@@ -41054,9 +42498,9 @@ type
     public const _ExtStr = 'ARB_texture_buffer_object';
     
     private z_TexBufferARB_adr := GetFuncAdr('glTexBufferARB');
-    private z_TexBufferARB_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer)>(z_TexBufferARB_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexBufferARB(target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer) :=
-    z_TexBufferARB_ovr_0(target, _internalformat, buffer);
+    private z_TexBufferARB_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer)>(z_TexBufferARB_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexBufferARB(target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer) :=
+    z_TexBufferARB_ovr_0(target, internalformat, buffer);
     
   end;
   
@@ -41072,9 +42516,9 @@ type
     public const _ExtStr = 'ARB_texture_buffer_range';
     
     private z_TexBufferRange_adr := GetFuncAdr('glTexBufferRange');
-    private z_TexBufferRange_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr)>(z_TexBufferRange_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexBufferRange(target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr) :=
-    z_TexBufferRange_ovr_0(target, _internalformat, buffer, offset, size);
+    private z_TexBufferRange_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr)>(z_TexBufferRange_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexBufferRange(target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr) :=
+    z_TexBufferRange_ovr_0(target, internalformat, buffer, offset, size);
     
   end;
   
@@ -41105,18 +42549,18 @@ type
     z_CompressedTexImage1DARB_ovr_0(target, level, _internalformat, width, border, imageSize, data);
     
     private z_CompressedTexSubImage3DARB_adr := GetFuncAdr('glCompressedTexSubImage3DARB');
-    private z_CompressedTexSubImage3DARB_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTexSubImage3DARB_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTexSubImage3DARB(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr) :=
+    private z_CompressedTexSubImage3DARB_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTexSubImage3DARB_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTexSubImage3DARB(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr) :=
     z_CompressedTexSubImage3DARB_ovr_0(target, level, xoffset, yoffset, zoffset, width, height, depth, format, imageSize, data);
     
     private z_CompressedTexSubImage2DARB_adr := GetFuncAdr('glCompressedTexSubImage2DARB');
-    private z_CompressedTexSubImage2DARB_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTexSubImage2DARB_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTexSubImage2DARB(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr) :=
+    private z_CompressedTexSubImage2DARB_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTexSubImage2DARB_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTexSubImage2DARB(target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr) :=
     z_CompressedTexSubImage2DARB_ovr_0(target, level, xoffset, yoffset, width, height, format, imageSize, data);
     
     private z_CompressedTexSubImage1DARB_adr := GetFuncAdr('glCompressedTexSubImage1DARB');
-    private z_CompressedTexSubImage1DARB_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTexSubImage1DARB_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTexSubImage1DARB(target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; imageSize: Int32; data: IntPtr) :=
+    private z_CompressedTexSubImage1DARB_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr)>(z_CompressedTexSubImage1DARB_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTexSubImage1DARB(target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: InternalFormat; imageSize: Int32; data: IntPtr) :=
     z_CompressedTexSubImage1DARB_ovr_0(target, level, xoffset, width, format, imageSize, data);
     
     private z_GetCompressedTexImageARB_adr := GetFuncAdr('glGetCompressedTexImageARB');
@@ -41179,19 +42623,19 @@ type
     public const _ExtStr = 'ARB_texture_storage';
     
     private z_TexStorage1D_adr := GetFuncAdr('glTexStorage1D');
-    private z_TexStorage1D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; _internalformat: InternalFormat; width: Int32)>(z_TexStorage1D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage1D(target: TextureTarget; levels: Int32; _internalformat: InternalFormat; width: Int32) :=
-    z_TexStorage1D_ovr_0(target, levels, _internalformat, width);
+    private z_TexStorage1D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; internalformat: SizedInternalFormat; width: Int32)>(z_TexStorage1D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage1D(target: TextureTarget; levels: Int32; internalformat: SizedInternalFormat; width: Int32) :=
+    z_TexStorage1D_ovr_0(target, levels, internalformat, width);
     
     private z_TexStorage2D_adr := GetFuncAdr('glTexStorage2D');
-    private z_TexStorage2D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32)>(z_TexStorage2D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage2D(target: TextureTarget; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32) :=
-    z_TexStorage2D_ovr_0(target, levels, _internalformat, width, height);
+    private z_TexStorage2D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32)>(z_TexStorage2D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage2D(target: TextureTarget; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32) :=
+    z_TexStorage2D_ovr_0(target, levels, internalformat, width, height);
     
     private z_TexStorage3D_adr := GetFuncAdr('glTexStorage3D');
-    private z_TexStorage3D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32)>(z_TexStorage3D_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage3D(target: TextureTarget; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32) :=
-    z_TexStorage3D_ovr_0(target, levels, _internalformat, width, height, depth);
+    private z_TexStorage3D_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32)>(z_TexStorage3D_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage3D(target: TextureTarget; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32) :=
+    z_TexStorage3D_ovr_0(target, levels, internalformat, width, height, depth);
     
   end;
   
@@ -41207,14 +42651,14 @@ type
     public const _ExtStr = 'ARB_texture_storage_multisample';
     
     private z_TexStorage2DMultisample_adr := GetFuncAdr('glTexStorage2DMultisample');
-    private z_TexStorage2DMultisample_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean)>(z_TexStorage2DMultisample_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage2DMultisample(target: TextureTarget; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean) :=
-    z_TexStorage2DMultisample_ovr_0(target, samples, _internalformat, width, height, fixedsamplelocations);
+    private z_TexStorage2DMultisample_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean)>(z_TexStorage2DMultisample_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage2DMultisample(target: TextureTarget; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean) :=
+    z_TexStorage2DMultisample_ovr_0(target, samples, internalformat, width, height, fixedsamplelocations);
     
     private z_TexStorage3DMultisample_adr := GetFuncAdr('glTexStorage3DMultisample');
-    private z_TexStorage3DMultisample_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean)>(z_TexStorage3DMultisample_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage3DMultisample(target: TextureTarget; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean) :=
-    z_TexStorage3DMultisample_ovr_0(target, samples, _internalformat, width, height, depth, fixedsamplelocations);
+    private z_TexStorage3DMultisample_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean)>(z_TexStorage3DMultisample_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorage3DMultisample(target: TextureTarget; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean) :=
+    z_TexStorage3DMultisample_ovr_0(target, samples, internalformat, width, height, depth, fixedsamplelocations);
     
   end;
   
@@ -41230,9 +42674,9 @@ type
     public const _ExtStr = 'ARB_texture_view';
     
     private z_TextureView_adr := GetFuncAdr('glTextureView');
-    private z_TextureView_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; origtexture: gl_texture; _internalformat: InternalFormat; minlevel: UInt32; numlevels: UInt32; minlayer: UInt32; numlayers: UInt32)>(z_TextureView_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureView(texture: gl_texture; target: TextureTarget; origtexture: gl_texture; _internalformat: InternalFormat; minlevel: UInt32; numlevels: UInt32; minlayer: UInt32; numlayers: UInt32) :=
-    z_TextureView_ovr_0(texture, target, origtexture, _internalformat, minlevel, numlevels, minlayer, numlayers);
+    private z_TextureView_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; origtexture: gl_texture; internalformat: SizedInternalFormat; minlevel: UInt32; numlevels: UInt32; minlayer: UInt32; numlayers: UInt32)>(z_TextureView_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureView(texture: gl_texture; target: TextureTarget; origtexture: gl_texture; internalformat: SizedInternalFormat; minlevel: UInt32; numlevels: UInt32; minlayer: UInt32; numlayers: UInt32) :=
+    z_TextureView_ovr_0(texture, target, origtexture, internalformat, minlevel, numlevels, minlayer, numlayers);
     
   end;
   
@@ -45897,18 +47341,18 @@ type
     z_CompressedTextureImage1DEXT_ovr_0(texture, target, level, _internalformat, width, border, imageSize, bits);
     
     private z_CompressedTextureSubImage3DEXT_adr := GetFuncAdr('glCompressedTextureSubImage3DEXT');
-    private z_CompressedTextureSubImage3DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: PixelFormat; imageSize: Int32; bits: IntPtr)>(z_CompressedTextureSubImage3DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage3DEXT(texture: gl_texture; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: PixelFormat; imageSize: Int32; bits: IntPtr) :=
+    private z_CompressedTextureSubImage3DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: InternalFormat; imageSize: Int32; bits: IntPtr)>(z_CompressedTextureSubImage3DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage3DEXT(texture: gl_texture; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: InternalFormat; imageSize: Int32; bits: IntPtr) :=
     z_CompressedTextureSubImage3DEXT_ovr_0(texture, target, level, xoffset, yoffset, zoffset, width, height, depth, format, imageSize, bits);
     
     private z_CompressedTextureSubImage2DEXT_adr := GetFuncAdr('glCompressedTextureSubImage2DEXT');
-    private z_CompressedTextureSubImage2DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: PixelFormat; imageSize: Int32; bits: IntPtr)>(z_CompressedTextureSubImage2DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage2DEXT(texture: gl_texture; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: PixelFormat; imageSize: Int32; bits: IntPtr) :=
+    private z_CompressedTextureSubImage2DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: InternalFormat; imageSize: Int32; bits: IntPtr)>(z_CompressedTextureSubImage2DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage2DEXT(texture: gl_texture; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: InternalFormat; imageSize: Int32; bits: IntPtr) :=
     z_CompressedTextureSubImage2DEXT_ovr_0(texture, target, level, xoffset, yoffset, width, height, format, imageSize, bits);
     
     private z_CompressedTextureSubImage1DEXT_adr := GetFuncAdr('glCompressedTextureSubImage1DEXT');
-    private z_CompressedTextureSubImage1DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; imageSize: Int32; bits: IntPtr)>(z_CompressedTextureSubImage1DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage1DEXT(texture: gl_texture; target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; imageSize: Int32; bits: IntPtr) :=
+    private z_CompressedTextureSubImage1DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: InternalFormat; imageSize: Int32; bits: IntPtr)>(z_CompressedTextureSubImage1DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedTextureSubImage1DEXT(texture: gl_texture; target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: InternalFormat; imageSize: Int32; bits: IntPtr) :=
     z_CompressedTextureSubImage1DEXT_ovr_0(texture, target, level, xoffset, width, format, imageSize, bits);
     
     private z_GetCompressedTextureImageEXT_adr := GetFuncAdr('glGetCompressedTextureImageEXT');
@@ -45932,18 +47376,18 @@ type
     z_CompressedMultiTexImage1DEXT_ovr_0(texunit, target, level, _internalformat, width, border, imageSize, bits);
     
     private z_CompressedMultiTexSubImage3DEXT_adr := GetFuncAdr('glCompressedMultiTexSubImage3DEXT');
-    private z_CompressedMultiTexSubImage3DEXT_ovr_0 := GetFuncOrNil&<procedure(texunit: TextureUnit; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: PixelFormat; imageSize: Int32; bits: IntPtr)>(z_CompressedMultiTexSubImage3DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedMultiTexSubImage3DEXT(texunit: TextureUnit; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: PixelFormat; imageSize: Int32; bits: IntPtr) :=
+    private z_CompressedMultiTexSubImage3DEXT_ovr_0 := GetFuncOrNil&<procedure(texunit: TextureUnit; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: InternalFormat; imageSize: Int32; bits: IntPtr)>(z_CompressedMultiTexSubImage3DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedMultiTexSubImage3DEXT(texunit: TextureUnit; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; zoffset: Int32; width: Int32; height: Int32; depth: Int32; format: InternalFormat; imageSize: Int32; bits: IntPtr) :=
     z_CompressedMultiTexSubImage3DEXT_ovr_0(texunit, target, level, xoffset, yoffset, zoffset, width, height, depth, format, imageSize, bits);
     
     private z_CompressedMultiTexSubImage2DEXT_adr := GetFuncAdr('glCompressedMultiTexSubImage2DEXT');
-    private z_CompressedMultiTexSubImage2DEXT_ovr_0 := GetFuncOrNil&<procedure(texunit: TextureUnit; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: PixelFormat; imageSize: Int32; bits: IntPtr)>(z_CompressedMultiTexSubImage2DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedMultiTexSubImage2DEXT(texunit: TextureUnit; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: PixelFormat; imageSize: Int32; bits: IntPtr) :=
+    private z_CompressedMultiTexSubImage2DEXT_ovr_0 := GetFuncOrNil&<procedure(texunit: TextureUnit; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: InternalFormat; imageSize: Int32; bits: IntPtr)>(z_CompressedMultiTexSubImage2DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedMultiTexSubImage2DEXT(texunit: TextureUnit; target: TextureTarget; level: Int32; xoffset: Int32; yoffset: Int32; width: Int32; height: Int32; format: InternalFormat; imageSize: Int32; bits: IntPtr) :=
     z_CompressedMultiTexSubImage2DEXT_ovr_0(texunit, target, level, xoffset, yoffset, width, height, format, imageSize, bits);
     
     private z_CompressedMultiTexSubImage1DEXT_adr := GetFuncAdr('glCompressedMultiTexSubImage1DEXT');
-    private z_CompressedMultiTexSubImage1DEXT_ovr_0 := GetFuncOrNil&<procedure(texunit: TextureUnit; target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; imageSize: Int32; bits: IntPtr)>(z_CompressedMultiTexSubImage1DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedMultiTexSubImage1DEXT(texunit: TextureUnit; target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: PixelFormat; imageSize: Int32; bits: IntPtr) :=
+    private z_CompressedMultiTexSubImage1DEXT_ovr_0 := GetFuncOrNil&<procedure(texunit: TextureUnit; target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: InternalFormat; imageSize: Int32; bits: IntPtr)>(z_CompressedMultiTexSubImage1DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure CompressedMultiTexSubImage1DEXT(texunit: TextureUnit; target: TextureTarget; level: Int32; xoffset: Int32; width: Int32; format: InternalFormat; imageSize: Int32; bits: IntPtr) :=
     z_CompressedMultiTexSubImage1DEXT_ovr_0(texunit, target, level, xoffset, width, format, imageSize, bits);
     
     private z_GetCompressedMultiTexImageEXT_adr := GetFuncAdr('glGetCompressedMultiTexImageEXT');
@@ -46311,14 +47755,14 @@ type
     z_ProgramUniformMatrix4x3fvEXT_ovr_2(&program, location, count, transpose, value);
     
     private z_TextureBufferEXT_adr := GetFuncAdr('glTextureBufferEXT');
-    private z_TextureBufferEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer)>(z_TextureBufferEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureBufferEXT(texture: gl_texture; target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer) :=
-    z_TextureBufferEXT_ovr_0(texture, target, _internalformat, buffer);
+    private z_TextureBufferEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer)>(z_TextureBufferEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureBufferEXT(texture: gl_texture; target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer) :=
+    z_TextureBufferEXT_ovr_0(texture, target, internalformat, buffer);
     
     private z_MultiTexBufferEXT_adr := GetFuncAdr('glMultiTexBufferEXT');
-    private z_MultiTexBufferEXT_ovr_0 := GetFuncOrNil&<procedure(texunit: TextureUnit; target: TextureTarget; internalformat: DummyEnum; buffer: gl_buffer)>(z_MultiTexBufferEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure MultiTexBufferEXT(texunit: TextureUnit; target: TextureTarget; internalformat: DummyEnum; buffer: gl_buffer) :=
-    z_MultiTexBufferEXT_ovr_0(texunit, target, internalformat, buffer);
+    private z_MultiTexBufferEXT_ovr_0 := GetFuncOrNil&<procedure(texunit: TextureUnit; target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer)>(z_MultiTexBufferEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure MultiTexBufferEXT(texunit: TextureUnit; target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer) :=
+    z_MultiTexBufferEXT_ovr_0(texunit, target, _internalformat, buffer);
     
     private z_TextureParameterIivEXT_adr := GetFuncAdr('glTextureParameterIivEXT');
     private z_TextureParameterIivEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; pname: TextureParameterName; var &params: Int32)>(z_TextureParameterIivEXT_adr);
@@ -46996,13 +48440,13 @@ type
     z_NamedBufferStorageEXT_ovr_0(buffer, size, data, flags);
     
     private z_ClearNamedBufferDataEXT_adr := GetFuncAdr('glClearNamedBufferDataEXT');
-    private z_ClearNamedBufferDataEXT_ovr_0 := GetFuncOrNil&<procedure(buffer: gl_buffer; _internalformat: InternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearNamedBufferDataEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearNamedBufferDataEXT(buffer: gl_buffer; _internalformat: InternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr) :=
-    z_ClearNamedBufferDataEXT_ovr_0(buffer, _internalformat, format, &type, data);
+    private z_ClearNamedBufferDataEXT_ovr_0 := GetFuncOrNil&<procedure(buffer: gl_buffer; internalformat: SizedInternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearNamedBufferDataEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearNamedBufferDataEXT(buffer: gl_buffer; internalformat: SizedInternalFormat; format: PixelFormat; &type: PixelType; data: IntPtr) :=
+    z_ClearNamedBufferDataEXT_ovr_0(buffer, internalformat, format, &type, data);
     
     private z_ClearNamedBufferSubDataEXT_adr := GetFuncAdr('glClearNamedBufferSubDataEXT');
-    private z_ClearNamedBufferSubDataEXT_ovr_0 := GetFuncOrNil&<procedure(buffer: gl_buffer; internalformat: DummyEnum; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearNamedBufferSubDataEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearNamedBufferSubDataEXT(buffer: gl_buffer; internalformat: DummyEnum; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr) :=
+    private z_ClearNamedBufferSubDataEXT_ovr_0 := GetFuncOrNil&<procedure(buffer: gl_buffer; internalformat: SizedInternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr)>(z_ClearNamedBufferSubDataEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure ClearNamedBufferSubDataEXT(buffer: gl_buffer; internalformat: SizedInternalFormat; offset: IntPtr; size: IntPtr; format: PixelFormat; &type: PixelType; data: IntPtr) :=
     z_ClearNamedBufferSubDataEXT_ovr_0(buffer, internalformat, offset, size, format, &type, data);
     
     private z_NamedFramebufferParameteriEXT_adr := GetFuncAdr('glNamedFramebufferParameteriEXT');
@@ -47213,34 +48657,34 @@ type
     z_ProgramUniformMatrix4x3dvEXT_ovr_2(&program, location, count, transpose, value);
     
     private z_TextureBufferRangeEXT_adr := GetFuncAdr('glTextureBufferRangeEXT');
-    private z_TextureBufferRangeEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr)>(z_TextureBufferRangeEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureBufferRangeEXT(texture: gl_texture; target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr) :=
-    z_TextureBufferRangeEXT_ovr_0(texture, target, _internalformat, buffer, offset, size);
+    private z_TextureBufferRangeEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr)>(z_TextureBufferRangeEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureBufferRangeEXT(texture: gl_texture; target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer; offset: IntPtr; size: IntPtr) :=
+    z_TextureBufferRangeEXT_ovr_0(texture, target, internalformat, buffer, offset, size);
     
     private z_TextureStorage1DEXT_adr := GetFuncAdr('glTextureStorage1DEXT');
-    private z_TextureStorage1DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: DummyEnum; levels: Int32; _internalformat: InternalFormat; width: Int32)>(z_TextureStorage1DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage1DEXT(texture: gl_texture; target: DummyEnum; levels: Int32; _internalformat: InternalFormat; width: Int32) :=
-    z_TextureStorage1DEXT_ovr_0(texture, target, levels, _internalformat, width);
+    private z_TextureStorage1DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: DummyEnum; levels: Int32; internalformat: SizedInternalFormat; width: Int32)>(z_TextureStorage1DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage1DEXT(texture: gl_texture; target: DummyEnum; levels: Int32; internalformat: SizedInternalFormat; width: Int32) :=
+    z_TextureStorage1DEXT_ovr_0(texture, target, levels, internalformat, width);
     
     private z_TextureStorage2DEXT_adr := GetFuncAdr('glTextureStorage2DEXT');
-    private z_TextureStorage2DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: DummyEnum; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32)>(z_TextureStorage2DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage2DEXT(texture: gl_texture; target: DummyEnum; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32) :=
-    z_TextureStorage2DEXT_ovr_0(texture, target, levels, _internalformat, width, height);
+    private z_TextureStorage2DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: DummyEnum; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32)>(z_TextureStorage2DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage2DEXT(texture: gl_texture; target: DummyEnum; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32) :=
+    z_TextureStorage2DEXT_ovr_0(texture, target, levels, internalformat, width, height);
     
     private z_TextureStorage3DEXT_adr := GetFuncAdr('glTextureStorage3DEXT');
-    private z_TextureStorage3DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: DummyEnum; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32)>(z_TextureStorage3DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage3DEXT(texture: gl_texture; target: DummyEnum; levels: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32) :=
-    z_TextureStorage3DEXT_ovr_0(texture, target, levels, _internalformat, width, height, depth);
+    private z_TextureStorage3DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: DummyEnum; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32)>(z_TextureStorage3DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage3DEXT(texture: gl_texture; target: DummyEnum; levels: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32) :=
+    z_TextureStorage3DEXT_ovr_0(texture, target, levels, internalformat, width, height, depth);
     
     private z_TextureStorage2DMultisampleEXT_adr := GetFuncAdr('glTextureStorage2DMultisampleEXT');
-    private z_TextureStorage2DMultisampleEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean)>(z_TextureStorage2DMultisampleEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage2DMultisampleEXT(texture: gl_texture; target: TextureTarget; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean) :=
-    z_TextureStorage2DMultisampleEXT_ovr_0(texture, target, samples, _internalformat, width, height, fixedsamplelocations);
+    private z_TextureStorage2DMultisampleEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: TextureTarget; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean)>(z_TextureStorage2DMultisampleEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage2DMultisampleEXT(texture: gl_texture; target: TextureTarget; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; fixedsamplelocations: boolean) :=
+    z_TextureStorage2DMultisampleEXT_ovr_0(texture, target, samples, internalformat, width, height, fixedsamplelocations);
     
     private z_TextureStorage3DMultisampleEXT_adr := GetFuncAdr('glTextureStorage3DMultisampleEXT');
-    private z_TextureStorage3DMultisampleEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: DummyEnum; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean)>(z_TextureStorage3DMultisampleEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage3DMultisampleEXT(texture: gl_texture; target: DummyEnum; samples: Int32; _internalformat: InternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean) :=
-    z_TextureStorage3DMultisampleEXT_ovr_0(texture, target, samples, _internalformat, width, height, depth, fixedsamplelocations);
+    private z_TextureStorage3DMultisampleEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; target: DummyEnum; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean)>(z_TextureStorage3DMultisampleEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorage3DMultisampleEXT(texture: gl_texture; target: DummyEnum; samples: Int32; internalformat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedsamplelocations: boolean) :=
+    z_TextureStorage3DMultisampleEXT_ovr_0(texture, target, samples, internalformat, width, height, depth, fixedsamplelocations);
     
     private z_VertexArrayBindVertexBufferEXT_adr := GetFuncAdr('glVertexArrayBindVertexBufferEXT');
     private z_VertexArrayBindVertexBufferEXT_ovr_0 := GetFuncOrNil&<procedure(vaobj: gl_vertex_array; bindingindex: UInt32; buffer: gl_buffer; offset: IntPtr; stride: Int32)>(z_VertexArrayBindVertexBufferEXT_adr);
@@ -47821,6 +49265,213 @@ type
     public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure Uniform4uivEXT(location: Int32; count: Int32; value: IntPtr) :=
     z_Uniform4uivEXT_ovr_2(location, count, value);
     
+    private z_VertexAttribI1iEXT_adr := GetFuncAdr('glVertexAttribI1iEXT');
+    private z_VertexAttribI1iEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; x: Int32)>(z_VertexAttribI1iEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI1iEXT(index: UInt32; x: Int32) :=
+    z_VertexAttribI1iEXT_ovr_0(index, x);
+    
+    private z_VertexAttribI2iEXT_adr := GetFuncAdr('glVertexAttribI2iEXT');
+    private z_VertexAttribI2iEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; x: Int32; y: Int32)>(z_VertexAttribI2iEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI2iEXT(index: UInt32; x: Int32; y: Int32) :=
+    z_VertexAttribI2iEXT_ovr_0(index, x, y);
+    
+    private z_VertexAttribI3iEXT_adr := GetFuncAdr('glVertexAttribI3iEXT');
+    private z_VertexAttribI3iEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; x: Int32; y: Int32; z: Int32)>(z_VertexAttribI3iEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI3iEXT(index: UInt32; x: Int32; y: Int32; z: Int32) :=
+    z_VertexAttribI3iEXT_ovr_0(index, x, y, z);
+    
+    private z_VertexAttribI4iEXT_adr := GetFuncAdr('glVertexAttribI4iEXT');
+    private z_VertexAttribI4iEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; x: Int32; y: Int32; z: Int32; w: Int32)>(z_VertexAttribI4iEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4iEXT(index: UInt32; x: Int32; y: Int32; z: Int32; w: Int32) :=
+    z_VertexAttribI4iEXT_ovr_0(index, x, y, z, w);
+    
+    private z_VertexAttribI1uiEXT_adr := GetFuncAdr('glVertexAttribI1uiEXT');
+    private z_VertexAttribI1uiEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; x: UInt32)>(z_VertexAttribI1uiEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI1uiEXT(index: UInt32; x: UInt32) :=
+    z_VertexAttribI1uiEXT_ovr_0(index, x);
+    
+    private z_VertexAttribI2uiEXT_adr := GetFuncAdr('glVertexAttribI2uiEXT');
+    private z_VertexAttribI2uiEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; x: UInt32; y: UInt32)>(z_VertexAttribI2uiEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI2uiEXT(index: UInt32; x: UInt32; y: UInt32) :=
+    z_VertexAttribI2uiEXT_ovr_0(index, x, y);
+    
+    private z_VertexAttribI3uiEXT_adr := GetFuncAdr('glVertexAttribI3uiEXT');
+    private z_VertexAttribI3uiEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; x: UInt32; y: UInt32; z: UInt32)>(z_VertexAttribI3uiEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI3uiEXT(index: UInt32; x: UInt32; y: UInt32; z: UInt32) :=
+    z_VertexAttribI3uiEXT_ovr_0(index, x, y, z);
+    
+    private z_VertexAttribI4uiEXT_adr := GetFuncAdr('glVertexAttribI4uiEXT');
+    private z_VertexAttribI4uiEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; x: UInt32; y: UInt32; z: UInt32; w: UInt32)>(z_VertexAttribI4uiEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4uiEXT(index: UInt32; x: UInt32; y: UInt32; z: UInt32; w: UInt32) :=
+    z_VertexAttribI4uiEXT_ovr_0(index, x, y, z, w);
+    
+    private z_VertexAttribI1ivEXT_adr := GetFuncAdr('glVertexAttribI1ivEXT');
+    private z_VertexAttribI1ivEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; var v: Int32)>(z_VertexAttribI1ivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI1ivEXT(index: UInt32; var v: Int32) :=
+    z_VertexAttribI1ivEXT_ovr_0(index, v);
+    private z_VertexAttribI1ivEXT_ovr_1 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI1ivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI1ivEXT(index: UInt32; v: IntPtr) :=
+    z_VertexAttribI1ivEXT_ovr_1(index, v);
+    
+    private z_VertexAttribI2ivEXT_adr := GetFuncAdr('glVertexAttribI2ivEXT');
+    private z_VertexAttribI2ivEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; var v: Int32)>(z_VertexAttribI2ivEXT_adr);
+    private z_VertexAttribI2ivEXT_ovr_0_anh001 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI2ivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI2ivEXT(index: UInt32; v: array of Int32) :=
+    if (v<>nil) and (v.Length<>0) then
+      z_VertexAttribI2ivEXT_ovr_0(index, v[0]) else
+      z_VertexAttribI2ivEXT_ovr_0_anh001(index, IntPtr.Zero);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI2ivEXT(index: UInt32; var v: Int32) :=
+    z_VertexAttribI2ivEXT_ovr_0(index, v);
+    private z_VertexAttribI2ivEXT_ovr_2 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI2ivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI2ivEXT(index: UInt32; v: IntPtr) :=
+    z_VertexAttribI2ivEXT_ovr_2(index, v);
+    
+    private z_VertexAttribI3ivEXT_adr := GetFuncAdr('glVertexAttribI3ivEXT');
+    private z_VertexAttribI3ivEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; var v: Int32)>(z_VertexAttribI3ivEXT_adr);
+    private z_VertexAttribI3ivEXT_ovr_0_anh001 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI3ivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI3ivEXT(index: UInt32; v: array of Int32) :=
+    if (v<>nil) and (v.Length<>0) then
+      z_VertexAttribI3ivEXT_ovr_0(index, v[0]) else
+      z_VertexAttribI3ivEXT_ovr_0_anh001(index, IntPtr.Zero);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI3ivEXT(index: UInt32; var v: Int32) :=
+    z_VertexAttribI3ivEXT_ovr_0(index, v);
+    private z_VertexAttribI3ivEXT_ovr_2 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI3ivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI3ivEXT(index: UInt32; v: IntPtr) :=
+    z_VertexAttribI3ivEXT_ovr_2(index, v);
+    
+    private z_VertexAttribI4ivEXT_adr := GetFuncAdr('glVertexAttribI4ivEXT');
+    private z_VertexAttribI4ivEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; var v: Int32)>(z_VertexAttribI4ivEXT_adr);
+    private z_VertexAttribI4ivEXT_ovr_0_anh001 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI4ivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4ivEXT(index: UInt32; v: array of Int32) :=
+    if (v<>nil) and (v.Length<>0) then
+      z_VertexAttribI4ivEXT_ovr_0(index, v[0]) else
+      z_VertexAttribI4ivEXT_ovr_0_anh001(index, IntPtr.Zero);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4ivEXT(index: UInt32; var v: Int32) :=
+    z_VertexAttribI4ivEXT_ovr_0(index, v);
+    private z_VertexAttribI4ivEXT_ovr_2 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI4ivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4ivEXT(index: UInt32; v: IntPtr) :=
+    z_VertexAttribI4ivEXT_ovr_2(index, v);
+    
+    private z_VertexAttribI1uivEXT_adr := GetFuncAdr('glVertexAttribI1uivEXT');
+    private z_VertexAttribI1uivEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; var v: UInt32)>(z_VertexAttribI1uivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI1uivEXT(index: UInt32; var v: UInt32) :=
+    z_VertexAttribI1uivEXT_ovr_0(index, v);
+    private z_VertexAttribI1uivEXT_ovr_1 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI1uivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI1uivEXT(index: UInt32; v: IntPtr) :=
+    z_VertexAttribI1uivEXT_ovr_1(index, v);
+    
+    private z_VertexAttribI2uivEXT_adr := GetFuncAdr('glVertexAttribI2uivEXT');
+    private z_VertexAttribI2uivEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; var v: UInt32)>(z_VertexAttribI2uivEXT_adr);
+    private z_VertexAttribI2uivEXT_ovr_0_anh001 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI2uivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI2uivEXT(index: UInt32; v: array of UInt32) :=
+    if (v<>nil) and (v.Length<>0) then
+      z_VertexAttribI2uivEXT_ovr_0(index, v[0]) else
+      z_VertexAttribI2uivEXT_ovr_0_anh001(index, IntPtr.Zero);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI2uivEXT(index: UInt32; var v: UInt32) :=
+    z_VertexAttribI2uivEXT_ovr_0(index, v);
+    private z_VertexAttribI2uivEXT_ovr_2 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI2uivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI2uivEXT(index: UInt32; v: IntPtr) :=
+    z_VertexAttribI2uivEXT_ovr_2(index, v);
+    
+    private z_VertexAttribI3uivEXT_adr := GetFuncAdr('glVertexAttribI3uivEXT');
+    private z_VertexAttribI3uivEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; var v: UInt32)>(z_VertexAttribI3uivEXT_adr);
+    private z_VertexAttribI3uivEXT_ovr_0_anh001 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI3uivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI3uivEXT(index: UInt32; v: array of UInt32) :=
+    if (v<>nil) and (v.Length<>0) then
+      z_VertexAttribI3uivEXT_ovr_0(index, v[0]) else
+      z_VertexAttribI3uivEXT_ovr_0_anh001(index, IntPtr.Zero);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI3uivEXT(index: UInt32; var v: UInt32) :=
+    z_VertexAttribI3uivEXT_ovr_0(index, v);
+    private z_VertexAttribI3uivEXT_ovr_2 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI3uivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI3uivEXT(index: UInt32; v: IntPtr) :=
+    z_VertexAttribI3uivEXT_ovr_2(index, v);
+    
+    private z_VertexAttribI4uivEXT_adr := GetFuncAdr('glVertexAttribI4uivEXT');
+    private z_VertexAttribI4uivEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; var v: UInt32)>(z_VertexAttribI4uivEXT_adr);
+    private z_VertexAttribI4uivEXT_ovr_0_anh001 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI4uivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4uivEXT(index: UInt32; v: array of UInt32) :=
+    if (v<>nil) and (v.Length<>0) then
+      z_VertexAttribI4uivEXT_ovr_0(index, v[0]) else
+      z_VertexAttribI4uivEXT_ovr_0_anh001(index, IntPtr.Zero);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4uivEXT(index: UInt32; var v: UInt32) :=
+    z_VertexAttribI4uivEXT_ovr_0(index, v);
+    private z_VertexAttribI4uivEXT_ovr_2 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI4uivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4uivEXT(index: UInt32; v: IntPtr) :=
+    z_VertexAttribI4uivEXT_ovr_2(index, v);
+    
+    private z_VertexAttribI4bvEXT_adr := GetFuncAdr('glVertexAttribI4bvEXT');
+    private z_VertexAttribI4bvEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; var v: SByte)>(z_VertexAttribI4bvEXT_adr);
+    private z_VertexAttribI4bvEXT_ovr_0_anh001 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI4bvEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4bvEXT(index: UInt32; v: array of SByte) :=
+    if (v<>nil) and (v.Length<>0) then
+      z_VertexAttribI4bvEXT_ovr_0(index, v[0]) else
+      z_VertexAttribI4bvEXT_ovr_0_anh001(index, IntPtr.Zero);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4bvEXT(index: UInt32; var v: SByte) :=
+    z_VertexAttribI4bvEXT_ovr_0(index, v);
+    private z_VertexAttribI4bvEXT_ovr_2 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI4bvEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4bvEXT(index: UInt32; v: IntPtr) :=
+    z_VertexAttribI4bvEXT_ovr_2(index, v);
+    
+    private z_VertexAttribI4svEXT_adr := GetFuncAdr('glVertexAttribI4svEXT');
+    private z_VertexAttribI4svEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; var v: Int16)>(z_VertexAttribI4svEXT_adr);
+    private z_VertexAttribI4svEXT_ovr_0_anh001 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI4svEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4svEXT(index: UInt32; v: array of Int16) :=
+    if (v<>nil) and (v.Length<>0) then
+      z_VertexAttribI4svEXT_ovr_0(index, v[0]) else
+      z_VertexAttribI4svEXT_ovr_0_anh001(index, IntPtr.Zero);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4svEXT(index: UInt32; var v: Int16) :=
+    z_VertexAttribI4svEXT_ovr_0(index, v);
+    private z_VertexAttribI4svEXT_ovr_2 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI4svEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4svEXT(index: UInt32; v: IntPtr) :=
+    z_VertexAttribI4svEXT_ovr_2(index, v);
+    
+    private z_VertexAttribI4ubvEXT_adr := GetFuncAdr('glVertexAttribI4ubvEXT');
+    private z_VertexAttribI4ubvEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; var v: Byte)>(z_VertexAttribI4ubvEXT_adr);
+    private z_VertexAttribI4ubvEXT_ovr_0_anh001 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI4ubvEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4ubvEXT(index: UInt32; v: array of Byte) :=
+    if (v<>nil) and (v.Length<>0) then
+      z_VertexAttribI4ubvEXT_ovr_0(index, v[0]) else
+      z_VertexAttribI4ubvEXT_ovr_0_anh001(index, IntPtr.Zero);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4ubvEXT(index: UInt32; var v: Byte) :=
+    z_VertexAttribI4ubvEXT_ovr_0(index, v);
+    private z_VertexAttribI4ubvEXT_ovr_2 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI4ubvEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4ubvEXT(index: UInt32; v: IntPtr) :=
+    z_VertexAttribI4ubvEXT_ovr_2(index, v);
+    
+    private z_VertexAttribI4usvEXT_adr := GetFuncAdr('glVertexAttribI4usvEXT');
+    private z_VertexAttribI4usvEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; var v: UInt16)>(z_VertexAttribI4usvEXT_adr);
+    private z_VertexAttribI4usvEXT_ovr_0_anh001 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI4usvEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4usvEXT(index: UInt32; v: array of UInt16) :=
+    if (v<>nil) and (v.Length<>0) then
+      z_VertexAttribI4usvEXT_ovr_0(index, v[0]) else
+      z_VertexAttribI4usvEXT_ovr_0_anh001(index, IntPtr.Zero);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4usvEXT(index: UInt32; var v: UInt16) :=
+    z_VertexAttribI4usvEXT_ovr_0(index, v);
+    private z_VertexAttribI4usvEXT_ovr_2 := GetFuncOrNil&<procedure(index: UInt32; v: IntPtr)>(z_VertexAttribI4usvEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribI4usvEXT(index: UInt32; v: IntPtr) :=
+    z_VertexAttribI4usvEXT_ovr_2(index, v);
+    
+    private z_VertexAttribIPointerEXT_adr := GetFuncAdr('glVertexAttribIPointerEXT');
+    private z_VertexAttribIPointerEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; size: Int32; &type: VertexAttribIType; stride: Int32; pointer: IntPtr)>(z_VertexAttribIPointerEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure VertexAttribIPointerEXT(index: UInt32; size: Int32; &type: VertexAttribIType; stride: Int32; pointer: IntPtr) :=
+    z_VertexAttribIPointerEXT_ovr_0(index, size, &type, stride, pointer);
+    
+    private z_GetVertexAttribIivEXT_adr := GetFuncAdr('glGetVertexAttribIivEXT');
+    private z_GetVertexAttribIivEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; pname: VertexAttribEnum; var &params: Int32)>(z_GetVertexAttribIivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure GetVertexAttribIivEXT(index: UInt32; pname: VertexAttribEnum; var &params: Int32) :=
+    z_GetVertexAttribIivEXT_ovr_0(index, pname, &params);
+    private z_GetVertexAttribIivEXT_ovr_1 := GetFuncOrNil&<procedure(index: UInt32; pname: VertexAttribEnum; &params: IntPtr)>(z_GetVertexAttribIivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure GetVertexAttribIivEXT(index: UInt32; pname: VertexAttribEnum; &params: IntPtr) :=
+    z_GetVertexAttribIivEXT_ovr_1(index, pname, &params);
+    
+    private z_GetVertexAttribIuivEXT_adr := GetFuncAdr('glGetVertexAttribIuivEXT');
+    private z_GetVertexAttribIuivEXT_ovr_0 := GetFuncOrNil&<procedure(index: UInt32; pname: VertexAttribEnum; var &params: UInt32)>(z_GetVertexAttribIuivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure GetVertexAttribIuivEXT(index: UInt32; pname: VertexAttribEnum; var &params: UInt32) :=
+    z_GetVertexAttribIuivEXT_ovr_0(index, pname, &params);
+    private z_GetVertexAttribIuivEXT_ovr_1 := GetFuncOrNil&<procedure(index: UInt32; pname: VertexAttribEnum; &params: IntPtr)>(z_GetVertexAttribIuivEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure GetVertexAttribIuivEXT(index: UInt32; pname: VertexAttribEnum; &params: IntPtr) :=
+    z_GetVertexAttribIuivEXT_ovr_1(index, pname, &params);
+    
   end;
   
   [PCUNotRestore]
@@ -48077,23 +49728,23 @@ type
     z_GetMemoryObjectParameterivEXT_ovr_2(memoryObject, pname, &params);
     
     private z_TexStorageMem2DEXT_adr := GetFuncAdr('glTexStorageMem2DEXT');
-    private z_TexStorageMem2DEXT_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; memory: UInt32; offset: UInt64)>(z_TexStorageMem2DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorageMem2DEXT(target: TextureTarget; levels: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; memory: UInt32; offset: UInt64) :=
+    private z_TexStorageMem2DEXT_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; memory: UInt32; offset: UInt64)>(z_TexStorageMem2DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorageMem2DEXT(target: TextureTarget; levels: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; memory: UInt32; offset: UInt64) :=
     z_TexStorageMem2DEXT_ovr_0(target, levels, internalFormat, width, height, memory, offset);
     
     private z_TexStorageMem2DMultisampleEXT_adr := GetFuncAdr('glTexStorageMem2DMultisampleEXT');
-    private z_TexStorageMem2DMultisampleEXT_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; samples: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64)>(z_TexStorageMem2DMultisampleEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorageMem2DMultisampleEXT(target: TextureTarget; samples: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64) :=
+    private z_TexStorageMem2DMultisampleEXT_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; samples: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64)>(z_TexStorageMem2DMultisampleEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorageMem2DMultisampleEXT(target: TextureTarget; samples: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64) :=
     z_TexStorageMem2DMultisampleEXT_ovr_0(target, samples, internalFormat, width, height, fixedSampleLocations, memory, offset);
     
     private z_TexStorageMem3DEXT_adr := GetFuncAdr('glTexStorageMem3DEXT');
-    private z_TexStorageMem3DEXT_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; depth: Int32; memory: UInt32; offset: UInt64)>(z_TexStorageMem3DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorageMem3DEXT(target: TextureTarget; levels: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; depth: Int32; memory: UInt32; offset: UInt64) :=
+    private z_TexStorageMem3DEXT_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; memory: UInt32; offset: UInt64)>(z_TexStorageMem3DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorageMem3DEXT(target: TextureTarget; levels: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; memory: UInt32; offset: UInt64) :=
     z_TexStorageMem3DEXT_ovr_0(target, levels, internalFormat, width, height, depth, memory, offset);
     
     private z_TexStorageMem3DMultisampleEXT_adr := GetFuncAdr('glTexStorageMem3DMultisampleEXT');
-    private z_TexStorageMem3DMultisampleEXT_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; samples: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; depth: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64)>(z_TexStorageMem3DMultisampleEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorageMem3DMultisampleEXT(target: TextureTarget; samples: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; depth: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64) :=
+    private z_TexStorageMem3DMultisampleEXT_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; samples: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64)>(z_TexStorageMem3DMultisampleEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorageMem3DMultisampleEXT(target: TextureTarget; samples: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64) :=
     z_TexStorageMem3DMultisampleEXT_ovr_0(target, samples, internalFormat, width, height, depth, fixedSampleLocations, memory, offset);
     
     private z_BufferStorageMemEXT_adr := GetFuncAdr('glBufferStorageMemEXT');
@@ -48102,23 +49753,23 @@ type
     z_BufferStorageMemEXT_ovr_0(target, size, memory, offset);
     
     private z_TextureStorageMem2DEXT_adr := GetFuncAdr('glTextureStorageMem2DEXT');
-    private z_TextureStorageMem2DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; memory: UInt32; offset: UInt64)>(z_TextureStorageMem2DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorageMem2DEXT(texture: gl_texture; levels: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; memory: UInt32; offset: UInt64) :=
+    private z_TextureStorageMem2DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; memory: UInt32; offset: UInt64)>(z_TextureStorageMem2DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorageMem2DEXT(texture: gl_texture; levels: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; memory: UInt32; offset: UInt64) :=
     z_TextureStorageMem2DEXT_ovr_0(texture, levels, internalFormat, width, height, memory, offset);
     
     private z_TextureStorageMem2DMultisampleEXT_adr := GetFuncAdr('glTextureStorageMem2DMultisampleEXT');
-    private z_TextureStorageMem2DMultisampleEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; samples: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64)>(z_TextureStorageMem2DMultisampleEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorageMem2DMultisampleEXT(texture: gl_texture; samples: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64) :=
+    private z_TextureStorageMem2DMultisampleEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; samples: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64)>(z_TextureStorageMem2DMultisampleEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorageMem2DMultisampleEXT(texture: gl_texture; samples: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64) :=
     z_TextureStorageMem2DMultisampleEXT_ovr_0(texture, samples, internalFormat, width, height, fixedSampleLocations, memory, offset);
     
     private z_TextureStorageMem3DEXT_adr := GetFuncAdr('glTextureStorageMem3DEXT');
-    private z_TextureStorageMem3DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; depth: Int32; memory: UInt32; offset: UInt64)>(z_TextureStorageMem3DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorageMem3DEXT(texture: gl_texture; levels: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; depth: Int32; memory: UInt32; offset: UInt64) :=
+    private z_TextureStorageMem3DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; memory: UInt32; offset: UInt64)>(z_TextureStorageMem3DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorageMem3DEXT(texture: gl_texture; levels: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; memory: UInt32; offset: UInt64) :=
     z_TextureStorageMem3DEXT_ovr_0(texture, levels, internalFormat, width, height, depth, memory, offset);
     
     private z_TextureStorageMem3DMultisampleEXT_adr := GetFuncAdr('glTextureStorageMem3DMultisampleEXT');
-    private z_TextureStorageMem3DMultisampleEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; samples: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; depth: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64)>(z_TextureStorageMem3DMultisampleEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorageMem3DMultisampleEXT(texture: gl_texture; samples: Int32; internalFormat: DummyEnum; width: Int32; height: Int32; depth: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64) :=
+    private z_TextureStorageMem3DMultisampleEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; samples: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64)>(z_TextureStorageMem3DMultisampleEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorageMem3DMultisampleEXT(texture: gl_texture; samples: Int32; internalFormat: SizedInternalFormat; width: Int32; height: Int32; depth: Int32; fixedSampleLocations: boolean; memory: UInt32; offset: UInt64) :=
     z_TextureStorageMem3DMultisampleEXT_ovr_0(texture, samples, internalFormat, width, height, depth, fixedSampleLocations, memory, offset);
     
     private z_NamedBufferStorageMemEXT_adr := GetFuncAdr('glNamedBufferStorageMemEXT');
@@ -48127,13 +49778,13 @@ type
     z_NamedBufferStorageMemEXT_ovr_0(buffer, size, memory, offset);
     
     private z_TexStorageMem1DEXT_adr := GetFuncAdr('glTexStorageMem1DEXT');
-    private z_TexStorageMem1DEXT_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; internalFormat: DummyEnum; width: Int32; memory: UInt32; offset: UInt64)>(z_TexStorageMem1DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorageMem1DEXT(target: TextureTarget; levels: Int32; internalFormat: DummyEnum; width: Int32; memory: UInt32; offset: UInt64) :=
+    private z_TexStorageMem1DEXT_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; levels: Int32; internalFormat: SizedInternalFormat; width: Int32; memory: UInt32; offset: UInt64)>(z_TexStorageMem1DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexStorageMem1DEXT(target: TextureTarget; levels: Int32; internalFormat: SizedInternalFormat; width: Int32; memory: UInt32; offset: UInt64) :=
     z_TexStorageMem1DEXT_ovr_0(target, levels, internalFormat, width, memory, offset);
     
     private z_TextureStorageMem1DEXT_adr := GetFuncAdr('glTextureStorageMem1DEXT');
-    private z_TextureStorageMem1DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; internalFormat: DummyEnum; width: Int32; memory: UInt32; offset: UInt64)>(z_TextureStorageMem1DEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorageMem1DEXT(texture: gl_texture; levels: Int32; internalFormat: DummyEnum; width: Int32; memory: UInt32; offset: UInt64) :=
+    private z_TextureStorageMem1DEXT_ovr_0 := GetFuncOrNil&<procedure(texture: gl_texture; levels: Int32; internalFormat: SizedInternalFormat; width: Int32; memory: UInt32; offset: UInt64)>(z_TextureStorageMem1DEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TextureStorageMem1DEXT(texture: gl_texture; levels: Int32; internalFormat: SizedInternalFormat; width: Int32; memory: UInt32; offset: UInt64) :=
     z_TextureStorageMem1DEXT_ovr_0(texture, levels, internalFormat, width, memory, offset);
     
   end;
@@ -49343,9 +50994,9 @@ type
     public const _ExtStr = 'EXT_texture_buffer_object';
     
     private z_TexBufferEXT_adr := GetFuncAdr('glTexBufferEXT');
-    private z_TexBufferEXT_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer)>(z_TexBufferEXT_adr);
-    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexBufferEXT(target: TextureTarget; _internalformat: InternalFormat; buffer: gl_buffer) :=
-    z_TexBufferEXT_ovr_0(target, _internalformat, buffer);
+    private z_TexBufferEXT_ovr_0 := GetFuncOrNil&<procedure(target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer)>(z_TexBufferEXT_adr);
+    public [MethodImpl(MethodImplOptions.AggressiveInlining)] procedure TexBufferEXT(target: TextureTarget; internalformat: SizedInternalFormat; buffer: gl_buffer) :=
+    z_TexBufferEXT_ovr_0(target, internalformat, buffer);
     
   end;
   

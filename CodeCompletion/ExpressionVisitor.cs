@@ -792,6 +792,13 @@ namespace CodeCompletion
             return null;
         }
 
+        public SymScope CheckForAccess(ElementScope ss, ProcScope es)
+        {
+            if (es.acc_mod == access_modifer.protected_modifer)
+                if (es.topScope is TypeScope && CheckForBaseAccess(entry_scope, es.topScope)) return es;
+            return null;
+        }
+
         public SymScope CheckForAccess(TypeScope ss, ElementScope es)
         {
             if (es.acc_mod == access_modifer.none || es.acc_mod == access_modifer.public_modifer || es.acc_mod == access_modifer.published_modifer || es.acc_mod == access_modifer.internal_modifer)
@@ -942,6 +949,12 @@ namespace CodeCompletion
                             //if (ret_names[i] != null)
                             //ret_names[i] = ((ret_names[i] as ElementScope).sc as ProcType).target;
                         }
+                        else if (returned_scopes[i] is ProcScope && (returned_scopes[i] as ProcScope).acc_mod == access_modifer.protected_modifer)
+                        {
+                            returned_scopes[i] = CheckForAccess(left_scope as ElementScope, returned_scopes[i] as ProcScope);
+                            //if (ret_names[i] != null)
+                            //ret_names[i] = ((ret_names[i] as ElementScope).sc as ProcType).target;
+                        }
                         else if (left_scope is ElementScope && returned_scopes[i] is ProcScope && (returned_scopes[i] as ProcScope).IsStatic)
                         {
                             returned_scopes[i] = null;
@@ -1025,13 +1038,13 @@ namespace CodeCompletion
                 if (meths[i] is ProcScope)
                 {
                     if (DomSyntaxTreeVisitor.is_good_overload(meths[i] as ProcScope, arg_types))
-                        if (!meths[i].si.not_include || by_dot)
+                        if (!meths[i].si.not_include || by_dot || mouse_hover && meths[i].loc == null)
                             good_procs.Add(meths[i] as ProcScope);
                 }
                 else if (meths[i] is ProcType)
                 {
                     if (DomSyntaxTreeVisitor.is_good_overload((meths[i] as ProcType).target, arg_types))
-                        if (!meths[i].si.not_include || by_dot)
+                        if (!meths[i].si.not_include || by_dot || mouse_hover && meths[i].loc == null)
                             good_procs.Add((meths[i] as ProcType).target);
                 }
             }

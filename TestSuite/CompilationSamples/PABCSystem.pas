@@ -5,7 +5,7 @@
 /// !! System unit
 unit PABCSystem;
 
-{$string_nullbased-}
+{$zerobasedstrings off}
 
 {$gendoc true}
 
@@ -266,6 +266,12 @@ type
 
   /// Представляет тип короткой строки фиксированной длины 255 символов
   ShortString = string[255];
+  
+  // Атрибут для кеширования результатов функции
+  CacheAttribute = class(System.Attribute) 
+    public constructor Create; 
+    begin end;
+  end;
   
 //{{{--doc: Конец секции стандартных типов для документации }}} 
   
@@ -814,6 +820,11 @@ type
         Result := str.Length - IndexValue + 1;
       end;
       
+      function Reverse0(str: string): integer;
+      begin
+        Result := str.Length - IndexValue;
+      end;
+
       function Reverse(arr: System.Array; dim: integer): integer;
       begin
         Result := arr.GetLength(dim) - IndexValue;
@@ -2123,16 +2134,24 @@ procedure Sort<T>(a: array of T);
 procedure Sort<T>(a: array of T; cmp: (T,T)->integer);
 /// Сортирует динамический массив по критерию сортировки, задаваемому функцией сравнения less
 procedure Sort<T>(a: array of T; less: (T,T)->boolean);
+/// Сортирует динамический массив по ключу
+procedure Sort<T,T1>(var a: array of T; keySelector: T->T1);
 /// Сортирует список по возрастанию
 procedure Sort<T>(l: List<T>);
 /// Сортирует список по критерию сортировки, задаваемому функцией сравнения cmp
 procedure Sort<T>(l: List<T>; cmp: (T,T)->integer);
 /// Сортирует список по критерию сортировки, задаваемому функцией сравнения less
 procedure Sort<T>(l: List<T>; less: (T,T)->boolean);
+/// Сортирует список по возрастанию по ключу
+procedure Sort<T,T1>(var l: List<T>; keySelector: T->T1);
 /// Сортирует динамический массив по убыванию
 procedure SortDescending<T>(a: array of T);
+/// Сортирует динамический массив по убыванию по ключу
+procedure SortDescending<T,T1>(var a: array of T; keySelector: T->T1);
 /// Сортирует список по убыванию
 procedure SortDescending<T>(l: List<T>);
+/// Сортирует список по убыванию по ключу
+procedure SortDescending<T,T1>(var l: List<T>; keySelector: T->T1);
 /// Изменяет порядок элементов в динамическом массиве на противоположный
 procedure Reverse<T>(a: array of T);
 /// Изменяет порядок элементов на противоположный в диапазоне динамического массива длины count, начиная с индекса index
@@ -7928,6 +7947,7 @@ begin
   Result := System.IO.File.Exists(name);
 end;
 
+[System.Diagnostics.Conditional('DEBUG')]
 procedure Assert(cond: boolean; sourceFile: string; line: integer);
 begin
   if (Environment.OSVersion.Platform = PlatformID.Unix) or (Environment.OSVersion.Platform = PlatformID.MacOSX) or IsWDE then
@@ -7953,6 +7973,7 @@ begin
     System.Diagnostics.Contracts.Contract.Assert(cond,'Файл '+sourceFile+', строка '+line.ToString())
 end;
 
+[System.Diagnostics.Conditional('DEBUG')]
 procedure Assert(cond: boolean; message: string; sourceFile: string; line: integer);
 begin
   if (Environment.OSVersion.Platform = PlatformID.Unix) or (Environment.OSVersion.Platform = PlatformID.MacOSX) or IsWDE then
@@ -8585,9 +8606,19 @@ begin
   System.Array.Sort(a, (x, y)-> less(x, y) ? -1 : (less(y, x) ? 1 : 0));
 end;
 
+procedure Sort<T,T1>(var a: array of T; keySelector: T->T1);
+begin
+  a := a.OrderBy(x->keySelector(x)).ToArray;
+end;
+
 procedure Sort<T>(l: List<T>);
 begin
   l.Sort();
+end;
+
+procedure Sort<T,T1>(var l: List<T>; keySelector: T->T1);
+begin
+  l := l.OrderBy(x->keySelector(x)).ToList;
 end;
 
 procedure Sort<T>(l: List<T>; cmp: (T,T)->integer);
@@ -8606,10 +8637,20 @@ begin
   Reverse(a);
 end;
 
+procedure SortDescending<T,T1>(var a: array of T; keySelector: T->T1);
+begin
+  a := a.OrderByDescending(x->keySelector(x)).ToArray;
+end;
+
 procedure SortDescending<T>(l: List<T>);
 begin
   Sort(l);
   Reverse(l);
+end;
+
+procedure SortDescending<T,T1>(var l: List<T>; keySelector: T->T1);
+begin
+  l := l.OrderByDescending(x->keySelector(x)).ToList;
 end;
 
 procedure Reverse<T>(a: array of T);
@@ -9857,6 +9898,39 @@ begin
     Result *= f(x);
 end;
 
+/// Возвращает последовательность частичных сумм элементов последовательности
+function PartialSum(Self: sequence of integer): sequence of integer; extensionmethod;
+begin
+ var s := 0;
+ foreach var item in Self do
+ begin
+   s += item;
+   yield s;
+ end;
+end;
+
+/// Возвращает последовательность частичных сумм элементов последовательности
+function PartialSum(Self: sequence of real): sequence of real; extensionmethod;
+begin
+ var s := 0.0;
+ foreach var item in Self do
+ begin
+   s += item;
+   yield s;
+ end;
+end;
+
+/// Возвращает последовательность частичных сумм элементов последовательности
+function PartialSum(Self: sequence of BigInteger): sequence of BigInteger; extensionmethod;
+begin
+ var s := 0bi;
+ foreach var item in Self do
+ begin
+   s += item;
+   yield s;
+ end;
+end;
+
 /// Возвращает сумму элементов последовательности, спроектированных на числовое значение - пока не работает для Lst(1,2,3)
 {function Sum<T>(Self: sequence of T; f: T->BigInteger): BigInteger; extensionmethod;
 begin
@@ -10216,13 +10290,15 @@ begin
   var previous: T;
   var it := Self.GetEnumerator();
   if (it.MoveNext()) then
+  begin  
     previous := it.Current;
   
-  while (it.MoveNext()) do
-  begin
-    yield (previous, it.Current);
-    previous := it.Current;
-  end
+    while (it.MoveNext()) do
+    begin
+      yield (previous, it.Current);
+      previous := it.Current;
+    end;
+  end;
 end;
 
 /// Превращает последовательность в последовательность n-ок соседних элементов
@@ -10246,13 +10322,15 @@ begin
   var previous: T;
   var it := Self.GetEnumerator();
   if (it.MoveNext()) then
+  begin  
     previous := it.Current;
   
-  while (it.MoveNext()) do
-  begin
-    yield func(previous, it.Current);
-    previous := it.Current;
-  end
+    while (it.MoveNext()) do
+    begin
+      yield func(previous, it.Current);
+      previous := it.Current;
+    end;
+  end;
   //  Result := Self.ZipTuple(Self.Skip(1)).Select(x->func(x[0],x[1]));
 end;
 
@@ -11797,10 +11875,31 @@ begin
   System.Array.Sort(Self);  
 end;
 
+/// Сортирует массив по убыванию
+procedure SortDescending<T>(Self: array of T); extensionmethod;
+begin
+  System.Array.Sort(Self);
+  Reverse(Self);
+end;
+
 /// Сортирует массив по возрастанию, используя cmp в качестве функции сравнения элементов
 procedure Sort<T>(Self: array of T; cmp: (T,T) ->integer); extensionmethod;
 begin
   System.Array.Sort(Self, cmp);  
+end;
+
+/// Сортирует массив по возрастанию по ключу
+procedure Sort<T,T1>(Self: array of T; keySelector: T -> T1); extensionmethod;
+begin
+  var a := Self.OrderBy(keySelector).ToArray;
+  System.Array.Copy(a,Self,a.Length);
+end;
+
+/// Сортирует массив по убыванию по ключу
+procedure SortDescending<T,T1>(Self: array of T; keySelector: T -> T1); extensionmethod;
+begin
+  var a := Self.OrderByDescending(keySelector).ToArray;
+  System.Array.Copy(a,Self,a.Length);
 end;
 
 /// Возвращает индекс последнего элемента массива
@@ -12810,7 +12909,7 @@ end;
 
 procedure PassSpaces(var s: string; var from: integer); 
 begin
-  while (from <= s.Length) and (s[from]=' ') do
+  while (from <= s.Length) and char.IsWhiteSpace(s[from]) do
     from += 1;
 end;
 
@@ -13026,7 +13125,7 @@ end;
 ///--
 function SystemSlice0(Self: string; situation: integer; from, &to: integer; step: integer := 1): string; extensionmethod;
 begin
-  Result := SystemSliceStringImpl(Self, situation, from, &to, step, 0); // 0 - NullBased
+  Result := SystemSliceStringImpl(Self, situation, from, &to, step, 0); // 0 - ZeroBased
 end;
 
 ///--
@@ -14006,8 +14105,11 @@ procedure __InitModule;
 begin
   try
     DefaultEncoding := Encoding.GetEncoding(1251);
+    if (System.Environment.OSVersion.Version.Major >= 6) and (System.Environment.OSVersion.Version.Minor >= 2) then
+      System.Console.OutputEncoding := Encoding.UTF8;
   except
-    DefaultEncoding := Encoding.UTF8;
+    //DefaultEncoding := Encoding.UTF8;
+    DefaultEncoding := new System.Text.UTF8Encoding(false)
   end;
   rnd := new System.Random;
   

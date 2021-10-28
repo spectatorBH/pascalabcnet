@@ -154,7 +154,7 @@
 %type <td> set_type  
 %type <ex> as_is_expr as_is_constexpr is_type_expr as_expr power_expr power_constexpr
 %type <td> unsized_array_type simple_type_or_ simple_type simple_type_question/*array_name_for_new_expr*/ foreach_stmt_ident_dype_opt fptype type_ref fptype_noproctype array_type 
-%type <td> template_param template_empty_param structured_type unpacked_structured_type empty_template_type_reference simple_or_template_type_reference type_ref_or_secific for_stmt_decl_or_assign type_decl_type
+%type <td> template_param template_empty_param structured_type unpacked_structured_type empty_template_type_reference simple_or_template_type_reference simple_or_template_or_question_type_reference type_ref_or_secific for_stmt_decl_or_assign type_decl_type
 %type <stn> type_ref_and_secific_list  
 %type <stn> type_decl_sect
 %type <stn> try_handler  
@@ -419,13 +419,19 @@ used_unit_name
     ;
 
 unit_file
-    : attribute_declarations unit_header interface_part implementation_part initialization_part tkPoint
+    : 
+    //attribute_declarations 
+    unit_header interface_part implementation_part initialization_part tkPoint
         { 
-			$$ = new unit_module($2 as unit_name, $3 as interface_node, $4 as implementation_node, ($5 as initfinal_part).initialization_sect, ($5 as initfinal_part).finalization_sect, $1 as attribute_list, @$);                    
+			$$ = new unit_module($1 as unit_name, $2 as interface_node, $3 as implementation_node, 
+			  ($4 as initfinal_part).initialization_sect, ($4 as initfinal_part).finalization_sect, /*$1 as attribute_list*/ null, @$);                    
 		}
-    | attribute_declarations unit_header abc_interface_part initialization_part tkPoint
+    | 
+    //attribute_declarations 
+    unit_header abc_interface_part initialization_part tkPoint
         { 
-			$$ = new unit_module($2 as unit_name, $3 as interface_node, null, ($4 as initfinal_part).initialization_sect, ($4 as initfinal_part).finalization_sect, $1 as attribute_list, @$);
+			$$ = new unit_module($1 as unit_name, $2 as interface_node, null, 
+			  ($3 as initfinal_part).initialization_sect, ($3 as initfinal_part).finalization_sect, /*$1 as attribute_list*/ null, @$);
         }
     ;
 
@@ -533,16 +539,17 @@ decl_sect_list_proc_func_only
 			if (GlobalDecls==null) 
 				GlobalDecls = $$ as declarations;
 		}
-	| decl_sect_list_proc_func_only proc_func_decl_noclass
+	| decl_sect_list_proc_func_only attribute_declarations proc_func_decl_noclass
 		{
 			var dcl = $1 as declarations;
+			($3 as procedure_definition).AssignAttrList($2 as attribute_list);
 			if (dcl.Count == 0)			
-				$$ = dcl.Add($2 as declaration, @2);
+				$$ = dcl.Add($3 as declaration, @3);
 			else
 			{
 				var sc = dcl.source_context;
-				sc = sc.Merge($2.source_context);
-				$$ = dcl.Add($2 as declaration, @2);
+				sc = sc.Merge($3.source_context);
+				$$ = dcl.Add($3 as declaration, @3);
 				$$.source_context = sc;			
 			}
 		}		
@@ -2415,10 +2422,10 @@ proc_func_decl_noclass
 			$$ = new procedure_definition($1 as procedure_header, null, @$);
             ($$ as procedure_definition).proc_header.proc_attributes.Add((procedure_attribute)$2, $2.source_context);
 		}
-	| tkConst const_decl                       
-        { 
-			$$ = new consts_definitions_list($2 as const_definition, @$);
-		}
+	//| tkConst const_decl                       
+    //    { 
+	//		$$ = new consts_definitions_list($2 as const_definition, @$);
+	//	}
     ;
 
 inclass_proc_func_decl
@@ -3361,6 +3368,17 @@ simple_or_template_type_reference
         }
     ;
 
+simple_or_template_or_question_type_reference
+	: simple_or_template_type_reference
+		{
+			$$ = $1;
+		}
+	| simple_type_question
+		{
+			$$ = $1;
+		}
+	;	
+
 optional_array_initializer
     : tkRoundOpen typed_const_list tkRoundClose
         { 
@@ -3467,11 +3485,17 @@ relop_expr
 		{ $$ = $1; }
     | relop_expr relop simple_expr
         { 
-			$$ = new bin_expr($1, $3, $2.type, @$); 
+        	if ($2.type == Operators.NotIn)
+        		$$ = new un_expr(new bin_expr($1, $3, Operators.In, @$),Operators.LogicalNOT,@$);
+        	else	
+				$$ = new bin_expr($1, $3, $2.type, @$); 
 		}
     | relop_expr relop new_question_expr
         { 
-			$$ = new bin_expr($1, $3, $2.type, @$); 
+        	if ($2.type == Operators.NotIn)
+        		$$ = new un_expr(new bin_expr($1, $3, Operators.In, @$),Operators.LogicalNOT,@$);
+        	else	
+				$$ = new bin_expr($1, $3, $2.type, @$); 
 		}
     | is_type_expr tkRoundOpen pattern_out_param_list tkRoundClose
         {
@@ -3879,6 +3903,16 @@ relop
 		{ $$ = $1; }
     | tkIn
 		{ $$ = $1; }
+    | tkNot tkIn
+		{ 
+			if (parsertools.build_tree_for_formatter)
+				$$ = $2;
+			else
+			{
+				$$ = $2;	
+				$$.type = Operators.NotIn;
+			}				
+		}
     ;
 
 simple_expr                                                    
@@ -4003,7 +4037,7 @@ mulop
     ;
 
 default_expr
-    :  tkDefault tkRoundOpen simple_or_template_type_reference tkRoundClose
+    :  tkDefault tkRoundOpen simple_or_template_or_question_type_reference tkRoundClose
         { 
 			$$ = new default_operator($3 as named_type_reference, @$);  
 		}

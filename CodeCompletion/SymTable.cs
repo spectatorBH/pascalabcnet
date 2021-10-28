@@ -5698,7 +5698,7 @@ namespace CodeCompletion
                             if (this.instances[i].original_type == null && !(this.instances[i].elementType is TemplateParameterScope))
                             {
                                 if (exact)
-                                    sc.instances.Add(gen_args[i]);
+                                    sc.instances.Add(gen_args[Math.Min(i, gen_args.Count - 1)]);
                                 else
                                     sc.instances.Add(this.instances[i]);
                             }
@@ -6741,6 +6741,12 @@ namespace CodeCompletion
                     else
                         return names;
                 }
+            }
+            if (sil.Count > 1 && sil[0].sym_info.semantic_node_type != semantic_node_type.compiled_function_node && sil[0].sym_info.semantic_node_type != semantic_node_type.compiled_constructor_node)
+            {
+                var si = sil[0];
+                sil.Remove(sil[0]);
+                sil.Add(si);
             }
             switch (sil.FirstOrDefault().sym_info.semantic_node_type)
             {
