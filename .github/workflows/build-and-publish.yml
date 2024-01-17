@@ -1,14 +1,11 @@
-name: Build & Publish (release)
+name: Build / Test / Publish on Windows [manual + auto]
 
 on:
   workflow_dispatch:
   push:
     branches:
       - test
-  release:
-    types:
-      - created
-
+ 
 defaults:
   run:
     shell: cmd
@@ -24,44 +21,45 @@ jobs:
     - name: Install dependencies into Virtual Environment...
       run: _RegisterHelixNUnit.bat
 
-    - name: Build project in Release-mode, compile Pas-units, create install packages...
+    - name: Build project in release-mode, compile Pas-units, create install packages...
       run: _GenerateAllSetups.bat
-      timeout-minutes: 45
+      #run: _RebuildReleaseAndRunTestsForGitHubActions.bat
+      timeout-minutes: 40
       env:
         PABCNET_BUILD_MODE: Release
         PABCNET_RUN_TESTS:  false
         PABCNET_INC_BUILD:  false
         PABCNET_VERBOSE:    false
 
-    - name: Publish artifacts (1/4)...
+    - name: Publish artifact 1/4 [Win7_IDE_Full]
       uses: actions/upload-artifact@v4
       with:
         name: PascalABCNET_Win7_IDE_Full
         path: Release/PascalABCNETSetup.exe
         if-no-files-found: error
 
-    - name: Publish artifacts (2/4)...
+    - name: Publish artifact 2/4 [Win7_IDE_Mini]
       uses: actions/upload-artifact@v4
       with:
         name: PascalABCNET_Win7_IDE_Mini
         path: Release/PascalABCNETMiniSetup.exe
         if-no-files-found: error
 
-    - name: Publish artifacts (3/4)...
+    - name: Publish artifact 3/4 [WinXP_IDE_Full]
       uses: actions/upload-artifact@v4
       with:
         name: PascalABCNET_WinXP_IDE_Full
         path: Release/PascalABCNETWithDotNet40Setup.exe
         if-no-files-found: error
 
-    - name: Publish artifacts (4/4)...
+    - name: Publish artifact 4/4 [Win_Mac_Linux_console]
       uses: actions/upload-artifact@v4
       with:
         name: PascalABCNET_Win_Mac_Linux_console
         path: Release/PABCNETC.zip
         if-no-files-found: error
 
-    #- name: Publish artifacts (5/5)...
+    #- name: Publish artifact 5/5 [All_distros]
     #  uses: actions/upload-artifact@v4
     #  with:
     #    name: All_distros
