@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Build project in Release-mode / compile Pas-units / run tests
+    - name: Build C# project in release-mode / compile Pas-units / run tests
       run: ./_RebuildReleaseAndRunTests.sh
       timeout-minutes: 40
       env:

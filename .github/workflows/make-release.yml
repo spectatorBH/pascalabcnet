@@ -19,7 +19,7 @@ defaults:
 jobs:
     build:
     
-        name: Prepare and build on Windows Server 2019 VM
+        name: Prepare and build on Windows Server VM (2019)
         runs-on: windows-2019
         steps:
             - uses: actions/checkout@v4
@@ -38,7 +38,7 @@ jobs:
             - name: Install dependencies into Virtual Environment
               run: _RegisterHelixNUnit.bat
             
-            - name: Build C# project in Release-mode / compile Pas-units / run tests
+            - name: Build C# project in release-mode / compile Pas-units / run tests
               run: _GenerateAllSetupsForGitHubActions.bat
               timeout-minutes: 40
               env:
