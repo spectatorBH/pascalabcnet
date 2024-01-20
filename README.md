@@ -1,4 +1,7 @@
-[![Build & Test (Debug)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-test-and-publish.yml/badge.svg)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-test-and-publish.yml) [![Build & Publish (release)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-and-publish.yml/badge.svg)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-and-publish.yml)
+[![Build & Test (Linux)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-and-run-tests-linux.yml/badge.svg)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-and-run-tests-linux.yml) 
+[![Build & Publish (Windows)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-and-publish.yml/badge.svg)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-and-publish.yml) 
+[![Auto-Sync and Build Nightly Release (Windows)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/make-release.yml/badge.svg)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/make-release.yml)
+
 
 ## Building PascalABC.NET in Windows
 ***Run _RegisterHelix.bat on first use to install the HelixToolkit.dll and HelixToolkit.Wpf.dll in GAC***
