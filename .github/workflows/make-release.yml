@@ -47,7 +47,7 @@ jobs:
                 PABCNET_INC_BUILD:  false
                 PABCNET_VERBOSE:    false
             
-            - name: Prepare GitHub scripting module
+            - name: Prepare GitHub extra scripting packages
               run: npm install @actions/exec
             
             - name: Create GitHub Release
@@ -55,7 +55,7 @@ jobs:
               with:
                 script: |
                 
-                    const tag = "nightly-release-tag"; // Git tag name (preferably different from branch name)
+                    const tag = "test-nightly-release"; // Git tag name (preferably different from branch name)
                     const release_name = "Nightly build (upstream synced)"; // GitHub release display name
                     const mark_pre_release = true;
                     
@@ -80,7 +80,7 @@ jobs:
                     const existingReleases = await github.rest.repos.listReleases({ owner, repo });
                     for (const existingRelease of existingReleases.data) {
                         if (existingRelease.tag_name === tag) {
-                            console.log('deleing old release', { existingRelease });
+                            console.log('deleting old release', { existingRelease });
                             await github.rest.repos.deleteRelease({
                                 owner,
                                 repo,
@@ -126,8 +126,7 @@ jobs:
                             });
                         } catch (error) {
                             console.error(`Error uploading: ${error}`);
-                        }
-                        
+                        }                
                     }
                     
                     if (release.data.draft) {
