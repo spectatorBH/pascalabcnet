@@ -55,7 +55,7 @@ jobs:
               with:
                 script: |
                 
-                    const tag = "test-nightly-release"; // Git tag name (preferably different from branch name)
+                    const tag = "nightly-build-synced"; // Git tag name (preferably different from branch name)
                     const release_name = "Nightly build (upstream synced)"; // GitHub release display name
                     const mark_pre_release = true;
                     
