@@ -1,6 +1,6 @@
 [![Build & Test (Linux)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-and-run-tests-linux.yml/badge.svg)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-and-run-tests-linux.yml) 
 [![Build & Publish (Windows)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-and-publish.yml/badge.svg)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-and-publish.yml) 
-[![Auto-Sync and Build Nightly Release (Windows)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/make-release.yml/badge.svg)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/make-release.yml)
+[![Auto-Sync and Build Nightly (Windows)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-nightly.yml/badge.svg)](https://github.com/spectatorBH/pascalabcnet/actions/workflows/build-nightly.yml)
 
 
 ## Building PascalABC.NET in Windows
