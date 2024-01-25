@@ -1,4 +1,4 @@
-name: Build/Test/Publish on Windows [CI + manual]
+name: Build / Test / Publish on Windows [manual + CI]
 
 on:
   workflow_dispatch:
