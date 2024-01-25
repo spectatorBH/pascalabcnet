@@ -1,4 +1,4 @@
-name: Pull upstream / Make a nightly release on Windows [manual + cron]
+name: Pull upstream / Make a nightly build on Win [manual + cron]
 
 on:
     workflow_dispatch:
@@ -29,8 +29,8 @@ jobs:
             - name: Pull changes from original repo
               run: |
             
-                git config --global user.name "BH build bot"
-                git config --global user.email "SpectatorBH@outlook.com"
+                git config --global user.name "BH_build_bot"
+                git config --global user.email "spectatorBH@outlook.com"
                 
                 git pull https://github.com/pascalabcnet/pascalabcnet.git master
                 git push
@@ -50,7 +50,7 @@ jobs:
             - name: Prepare GitHub extra scripting packages
               run: npm install @actions/exec
             
-            - name: Create GitHub Release
+            - name: Create GitHub pre-Release
               uses: actions/github-script@main
               with:
                 script: |
@@ -113,7 +113,7 @@ jobs:
                     console.log('created release', { release });
                     
                     const fs = require('fs').promises;
-                    for (let file of await fs.readdir('Release')) {
+                    for (let file of await fs.readDir('Release')) {
                         console.log('uploading', file);
                         if (file.startsWith('.')) continue;
                         
