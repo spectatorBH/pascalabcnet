@@ -1,4 +1,4 @@
-name: Pull upstream / Make a nightly build on Win [manual + cron]
+name: Pull upstream / Make a nightly build on Win [cron + manual]
 
 on:
     workflow_dispatch:
