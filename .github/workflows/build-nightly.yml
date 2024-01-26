@@ -113,7 +113,7 @@ jobs:
                     console.log('created release', { release });
                     
                     const fs = require('fs').promises;
-                    for (let file of await fs.readDir('Release')) {
+                    for (let file of await fs.readdir('Release')) {
                         console.log('uploading', file);
                         if (file.startsWith('.')) continue;
                         
