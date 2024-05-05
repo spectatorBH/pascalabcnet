@@ -4477,7 +4477,7 @@ type
           
           if not enmr_has_next then break;
         end;
-        res.Write( if is_set then ']' else ']' );
+        res.Write( if is_set then '}' else ']' );
         exit;
       end;
       
@@ -4550,10 +4550,10 @@ begin
     exit;
   end;
   
-  if t.GetInterfaces.Contains(typeof(System.Collections.IEnumerable)) then
+  if t.GetInterfaces.Append(t).Contains(typeof(System.Collections.IEnumerable)) then
   begin
-    var typed := t.GetInterfaces.FirstOrDefault(intr->intr.IsGenericType and (intr.GetGenericTypeDefinition=typeof(IEnumerable<>)));
-    if (typed<>nil) and (
+    var typed := t.GetInterfaces.Append(t).FirstOrDefault(intr->intr.IsGenericType and (intr.GetGenericTypeDefinition=typeof(IEnumerable<>)));
+    if (t=typed) or (typed<>nil) and (
       // Выводим как sequence только классы, созданные yield функцией
       // "clyield#" это yield класс паскаля
       t.Name.StartsWith('clyield#') or
@@ -4567,17 +4567,37 @@ begin
     end;
   end;
   
+  var gen_args := t.GetGenericArguments;
+  
+  //TODO t.IsClass, чтобы ValueTuple пока что не ловило
+  if t.GetInterfaces.Contains(typeof(System.Runtime.CompilerServices.ITuple)) and t.IsClass then
+  begin
+    res.Write('(');
+    var any_gen_arg := false;
+    foreach var arg in gen_args do
+    begin
+      if any_gen_arg then
+        res.Write(', ') else
+        any_gen_arg := true;
+      TypeToTypeName(arg, res);
+    end;
+    res.Write(')');
+    exit;
+  end;
+  
   var name := t.Name;
   
   if t.IsSubclassOf(typeof(Delegate)) then
   begin
     var mi := t.GetMethod('Invoke');
-    if mi=nil then raise new NotImplementedException;
-    ObjectToStringUtils.MethodToString(mi, false, res);
-    exit;
+    // nil for System.MulticastDelegate
+    if mi<>nil then
+    begin
+      ObjectToStringUtils.MethodToString(mi, false, res);
+      exit;
+    end;
   end;
   
-  var gen_args := t.GetGenericArguments;
   // "Lst(0).GetEnumerator.GetType.DeclaringType" возвращает List<T>, а не List<integer>
   // При чём этот T.IsNested возвращает true, хотя это параметр а не вложенный тип
   if t.IsNested and not t.IsGenericParameter then
