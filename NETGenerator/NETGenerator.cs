@@ -1755,7 +1755,18 @@ namespace PascalABCCompiler.NETGenerator
         private void AddTypeWithoutConvert(ICommonTypeNode t)
         {
             if (helper.GetTypeReference(t) != null) return;
-            TypeBuilder tb = mb.DefineType(BuildTypeName(t.name), ConvertAttributes(t), t.is_value_type?TypeFactory.ValueType:null, new Type[0]);
+            TypeBuilder tb = null; 
+            try
+            {
+                tb = mb.DefineType(BuildTypeName(t.name), ConvertAttributes(t), t.is_value_type ? TypeFactory.ValueType : null, new Type[0]);
+            }
+            catch (ArgumentException ex)
+            {
+                if (ex.Message.IndexOf("fullname") != -1)
+                    throw new PascalABCCompiler.Errors.CommonCompilerError(ex.Message.Replace("System.ArgumentException: ", ""), t.Location.document.file_name, t.Location.begin_line_num, t.Location.begin_column_num);
+                throw ex;
+            }
+            
             helper.AddType(t, tb);
             //(ssyy) обрабатываем generics
             if (t.is_generic_type_definition)
@@ -8268,7 +8279,7 @@ namespace PascalABCCompiler.NETGenerator
 
         private bool EmitBox(IExpressionNode from, Type LocalType)
         {
-            if ((from.type.is_value_type || from.type.is_generic_parameter) && !(from is SemanticTree.INullConstantNode) && (LocalType == TypeFactory.ObjectType || TypeIsInterface(LocalType)))
+            if ((from.type.is_value_type || from.type.is_generic_parameter) && !(from is SemanticTree.INullConstantNode) && (LocalType == TypeFactory.ObjectType || TypeIsInterface(LocalType) || LocalType == TypeFactory.EnumType))
             {
                 il.Emit(OpCodes.Box, helper.GetTypeReference(from.type).tp);//упаковка
                 return true;
@@ -9849,6 +9860,10 @@ namespace PascalABCCompiler.NETGenerator
                 case basic_function_type.iand: il.Emit(OpCodes.And); break;
                 case basic_function_type.ior: il.Emit(OpCodes.Or); break;
                 case basic_function_type.ixor: il.Emit(OpCodes.Xor); break;
+
+                case basic_function_type.enumsand: il.Emit(OpCodes.And); break;
+                case basic_function_type.enumsor: il.Emit(OpCodes.Or); break;
+                case basic_function_type.enumsxor: il.Emit(OpCodes.Xor); break;
 
                 case basic_function_type.land: il.Emit(OpCodes.And); break;
                 case basic_function_type.lor: il.Emit(OpCodes.Or); break;
