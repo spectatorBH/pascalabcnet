@@ -10984,6 +10984,12 @@ begin
   Result := new HashSet<T>(Self);
 end;
 
+/// Возвращает множество по данной последовательности
+function ToSet<T>(Self: sequence of T): HashSet<T>; extensionmethod;
+begin
+  Result := new HashSet<T>(Self);
+end;
+
 /// Возвращает множество SortedSet по данной последовательности
 function ToSortedSet<T>(Self: sequence of T): SortedSet<T>; extensionmethod;
 begin
@@ -11346,9 +11352,9 @@ begin
 end;
 
 /// Разбивает последовательность на серии длины size
-function Batch<T>(Self: sequence of T; size: integer): sequence of sequence of T; extensionmethod;
+function Batch<T>(Self: sequence of T; size: integer): sequence of array of T; extensionmethod;
 begin
-  var buf := new List<T>;
+  var buf := new List<T>(size);
   foreach var elm in Self do begin
     buf.Add(elm);
     if buf.Count=size then begin
@@ -11362,10 +11368,10 @@ begin
 end;
 
 /// Разбивает последовательность на серии длины size и применяет проекцию к каждой серии
-function Batch<T, Res>(Self: sequence of T; size: integer; proj: Func<IEnumerable<T>, Res>): sequence of Res; extensionmethod;
+function Batch<T, Res>(Self: sequence of T; size: integer; proj: Func<array of T, Res>): sequence of Res; extensionmethod;
 begin
   //Result := SeqWhile(Self, v -> v.Skip(size), v -> v.Count > 0).Select(v -> v.Take(size)).Select(ss -> proj(ss));
-  Result := Self.Batch(size).Select(ss -> proj(ss));
+  Result := Self.Batch(size).Select(proj);
 end;
 
 ///--
