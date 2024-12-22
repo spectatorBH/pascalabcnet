@@ -40,7 +40,7 @@ jobs:
             
             - name: Build C# project in release-mode / compile Pas-units / run tests
               run: _GenerateAllSetupsForGitHubActions.bat
-              timeout-minutes: 40
+              timeout-minutes: 60
               env:
                 PABCNET_BUILD_MODE: Release
                 PABCNET_RUN_TESTS:  false
