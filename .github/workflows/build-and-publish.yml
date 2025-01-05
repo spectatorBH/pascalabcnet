@@ -16,7 +16,7 @@ jobs:
     name: Prepare and build on Windows Server VM (2019)
     runs-on: windows-2019
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v2
 
     - name: Install dependencies into Virtual Environment...
       run: _RegisterHelixNUnit.bat
@@ -24,7 +24,7 @@ jobs:
     - name: Build C# project in release-mode, compile Pas-units, create install packages...
       run: _GenerateAllSetups.bat
       #run: _RebuildReleaseAndRunTestsForGitHubActions.bat
-      #timeout-minutes: 60
+      timeout-minutes: 60
       env:
         PABCNET_BUILD_MODE: Release
         PABCNET_RUN_TESTS:  false
