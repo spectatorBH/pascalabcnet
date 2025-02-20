@@ -12942,7 +12942,7 @@ namespace PascalABCCompiler.TreeConverter
                                     if (context.top_function.return_value_type == null || context.top_function.return_value_type == SystemLibrary.SystemLibrary.void_type)
                                         AddError(get_location(attr), "EXPECTED_RETURN_VALUE_FOR_ATTRIBUTE");
                                     throw new NotSupportedError(get_location(attr.qualifier));
-                                    qualifier = SemanticTree.attribute_qualifier_kind.return_kind;
+                                    // qualifier = SemanticTree.attribute_qualifier_kind.return_kind;
                                 }
                                 else
                                     throw new NotSupportedError(get_location(attr.qualifier));
@@ -15437,10 +15437,11 @@ namespace PascalABCCompiler.TreeConverter
                 constant = new common_namespace_function_call_as_constant(cnfc1, loc);
                 return constant;
             }
-            else if (expr is common_namespace_function_call cnfc2
-                && cnfc2.function_node.name.StartsWith("__NewSetCreatorInternal")
+            else if (expr is common_namespace_function_call
+                && (expr as common_namespace_function_call).function_node.name.StartsWith("__NewSetCreatorInternal")
                 )
             {
+                var cnfc2 = expr as common_namespace_function_call;
                 convertion_data_and_alghoritms.check_convert_type(cnfc2, tn, loc);
                 var values = (cnfc2.parameters[0] as array_initializer).element_values;
                 // Надо компоненты проверять на константность
