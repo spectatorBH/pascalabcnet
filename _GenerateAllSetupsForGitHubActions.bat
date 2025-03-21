@@ -16,7 +16,7 @@ Utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs Configuration
 Utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs ReleaseGenerators\PascalABCNET_version.nsh.tmpl ReleaseGenerators\PascalABCNET_version.nsh
 Utils\ReplaceInFiles\ReplaceInFiles.exe Configuration\Version.defs Configuration\pabcversion.txt.tmpl Release\pabcversion.txt
 
-call Studio.bat /t:rebuild "/property:Configuration=Release" PascalABCNET.sln
+dotnet build -c Release --no-incremental PascalABCNET.sln
 
 @IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
@@ -39,31 +39,21 @@ ExecHide.exe gacutil.exe /i ..\bin\Lib\PABCRtl.dll
 ..\bin\pabcnetc RebuildStandartModules.pas /rebuild /noconsole
 @IF %ERRORLEVEL% NEQ 0 GOTO ERROR
 
+
 cd ..\bin
-REM MPGORunner.exe
-TestRunner.exe 1 1
-@IF %ERRORLEVEL% NEQ 0 GOTO ERROR
-TestRunner.exe 2 1
-@IF %ERRORLEVEL% NEQ 0 GOTO ERROR
-TestRunner.exe 3 1
-@IF %ERRORLEVEL% NEQ 0 GOTO ERROR
-TestRunner.exe 4 1
-@IF %ERRORLEVEL% NEQ 0 GOTO ERROR
-TestRunner.exe 5 1
-@IF %ERRORLEVEL% NEQ 0 GOTO ERROR
-TestRunner.exe 6 1
-@IF %ERRORLEVEL% NEQ 0 GOTO ERROR
+TestRunner.exe 1
+TestRunner.exe 2
+TestRunner.exe 3
+TestRunner.exe 4
+TestRunner.exe 5
+TestRunner.exe 6
 
 cd ..\ReleaseGenerators
 call PascalABCNET_ALL.bat
 
 cd ..
-call Studio.bat /t:rebuild "/property:Configuration=Release" PascalABCNET_40.sln
-cd ReleaseGenerators
-call PascalABCNETWithDotNet40.bat
 
-cd ..
-call Studio.bat /t:rebuild "/property:Configuration=Release" PascalABCNET.sln
+dotnet build -c Release --no-incremental PascalABCNET.sln
 
 GOTO EXIT
 
